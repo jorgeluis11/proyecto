@@ -1,0 +1,103 @@
+<!DOCTYPE html> 
+<html >
+    <head>
+        <title>Wikiriodico | 
+          {% block title %}
+        {% endblock title %}  
+      </title>
+        <!--
+            @author: Mahmud Ahsan (http://mahmud.thinkdiff.net)
+        -->
+
+
+<!-- latest jQuery direct from google's CDN -->
+<script src="http://code.jquery.com/jquery.min.js"></script>
+  <script src="https://raw.github.com/twitter/bootstrap/master/js/bootstrap-transition.js"></script>
+  <script src="https://raw.github.com/twitter/bootstrap/master/js/bootstrap-alert.js"></script>
+  <script src="https://raw.github.com/twitter/bootstrap/master/js/bootstrap-modal.js"></script>
+  <script src="https://raw.github.com/twitter/bootstrap/master/js/bootstrap-dropdown.js"></script>
+  <script src="https://raw.github.com/twitter/bootstrap/master/js/bootstrap-scrollspy.js"></script>
+  <script src="https://raw.github.com/twitter/bootstrap/master/js/bootstrap-tab.js"></script>
+  <script src="https://raw.github.com/twitter/bootstrap/master/js/bootstrap-tooltip.js"></script>
+  <script src="https://raw.github.com/twitter/bootstrap/master/js/bootstrap-popover.js"></script>
+  <script src="https://raw.github.com/twitter/bootstrap/master/js/bootstrap-button.js"></script>
+  <script src="https://raw.github.com/twitter/bootstrap/master/js/bootstrap-collapse.js"></script>
+  <script src="https://raw.github.com/twitter/bootstrap/master/js/bootstrap-carousel.js"></script>
+  <script src="https://raw.github.com/twitter/bootstrap/master/js/bootstrap-typeahead.js"></script>
+  
+        <script src="{{STATIC_URL}}js/magicline.js"></script>
+        <script src="{{STATIC_URL}}js/example.js"></script>
+       
+        <link href="http://twitter.github.com/bootstrap/assets/css/bootstrap.css" rel="stylesheet">
+        <style type="text/css">
+        </style>
+        <link href="http://twitter.github.com/bootstrap/assets/css/bootstrap-responsive.css" rel="stylesheet">
+
+
+
+
+  <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+  <!--[if lt IE 9]>
+    <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+
+  <!-- Le fav and touch icons -->
+
+
+
+<link href="static/css/font-awesome.css" rel="stylesheet" />
+<!--[if IE 7]>
+    <link rel="stylesheet" href="static/css/font-awesome-ie7.min.css">
+<![endif]-->
+
+<link rel="stylesheet" href="{{STATIC_URL}}css/magicline.css">
+
+
+<!-- styles needed by jScrollPane -->
+<link type="text/css" href="{{STATIC_URL}}css/jquery.jscrollpane.css" rel="stylesheet" media="all" />
+
+<!-- the mousewheel plugin - optional to provide mousewheel support -->
+<!--<script type="text/javascript" src="script/jquery.mousewheel.js"></script>-->
+
+<!-- the jScrollPane script -->
+<script type="text/javascript" src="{{STATIC_URL}}js/jquery.jscrollpane.min.js"></script>
+<!-- the mousewheel plugin - optional to provide mousewheel support -->
+<script type="text/javascript" src="{{STATIC_URL}}js/jquery.mousewheel.js"></script>
+            <link rel="stylesheet" href="{{STATIC_URL}}css/main.css">
+
+
+  
+
+
+    </head>
+    <body>
+    {% include "header.html" %}
+
+    {% block content %}
+      
+
+
+    {% endblock content %}
+
+     
+
+    {% include "footer.html" %}
+
+  </body>
+  </html>
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+

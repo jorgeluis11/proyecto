@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+    {% block title %}
+		{{article.title|title}}
+    {% endblock title %}
+
+    
+{% block content %}
+
+{% load disqus_tags %}
+{% disqus_dev %}
+
+dfd
+<br>
+
+	<div class="row" >
+<div class="container">
+		<div id="news-id-wrapper" class="span8 offset3" style="margin: 0px; padding: 0px; background-color: white; color:black; border:1px solid black;">
+				
+		<div class="span8" style="margin:0px; background-color: #21BB21; ">
+
+		<ul class="nav nav-tabs" style="color:black; margin: 0px; padding-left: 5px;">
+
+		{% for category in categories %}
+
+			<li class="{% ifequal category article.category %}active{% endifequal %}">
+				<a href="#" style="font-size: 16px; text-shadow: 0px 2px 2px #777; ">
+					<strong>{{category}}</strong>	
+</a>
+			</li>
+
+		{% endfor %}
+
+		</ul>
+
+	</div>
+
+  				<div>
+			<center style="background-color: #3F3F3F; color:white;">
+				<span style="font-size: 40px; text-shadow: 0px 2px 3px gray;"><strong>{{article.category}}</strong></span>
+			</center>
+		</div>
+			<p id="paragraph" style="font-size: 30px; padding-left: 10px; text-shadow: 0px 2px 3px #555"><strong>{{article.title|title}}</strong></p>
+
+
+		  <img src="https://graph.facebook.com/{{article.user_id.facebook_id}}/picture" class = "img-circle" style = "width:25px; height:25px;">  
+			
+			<span class="created-by">
+				-  {{article.user_id.facebook_name}}
+			</span>
+			
+<hr style="margin-top: 2px; border-color: black;">
+				{% if article.photo %}
+						<img class="span2" style= "margin:0 0 6px 0; width: 220px; max-height: 300px; border:black solid 1px;margin: 0px 5px;" src="{{MEDIA_URL}}{{article.photo}}" alt="">
+					{% endif %}
+
+			<p style="padding-right: 20px; padding-left: 5px;">{{article.content|linebreaksbr}}
+			</p>
+
+		</div>
+
+		<div class="span4" style="color:black; background-color: white; border:black solid 1px; width: 370px; margin-left:0px;">
+			<center style="font-size: 35px; width: ">	 
+				<span style="border-bottom: 3px solid; margin:0px;">
+				Comentarios</span> 
+			</center>
+			<br>
+
+			<hr style="margin: 0px 0px 2px 0px; border: 1px solid;">
+
+
+
+			
+	</div>			
+</div>
+</div>
+{% endblock content %}
+
+
+
+
+
+

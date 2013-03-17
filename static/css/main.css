@@ -1,0 +1,134 @@
+/* ML Layout */
+	.left				{float:left}
+	.right				{float:right}
+	.middle				{margin-left:auto; margin-right:auto;}
+	.center, .tcenter	{text-align:center}
+	.tleft				{text-align:left}
+	.tright				{text-align:right}
+	.clear-spacing  	{margin: 0 !important; padding: 0 !important;}
+	
+	.full		{width:100% !important}	/*   1   */
+	.full_height  {height:100% !important}
+	.fifths4	{width:80% !important}		/*  4/5  */
+	.quarts3	{width:75% !important}		/*  3/4  */
+	.thirds		{width:66% !important}		/*  2/3  */
+	.half		{width:50% !important}		/*  1/2  */
+	.third		{width:33% !important}		/*  1/3  */
+	.quart		{width:25% !important}		/*  1/4  */
+	.fifth		{width:20% !important}		/*  1/5  */
+	
+	.hidden		{display:none}
+	.clear		{clear:both}
+	.block		{display:inline-block;}
+	
+	img			{border:none;}
+	
+	h2			{font-size: 18px;}
+
+
+@font-face {
+font-family: myriad pro;
+src: url(../font/MyriadPro-Regular.otf);
+}
+
+body
+{
+	color: white;
+	margin:0px;
+	background-image: url(../img/paper_fibers.png);
+	padding-bottom: 0px; 
+
+}
+
+#header-logo, #popular-wrapper, #recent-wrapper, #myriad-pro
+{
+	font-family: "myriad pro",tahoma,verdana,arial;
+
+}
+
+
+
+#popular-wrapper
+{
+	height: 488px;
+	overflow-x: hidden;
+}
+
+#recent-wrapper
+{
+	padding-left: 0px;
+}
+
+.recent-wrapper-new
+{
+	height: 256px;
+	width: 227px;
+	float:left;
+}
+
+
+/* CSS de Noticias.html */
+#top-news-wrapper
+{
+	height: 488px;
+	overflow-x: hidden;
+	height: 493px;
+}
+
+#wrapper-top-article
+{
+color:white; 
+text-decoration: none;
+}
+
+
+.paragraph
+{
+	font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+}
+
+.created-by
+{
+	background-color:#373737; 
+	border-radius: 10px;
+	padding: 4px 6px 0px 6px;
+	color:white;
+}
+
+.created-by:hover{background-color:#222222}
+
+
+
+img{border:1px black solid;}
+
+ul.nav li a
+{
+	color:white;
+}
+
+ul.nav li a:hover
+{
+	background-color:#3F3F3F;
+
+}
+
+ul.nav li.active a
+{
+	background-color:#3F3F3F;
+	color:white;
+}
+
+ul.nav li.active a:hover
+{
+	background-color:#3F3F3F;
+	color:white;
+
+	cursor: pointer;
+}
+
+
+
+#news-id-wrapper
+{
+	min-height: 548px;
+}

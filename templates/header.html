@@ -1,0 +1,184 @@
+ <div id="fb-root"></div>
+      {% if not user.is_authenticated %}
+
+      <script>
+
+        window.fbAsyncInit = function() {
+          FB.init({
+            appId      : '427075444041786',
+            status     : true, 
+            cookie     : true,
+            xfbml      : true,
+            oauth      : true,
+          });
+          
+      
+          FB.getLoginStatus(function(response) {
+          if (response.status === 'connected') {
+
+            login();
+          } else if (response.status === 'not_authorized') {
+            // not_authorized
+
+          } else {
+            // not_logged_in
+
+          }
+         });
+
+
+        };
+        (function(d, debug){
+     var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement('script'); js.id = id; js.async = true;
+     js.src = "//connect.facebook.net/en_US/all" + (debug ? "/debug" : "") + ".js";
+     ref.parentNode.insertBefore(js, ref);
+   }(document, /*debug*/ false));
+
+    
+
+
+        function login() {
+        FB.login(function(response) {
+        if (response.authResponse) {
+            // connected
+            testAPI();
+        } else {
+            // cancelled
+        }
+      }, {scope: 'email'});
+
+     function testAPI() {
+    FB.api('/me', function(response) {
+      alert(response.email);
+        alert(response.id);
+        $.post("register_login", 
+          { 
+            id: response.id,
+            name: response.name,
+            first_name: response.first_name,
+            last_name: response.last_name,
+            email: response.email,
+            gender: response.gender,
+            'csrfmiddlewaretoken': '{{ csrf_token }}'
+
+          },
+           function(data) 
+           {
+            location.reload()
+           });
+    });
+}
+
+  function hasPermissions(permissions, callback){
+      console.log("perms requested");
+      console.log(permissions);
+      FB.api("/me/permissions", function(response){
+          var hasPerms = true;
+          console.log("perms obtaind");
+          console.log(response);
+          for(var i in permissions){
+              console.log([permissions[i]] + " - " + response["data"][0][permissions[i]])
+              hasPerms = hasPerms && response["data"][0][permissions[i]] == 1;
+          }
+          if(typeof callback == "function"){
+              callback(hasPerms);     
+          }       
+      });
+  }
+}
+
+ // // Load the SDK Asynchronously
+ //  (function(d){
+ //     var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+ //     if (d.getElementById(id)) {return;}
+ //     js = d.createElement('script'); js.id = id; js.async = true;
+ //     js.src = "//connect.facebook.net/en_US/all.js";
+ //     ref.parentNode.insertBefore(js, ref);
+ //   }(document));
+
+      </script>
+     
+    
+
+      {% endif %}
+
+
+
+<!-- **************************-->
+<!-- BootStrap Navigation Bar information 
+<!-- **************************-->
+
+
+        <div class="row" style="background-color: rgba(0, 130, 200, 0.6);">
+              <div class="container">
+
+          <div id="header-logo" class="span4" > <!--<h1 style="text-shadow: 2px 2px 2px gray; padding-top: 30px; font-size: 60px;">Wikiriodico</h1><--><br><img style="border:none;" src="{{STATIC_URL}}img/logo.png" alt="logo">
+</div>
+            <div class="span5" style="margin:0px;">
+              <center>
+                <br><br><br><br>
+
+                <div class="nav-wrap">
+                 <ul class="group" id="example-one">
+                    <li class="current_page_item"><a href="/">Home</a></li>
+                    <li><a href="/noticias/" id="header-middle-news">Noticias</a></li>
+                    <li><a href="#">Frases</a></li>
+                    <li><a href="#">Peliculas</a></li>
+                 </ul>
+                </div>
+            </center>
+          </div>
+
+          <div class="pull-right" style="padding: 10px 40px 0px 0px;">
+          <!-- **************************-->
+          <!-- Boton User Authentication/Information -->
+          <!-- **************************-->
+          <div class="span2">
+
+          {% if user.is_authenticated %}
+
+
+            <div class="btn-group pull-right">
+              <a class="btn btn-inverse" href="#"><img  width="34" height="34" src="https://graph.facebook.com/{{user.facebook_id}}/picture" /> {{user.facebook_name}}</a>
+              
+              <a class="btn btn-inverse dropdown-toggle btn-large" style="height:22px;" data-toggle="dropdown" href="#">
+                <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                
+                <li><a href="#"><i class="icon-pencil"></i>User Information</a></li>
+                
+                <li><a href="#"><i class="icon-trash"></i>Articles</a></li>
+                
+                <li><a href="logout"><i class="icon-ban-circle"></i> Logout</a></li>
+
+                </ul>
+
+            
+          {% else %}
+
+            <form method="post">
+            {% csrf_token %}
+          <a onclick="login()" class="btn btn-inverse">Login with Facebook</a>            
+          </form>
+            
+            {% endif %}
+            </div>
+            <br>
+            <form class="form-search pull-right" style="padding-top: 8px;">
+              <div class="input-append">
+                <input type="text" class="span1 search-query">
+                <button  type="submit" class="btn btn-inverse"><i class="icon-search icon-white"></i></button>
+              </div>
+              </form>
+
+            </div>  
+            </div> 
+          </div>
+        </div><!--/.nav-collapse -->
+      
+
+
+
+
