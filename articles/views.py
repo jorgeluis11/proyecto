@@ -2,7 +2,7 @@
 from django.views.generic import DetailView
 from .models import Article, Category, Type
 from django.shortcuts import render
-from articles.forms import NewsForm
+from articles.forms import NewsForm, QuoteForm, MovieForm
 
 class ArticleDetailView(DetailView):
     model = Article
@@ -33,18 +33,26 @@ class ArticleDetailView(DetailView):
 def create(request):
     if request.POST:
         form = NewsForm(request.POST)
+        print "error", form['categoria'].errors
         if form.is_valid:
-            # category = form.cleaned_data['categoria']
-            # print "Category", category
             title = form.cleaned_data['titulo']
-            print "Title", title
-            content = request.POST['contenido']
-            article = Article(type=Type(name="Noticias"), category=Category(name=category))
-    else:
-        news_form = NewsForm()
+            content = form.cleaned_data['contenido']
+            category = form.cleaned_data['categoria']
+            # photo = request.FILES['foto']
+            type = Type.objects.get(name="Noticias")
+            category = Category.objects.get(name=category)
 
-    data ={
-    "news_form":news_form,
+            Article(user_id=request.user, type=type, category=category,
+                title=title, content=content).save()
+
+    news_form = NewsForm()
+    quotes_form = QuoteForm()
+    movies_form = MovieForm()
+
+    data = {
+        "news_form": news_form,
+        "quotes_form": quotes_form,
+        "movies_form": movies_form,
     }
     return render(request,"articles/create.html", data)
 

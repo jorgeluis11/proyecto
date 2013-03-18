@@ -39,7 +39,7 @@ def noticias(request):
     categories = Category.objects.all().exclude(name="None").order_by("name")
     recent_news = []
     recent_news.append(Article.objects.filter(category__name="Local").order_by('?')[0])
-    recent_news.append(Article.objects.filter(category__name="Internacionales").order_by('?')[0])
+    recent_news.append(Article.objects.filter(category__name="Deportes").order_by('?')[0])
     recent_news.append(Article.objects.filter(category__name="Internacionales").order_by('?')[0])
     recent_news.append(Article.objects.filter(category__name="Internacionales").order_by('?')[0])
     recent_news.append(Article.objects.filter(category__name="Internacionales").order_by('?')[0])

@@ -6,20 +6,71 @@
     {% endblock title %}
 
 {% block content %}
+
+
 <br>
 <div class="container">
 	
 	<div class="row">
 		<div class="span12" style="background-color: #222;">
-			<div class="span2">
-			<form method="post" action="/create/">
-				{% csrf_token %}
-				{{news_form.as_table}}
-			<input type="submit">
-			</form>
+
+			<div style="margin-left: 30px; margin-top:10px;"> Type:
+				<div class="btn-group" data-toggle="buttons-radio">
+				  <button id="news" type="button" class="btn btn-info active">Noticia</button>
+				  <button id="quotes" type="button" class="btn btn-info">Frase</button>
+				  <button id="movies" type="button" class="btn btn-info">Pelicula</button>
+				</div> 
+			</div>
+			
+			<div id="news-form" class="span2">
+				<form method="post" action="/create/">
+					{% csrf_token %}
+					{{news_form.as_table}}
+					<input class="btn btn-success" type="submit">
+				</form>
+			</div>
+
+			<div id="quotes-form" class="span2" style="display:none;">
+				<form method="post" action="/create/">
+					{% csrf_token %}
+					{{quotes_form.as_table}}
+					<input class="btn btn-success" type="submit">
+				</form>
+			</div>
+
+			<div id="movies-form" class="span2" style="display:none;">
+				<form method="post" action="/create/">
+					{% csrf_token %}
+					{{movies_form.as_table}}
+					<input class="btn btn-success" type="submit">
+				</form>
 			</div>
 		</div>
 	</div>
 </div>
+
+<script>
+	
+	$("#news").click(function(){
+		$("#news-form").show();
+		$("#quotes-form").hide();
+		$("#movies-form").hide();
+
+	});
+
+	$("#quotes").click(function(){
+		$("#news-form").hide();
+		$("#quotes-form").show();
+		$("#movies-form").hide();
+
+	});
+
+	$("#movies").click(function(){
+		$("#news-form").hide();
+		$("#quotes-form").hide();
+		$("#movies-form").show();
+
+	});
+	</script>
 
 {% endblock content %}

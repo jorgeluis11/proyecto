@@ -53,8 +53,8 @@ class Article(models.Model):
     content = models.TextField(max_length=2500)
     photo = models.ImageField(upload_to=get_url, blank=True)
     submit_date = models.DateField(default=datetime.datetime.now())
-    user_count = models.IntegerField()
-    user_rating = models.IntegerField()
+    user_count = models.IntegerField(default=0)
+    user_rating = models.IntegerField(default=0)
     objects = ArticleManager()
 
     def percent(self):
