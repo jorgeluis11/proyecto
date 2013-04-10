@@ -40,7 +40,7 @@ body
 
 }
 
-#header-logo, #popular-wrapper, #recent-wrapper, #myriad-pro
+#header-logo, #popular-wrapper, #recent-wrapper, .myriad-pro
 {
 	font-family: "myriad pro",tahoma,verdana,arial;
 
@@ -131,4 +131,13 @@ ul.nav li.active a:hover
 #news-id-wrapper
 {
 	min-height: 548px;
+}
+
+
+#id_comment
+{
+	width: 340px;
+	height: 50px;
+	border: black 1px solid;
+	margin-bottom: 0px;
 }

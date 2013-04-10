@@ -3,10 +3,10 @@ from django.shortcuts import render_to_response, render
 from django.contrib.auth import login, authenticate, logout
 from profiles.models import NotasoUser
 from articles.models import Article, Category
-import random
+from random import shuffle
 from werkzeug.wrappers import Request, Response
 
-
+#Use Wekzeug debugging for django
 @Request.application
 def application(request):
     return Response('Hello World!')
@@ -15,16 +15,14 @@ if __name__ == '__main__':
     from werkzeug.serving import run_simple
     run_simple('localhost', 4000, application)
 
-
+"""
+Get the top, recent_quotes, recent_news 
+And send the data to the template.
+"""
 def home(request):
-    # popular_articles = sorted(Article.objects.top(), key=lambda x: random.random())[:15]
     popular_articles = Article.objects.top(limit=15)
     recent_quotes = Article.objects.filter(type__name="Quotes").order_by('-submit_date')[:3]
     recent_news = Article.objects.filter(type__name="Noticias").order_by('-submit_date')[:4]
-    colors = ["#21BB21"]
-
-    for article in recent_news:
-        article.color = colors[random.randrange(0, len(colors))]
 
     data = {
         'popular_articles': popular_articles,
@@ -33,19 +31,22 @@ def home(request):
     }
     return render(request, 'pages/home.html', data)
 
-
+"""
+Get the top_news, every category, one radom news of each category 
+And send all the data to the template.
+"""
 def noticias(request):
     top_news = Article.objects.top(type="Noticias")[:5]
     categories = Category.objects.all().exclude(name="None").order_by("name")
     recent_news = []
-    recent_news.append(Article.objects.filter(category__name="Local").order_by('?')[0])
     recent_news.append(Article.objects.filter(category__name="Deportes").order_by('?')[0])
+    recent_news.append(Article.objects.filter(category__name="Economia").order_by('?')[0])
+    recent_news.append(Article.objects.filter(category__name="Entretenimiento").order_by('?')[0])
     recent_news.append(Article.objects.filter(category__name="Internacionales").order_by('?')[0])
-    recent_news.append(Article.objects.filter(category__name="Internacionales").order_by('?')[0])
-    recent_news.append(Article.objects.filter(category__name="Internacionales").order_by('?')[0])
-    recent_news.append(Article.objects.filter(category__name="Internacionales").order_by('?')[0])
-    recent_news.append(Article.objects.filter(category__name="Internacionales").order_by('?')[0])
-    recent_news.append(Article.objects.filter(category__name="Internacionales").order_by('?')[0])
+    recent_news.append(Article.objects.filter(category__name="Local").order_by('?')[0])
+    recent_news.append(Article.objects.filter(category__name="Politica").order_by('?')[0])
+    recent_news.append(Article.objects.filter(category__name="Tecnologia").order_by('?')[0])
+    recent_news.append(Article.objects.filter(category__name="Vida").order_by('?')[0])
 
     data = {
         'top_news': top_news,
@@ -55,7 +56,11 @@ def noticias(request):
     }
     return render(request, 'noticias/noticias.html', data)
 
-
+"""
+If the user is not log in and doesn't exist in the database 
+store all the information to the UserProfile but if it exist 
+on the data base only log in the user.
+"""
 def register_login(request):
     print request.POST['first_name']
     if not request.user.is_authenticated():
@@ -81,6 +86,10 @@ def register_login(request):
     return HttpResponseRedirect('/')
 
 
+"""
+This function log out the user
+And send all the data to the template.
+"""
 def logout_user(request):
     logout(request)
     return HttpResponseRedirect('/')

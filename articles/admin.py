@@ -14,6 +14,12 @@ class ArticleCommentAdmin(admin.ModelAdmin):
         return '%s...' % obj.comment[:50]
     short_comment.short_description = 'Comment'
 
+
+class DeleteNotAllowedModelAdmin(admin.ModelAdmin):
+    # Other stuff here
+    def has_delete_permission(self, request, obj=None):
+        return True
+
 admin.site.register(Type)
 admin.site.register(Category)
 admin.site.register(Article, ArticleAdmin)

@@ -16,5 +16,5 @@ class CustomAuth(object):
             if user.is_active:
                 return user
             return None
-        except NotasoUser.DoesNotExist:
+        except UserProfile.DoesNotExist:
             return None

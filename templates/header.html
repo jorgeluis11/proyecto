@@ -1,3 +1,5 @@
+<!-- Facebook log in if user is not authenticated-->
+
  <div id="fb-root"></div>
       {% if not user.is_authenticated %}
 
@@ -89,15 +91,6 @@
   }
 }
 
- // // Load the SDK Asynchronously
- //  (function(d){
- //     var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
- //     if (d.getElementById(id)) {return;}
- //     js = d.createElement('script'); js.id = id; js.async = true;
- //     js.src = "//connect.facebook.net/en_US/all.js";
- //     ref.parentNode.insertBefore(js, ref);
- //   }(document));
-
       </script>
      
     
@@ -107,15 +100,25 @@
 
 
 <!-- **************************-->
-<!-- BootStrap Navigation Bar information 
+<!-- BootStrap Navigation Bar information -->
 <!-- **************************-->
 
 
         <div class="row" style="background-color: rgba(0, 130, 200, 0.6);">
               <div class="container">
 
-          <div id="header-logo" class="span4" > <!--<h1 style="text-shadow: 2px 2px 2px gray; padding-top: 30px; font-size: 60px;">Wikiriodico</h1><--><br><img style="border:none;" src="{{STATIC_URL}}img/logo.png" alt="logo">
+<!-- **************************-->
+<!--        Header Logo! -->
+<!-- **************************-->
+          <div id="header-logo" class="span4" > <br><a href="/">
+            <img  style="border:none;" src="{{STATIC_URL}}img/logo.png" alt="logo">
+            </a>
 </div>
+
+<!-- **************************-->
+<!--    Header Navigation Bar -->
+<!-- **************************-->
+
             <div class="span5" style="margin:0px;">
               <center>
                 <br><br><br><br>
@@ -131,11 +134,16 @@
             </center>
           </div>
 
+<!-- **************************-->
+<!--        Log in forms       -->
+<!-- **************************-->
+
           <div class="pull-right" style="padding: 10px 40px 0px 0px;">
-          <!-- **************************-->
-          <!-- Boton User Authentication/Information -->
-          <!-- **************************-->
           <div class="span2">
+
+<!-- **************************-->
+<!--    User form information   -->
+<!-- **************************-->
 
           {% if user.is_authenticated %}
 
@@ -155,6 +163,9 @@
 
                 </ul>
 
+<!-- **************************-->
+<!--  User form log in botton  -->
+<!-- **************************-->
             
           {% else %}
 
@@ -168,7 +179,7 @@
             <br>
             <form class="form-search pull-right" style="padding-top: 8px;">
               <div class="input-append">
-                <input type="text" class="span1 search-query">
+                <input type="text" class="span1 search-query" id="search">
                 <button  type="submit" class="btn btn-inverse"><i class="icon-search icon-white"></i></button>
               </div>
               </form>
@@ -176,7 +187,7 @@
             </div>  
             </div> 
           </div>
-        </div><!--/.nav-collapse -->
+        </div>
       
 
 

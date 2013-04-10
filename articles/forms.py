@@ -14,8 +14,8 @@ class NewsForm(forms.Form):
     )
 
     categoria = forms.ChoiceField(choices=categories)
-    titulo = forms.CharField(widget=forms.TextInput)
-    contenido = forms.CharField(widget=forms.Textarea)
+    titulo = forms.CharField(widget=forms.TextInput(attrs={"id":"titleNews","rel":"popover","data-content":"contenido"}))
+    contenido = forms.CharField(widget=forms.Textarea(attrs={"id":"contentNews"}))
     foto = forms.ImageField(required=False)
 
 
@@ -27,3 +27,8 @@ class QuoteForm(forms.Form):
 class MovieForm(forms.Form):
     titulo = forms.CharField(widget=forms.TextInput)
     contenido = forms.CharField(widget=forms.Textarea)
+
+
+class ComentaryForm(forms.Form):
+    comment = forms.CharField(widget=forms.Textarea(attrs={'height': 2,}),
+     label='Deja Tu Comentario')    

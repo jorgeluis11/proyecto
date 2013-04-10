@@ -2,6 +2,7 @@ from os.path import abspath, basename, dirname, join, normpath
 from sys import path
 
 
+
 ########## PATH CONFIGURATION
 # Absolute filesystem path to the Django project directory:
 DJANGO_ROOT = dirname(dirname(abspath(__file__)))
@@ -30,7 +31,7 @@ TEMPLATE_DEBUG = DEBUG
 ########## MANAGER CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#admins
 ADMINS = (
-    ('Jose Padilla', 'jpadilla@webapplicate.com'),
+    ('Jorge Luis', 'jorge.luis11@live.com'),
 )
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#managers
@@ -188,9 +189,9 @@ LOCAL_APPS = (
     'profiles',
     'articles',
     'django_extensions',
-    'gunicorn',
-    'werkzeug_debugger_runserver',
-    'disqus',
+    # 'gunicorn',
+    # 'werkzeug_debugger_runserver',
+    'django.contrib.humanize',
 )
 
 DISQUS_API_KEY = 'P0qJzqZLjrdxLfv9efbuPE7kL3qXk5Lcw5aTUBQWePi5HArYXwysOu2aQRVrZ38Y'
@@ -240,11 +241,11 @@ WSGI_APPLICATION = 'wsgi.application'
 ########## END WSGI CONFIGURATION
 
 # User Model
-# AUTH_USER_MODEL = 'profiles.NotasoUser'
+AUTH_USER_MODEL = 'profiles.NotasoUser'
 AUTHENTICATION_BACKENDS = ('tesina.auth.CustomAuth',)
-
 # Comments
-# COMMENTS_APP = 'professors'
+COMMENTS_APP = 'articles'
+
 
 # Parse database configuration from $DATABASE_URL
 import dj_database_url

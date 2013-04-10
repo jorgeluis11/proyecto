@@ -1,5 +1,10 @@
 {% extends "base.html" %}
 
+{% block javascript %}
+<script src="/twitter-bootstrap/twitter-bootstrap-v2/js/bootstrap-popover.js"></script>
+<script src="/twitter-bootstrap/twitter-bootstrap-v2/js/bootstrap-tooltip.js"></script>
+{% endblock javascript %}
+
 
     {% block title %}
         Home
@@ -13,7 +18,7 @@
 	
 	<div class="row">
 		<div class="span12" style="background-color: #222;">
-
+			<div class="span3">
 			<div style="margin-left: 30px; margin-top:10px;"> Type:
 				<div class="btn-group" data-toggle="buttons-radio">
 				  <button id="news" type="button" class="btn btn-info active">Noticia</button>
@@ -46,13 +51,41 @@
 				</form>
 			</div>
 		</div>
+
+
+		<div class="span8" id="news-id-wrapper" style=" background-color: white; color:black; border:1px solid black;margin-left:80px; background-color: #white;">
+				
+
+			<center style="background-color: #3F3F3F; color:white;">
+				<span style="font-size: 40px; text-shadow: 0px 2px 3px gray;"><strong id="categoryLabel">Categoria</strong></span>
+			</center>
+			<p  style="font-size: 30px; padding-left: 10px; text-shadow: 0px 2px 3px #555"><strong id="titleLabel">Titulo</strong></p>
+
+
+		  <img src="https://graph.facebook.com/{{user.facebook_id}}/picture" class = "img-circle" style = "width:25px; height:25px;">  
+			
+			<span class="created-by">
+				-  {{user.facebook_name}}
+			</span>
+			
+<hr style="margin-top: 2px; border-color: black;">
+				{% if article.photo %}
+						<img class="span2" style= "margin:0 0 6px 0; width: 220px; max-height: 300px; border:black solid 1px;margin: 0px 5px;" src="{{MEDIA_URL}}{{article.photo}}" alt="">
+					{% endif %}
+
+			<p style="padding-right: 20px; padding-left: 5px;" id="contentLabel">
+			</p>
+
+		</div>
 	</div>
+</div>
 </div>
 
 <script>
 	
 	$("#news").click(function(){
 		$("#news-form").show();
+		$("#news-id-wrapper").show();
 		$("#quotes-form").hide();
 		$("#movies-form").hide();
 
@@ -62,6 +95,7 @@
 		$("#news-form").hide();
 		$("#quotes-form").show();
 		$("#movies-form").hide();
+		$("#news-id-wrapper").hide();
 
 	});
 
@@ -69,8 +103,36 @@
 		$("#news-form").hide();
 		$("#quotes-form").hide();
 		$("#movies-form").show();
+		$("#news-id-wrapper").hide();
+
 
 	});
 	</script>
+
+	<script>
+	
+	$("#categoryLabel").text($('select[name=categoria] option:selected').text());
+			
+$("#id_categoria").change(function (){
+	$("#categoryLabel").text($('select[name=categoria] option:selected').text());
+	});
+
+	$("#titleNews").bind("keyup",function (){
+		var title = $(this).val();
+		var str = '{{'  + title + '|title}}';
+		$("#titleLabel").text(str);
+		
+	});
+
+	$("#contentNews").bind("keyup",function (){
+		
+	});
+
+	// $('#titleNews').popover();
+
+	
+
+
+</script>
 
 {% endblock content %}

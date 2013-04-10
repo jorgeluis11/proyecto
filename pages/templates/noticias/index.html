@@ -6,10 +6,8 @@
     
 {% block content %}
 
-{% load disqus_tags %}
-{% disqus_dev %}
+{% load humanize %}
 
-dfd
 <br>
 
 	<div class="row" >
@@ -23,7 +21,7 @@ dfd
 		{% for category in categories %}
 
 			<li class="{% ifequal category article.category %}active{% endifequal %}">
-				<a href="#" style="font-size: 16px; text-shadow: 0px 2px 2px #777; ">
+				<a href="/category/{{category.pk}}/" style="font-size: 15px; text-shadow: 0px 2px 2px #777; ">
 					<strong>{{category}}</strong>	
 </a>
 			</li>
@@ -57,18 +55,42 @@ dfd
 			</p>
 
 		</div>
-
 		<div class="span4" style="color:black; background-color: white; border:black solid 1px; width: 370px; margin-left:0px;">
-			<center style="font-size: 35px; width: ">	 
-				<span style="border-bottom: 3px solid; margin:0px;">
+			<div style="height: 390px;">
+			<center style="font-size: 32px;">	 
+				<span style=" margin:0px;">
 				Comentarios</span> 
 			</center>
-			<br>
+						<hr style="margin: 0px 0px 2px 0px; border: 1px solid;">
 
-			<hr style="margin: 0px 0px 2px 0px; border: 1px solid;">
+					{% for comment in comments %}
+						<div style="margin: 5px 20px;">
+							<div style="float:left; ">
+							<img src="https://graph.facebook.com/{{comment.user.facebook_id}}/picture" class = "img-rounded" style = "width:36px; height:36px; " /> 
+							</div> 
+							<div style="margin-top:20px; margin-left: 44px;">
+								<a href="#" class="myriad-pro" style="color:#4AACFF; font-size: 15px;">{{comment.user.facebook_name|title}} 
+								</a>
+								- <small>{{comment.submit_date|naturaltime }}</small>
+							</div>
+							<p class="paragraph" style="margin-left: 44px;">{{comment.comment}}</p>
+							<hr>
+						</div>
+					{% endfor %}
+			</div>
+			
 
+						<hr style="margin: 0px 0px 2px 0px; border: 1px solid;">
 
+<div>
+				<form action="/addcomment/{{article.pk}}" method="post">
+					<center>{{comentaryform.as_p}}
+					{% csrf_token %}
 
+					<input type="submit" class="btn btn-success" style="margin-left: 254px; margin-bottom: 0px; width:100px; height: 40px;" value="Enviar" />
+					</center>
+				</form>
+			</div>
 			
 	</div>			
 </div>
