@@ -90,10 +90,14 @@ def search(request):
     data = {}
     if request.is_ajax():
         q = request.GET.get('q')
-        if q is not None and q:           
+        if q is not None and q:
             data = {
-            "noticias": Article.objects.filter(type__name="Noticias").order_by('-submit_date')[:3]
+            "noticias": Article.objects.filter(type__name="Noticias", title__startswith=q).order_by('-submit_date')[:3]
             }
             return render(request,"articles/search.html", data)
         else:
-            return HttpResponse("No Search Found!")
+
+            data = {
+            "tips": Article.objects.all().order_by('?')[:4]
+            }
+            return render_to_response("articles/searchFail.html", data)

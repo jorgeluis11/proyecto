@@ -1,1 +1,2 @@
-web: gunicorn portfolio.wsgi 
+web: gunicorn tesina.wsgi
+

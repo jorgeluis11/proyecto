@@ -1,0 +1,31 @@
+<style>
+
+#searchFail{
+	background-color:#2A2A2A;
+	border-radius: 10px;
+}
+</style>
+
+<br />	
+	<div class='span9 offset2' id="searchFail">
+		<br><br>
+		<h1 class="myriad-pro" style="font-size: 70px;">
+			<center>
+				No se encontro su busqueda.
+
+			</center>
+		</h1>
+
+				<br><br>
+
+			<div style="">
+				Intente:
+					
+				{% for tip in tips %}
+					<br>
+					{{tip.title|truncatechars:45}}
+
+				{% endfor %}
+			</div>
+				<br><br>
+	</div>

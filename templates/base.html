@@ -85,6 +85,14 @@
     $("#wrapper").load("search?q=" + q+"&url={{request.get_full_path}}");
   });
 
+$("#search").keypress(function(e) {
+  if(e.keyCode == 13)
+     {
+         e.preventDefault();
+         sendSelected(this.value);
+         $(this).autocomplete('close');
+     }
+});
 </script>
   </body>
   </html>
