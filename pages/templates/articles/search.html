@@ -1,50 +1,76 @@
+{% load humanize %}
+<link href='http://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
 
 <div class="row">
 	<div class="container">
 		
-	<div class="span12" style="margin:0px; width: 1210px;">
-		{% if usuario %}
-	<div style="background-color:#2A2A2A">
-		<center >
-			<div>
-
-				<img src="https://graph.facebook.com/{{usuario.facebook_id}}/picture" class = "img-circle" style = "width:60px; height:60px;">  
-			 		<br>
-			<h1 style=" margin:0px 0px;">
-				{{usuario.facebook_name}}
-					
-			</h1>
-			</div>
-		</center>
-	</div>
-{% endif %}
+		
 	<div id="recent-wrapper-new">
 		
-        <div id="search-article-wrapper" class="scroll-pane" style="background:rgba(41,41,41,1);">
+        <div id="search-article-wrapper" class="scroll-pane span11" style="background:rgba(41,41,41,1);">
 
-		<div class="pull-right"><h1 style="margin-left:10px; margin-bottom:0px; font-size:27px; color:#E2E2E2">{{articles|length}}resultados</h1></div>
+		<div id="search-wrapper">
+			
+			<h1 style="margin-left:10px; margin-bottom:0px; margin-top: 10px; font-size:27px; ">
+				{{articles|length}} resultados
+{% if usuario %}
+de
+		
+				<img src="https://graph.facebook.com/{{usuario.facebook_id}}/picture?" class = "img-circle" style = "width:40px; height:40px;">  
+			<span style=" margin:0px 0px;">
+				{{usuario.facebook_name}}
+					
+			</span>
+		
+{% endif %}
+			
+			</h1></div>
 
 		<br>
         {% for article in articles %}
-
+		<div id="search-article-wrapper">
         <a id="wrapper-top-article" href="/article/{{article.id}}" >
+		{% if article.type.name == "Quotes"%}
+			<img  src="https://graph.facebook.com/{{article.user_id.facebook_id}}/picture?type=large" style = "float:left;width:160px; height:120px; margin: 0px 4px">  
+			{% else %}
+		{% if article.photo %}
+            <img src="{{MEDIA_URL}}{{article.photo}}" style="float:left; height: 120px; width:160px; margin: 0px 4px" alt="">
+            {% else %}
 
+            <img src="{{STATIC_URL}}img/no_image.gif" style="float:left; height: 120px; width:160px; margin: 0px 4px" alt="">
+        {% endif %}
+		{% endif %}
 
-        <span style="font-size:20px; text-shadow: 2px 2px 2px black; margin: 0px 0px 0px 4px; padding:0px;">
-          {{article.title|truncatechars:39|title}}  
+        <span id="search-article-title"style="font-size:20px; text-shadow: 2px 2px 2px black; margin: 0px 0px 0px 0px; padding:0px;">
+          {{article.title|title}}  
           </span>
-          <br>
-          <img src="{{MEDIA_URL}}{{article.photo}}" style="float:left; height: 70px; width:100px; margin: 0px 
-          4px" alt="">
+          <span style="color:#DADADA; font-size:13px;"><br>
+          	<span class="label" style="background:
+          	{% if article.type.name == 'Noticias' %} 
+          		#20B720;
+	          	{% elif article.type.name == 'Quotes' %}
+					#FF6346;
+					{% elif article.type.name == 'Movies' %}
+					#FF6346;
+          	{% endif %}">{{article.type}}</span> - {{article.submit_date|naturaltime }}</span>
+          
           
           <p class="paragraph" style="color:white; margin: 0px; height: 80px; font-size: 15px;">
-              {{article.content|truncatechars:130}}
+              {% if article.type.name == "Quotes" %}
+              		<span class="ultra" style="font-size:36px; margin-left:5px;">“{{article.content|truncatechars:90}}”</span>
+              	{% else %}
+              		{{article.content|truncatechars:300}}
+              {% endif %}
+
           </p>
 
         </a>
+    </div>
         <center>
           {% if not forloop.last %}
-          <hr style="margin: 0px 0px 4px 0px; width: 1200px; border-color: #B5B5B5;">
+          <hr style="margin: 6px 0px 5px 0px; width: 1000px; border-color: #B5B5B5;">
+          {% else %}
+          <br>
         {%endif%}
 
         </center>
@@ -57,7 +83,6 @@
 			</div>
 		</div>
 	</div>
-		</div>
 
 
 	<script type="text/javascript" src="{{STATIC_URL}}js/newsHover.js"></script>

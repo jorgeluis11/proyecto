@@ -31,6 +31,11 @@ font-family: myriad pro;
 src: url(../font/MyriadPro-Regular.otf);
 }
 
+.ultra
+{
+font-family: 'Montserrat', sans-serif;
+}
+
 body
 {
 	color: white;
@@ -183,9 +188,21 @@ ul.nav li.active a:hover
 }
 
 
-
+#search-article-wrapper:hover
+{
+	background-color: #363230;
+}
 
 .errorlist
 {
 	list-style-type: none;
+}
+
+
+
+
+
+#star img
+{
+	border: none;
 }

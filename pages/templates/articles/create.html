@@ -167,12 +167,12 @@
 				  <!-- Carousel items -->
 					<center>
 						<blockquote style="border:0; padding: 0px;">
-						  <p id="quote-label" class="paragraph" style="font-size:30px;">“Be yourself; everyone else is already taken.” 
+						  <p id="quote-label" class="paragraph" style="font-size:30px;">“Frase” 
 						  </p>
-						  <small style="color:white;"><span id="author-label">Oscar Wilde</span>	 
+						  <small style="color:white;"><span id="author-label">Autor</span>	 
 						  	Citado por 
 
-							<img class="img-circle" width="34" height="30" src="https://graph.facebook.com/1431060873/picture">
+							<img class="img-circle" width="34" height="30" src="https://graph.facebook.com/{{user.facebook_id}}/picture">
 								
 								<span class="badge badge-inverse">
 									Jorge Luis
@@ -305,7 +305,7 @@ $(document).ready(function() {
 	$("#id_frase").bind("keyup",function (){
 			var title = $(this).val();
 			// $('#author-label').remove();    
-			$("#quote-label").html("\""+title+"\"");
+			$("#quote-label").html("“"+title+"”");
 		});
 	});
 

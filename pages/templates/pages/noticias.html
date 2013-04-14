@@ -28,8 +28,13 @@
           {{article.title|truncatechars:39|title}}  
           </span>
           <br>
-          <img src="{{MEDIA_URL}}{{article.photo}}" style="float:left; height: 70px; width:100px; margin: 0px 
-          4px" alt="">
+          {% if article.photo %}
+            <img src="{{MEDIA_URL}}{{article.photo}}" style="float:left; height: 70px; width:100px; margin: 0px 4px" alt="">
+            {% else %}
+
+            <img src="{{STATIC_URL}}img/no_image.gif" style="float:left; height: 70px; width:100px; margin: 0px 4px" alt="">
+          {% endif %}
+          
           
           <p class="paragraph" style="color:white; margin: 0px; height: 80px; font-size: 15px;">
               {{article.content|truncatechars:130}}

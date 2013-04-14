@@ -78,19 +78,20 @@
 				
 
 				</a>
-
 				{% endfor %}
 				{% for user in users %}
-					<div class="span1" style="width:90px;">
+					<div class="span2" style="width:150px; margin-left:12px; margin-top: 5px;">
 					<center>
-						<img src="https://graph.facebook.com/{{user.facebook_id}}/picture" class="img-circle" style="width:60px; height:60px; margin-left: 10px;">
+						<img src="https://graph.facebook.com/{{user.facebook_id}}/picture?type=large" class="img-circle" style="width:100px; height:100px; margin-left: 10px;">
 						<br>
-						<h5>{{user.facebook_name}}
-						</h5>
+						<h3>{{user.facebook_name|slice:":13"}} 
+						</h3>
 					</center>
 					</div>
+
 				{% endfor %}
-				</div>
+				
+					</div>
 			</div>
 	</div>
 

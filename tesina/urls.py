@@ -1,7 +1,7 @@
 from django.conf.urls import patterns, include, url
 from django.conf import settings
 from pages.views import register_login, logout_user, noticias
-from articles.views import ArticleDetailView, create, CategoryDetailView, add_comment, search, autocomplete, javascript_filter
+from articles.views import ArticleDetailView, create, CategoryDetailView, add_comment, search, autocomplete, javascript_filter, rating
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
 admin.autodiscover()
@@ -41,6 +41,8 @@ urlpatterns = patterns('',
     url(r'^autocomplete/', autocomplete),
     url(r'^search/', search, name="search"),
     url(r'^jsfilter/', javascript_filter),
+    url(r'^rating/', rating),
+
     # Examples:
     # url(r'^$', 'portfolio.views.home', name='home'),
     # url(r'^portfolio/', include('portfolio.foo.urls')),

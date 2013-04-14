@@ -45,6 +45,10 @@
 			<span class="created-by">
 				-  {{article.user_id.facebook_name}}
 			</span>
+
+<div  class="pull-right">
+			<div id="star" data-score="0"></div><div></div>
+</div>
 			
 <hr style="margin-top: 2px; border-color: black;">
 				{% if article.photo %}
@@ -95,7 +99,41 @@
 	</div>			
 </div>
 </div>
+
+<script src="{{STATIC_URL}}js/jquery.raty.js"></script>
+<script>
+
+var star = $('#star').raty({
+    size      :24,
+    starOff   : 'star-off-big.png',
+    starOn    : 'star-on-big.png',
+    path      : '{{ STATIC_URL }}img',
+    noRatedMsg  : 'Not rated yet!',
+    readOnly    : false,
+    hints       : ['Malo', 'Pobre', 'Regular', 'Bueno', 'Excelente'],
+    click: rated,
+    score: function() 
+    {
+    	return $(this).attr('data-score');
+  	}
+
+});
+
+
+
+	function rated(score, evt)
+	{
+		$(this).find('img').unbind();
+	    // alert('ID: ' + $(this).attr('id') + "\nscore: " + score + "\nevent: " + evt);
+	    $.post('/rating/', {score:score,csrfmiddlewaretoken: '{{ csrf_token }}'}, function(data) 
+	    {
+			alert(data);
+		});
+	    
+	}
+ </script>
 {% endblock content %}
+
 
 
 

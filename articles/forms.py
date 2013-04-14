@@ -22,7 +22,7 @@ class NewsForm(forms.Form):
 
 class QuoteForm(forms.Form):
     autor = forms.CharField(error_messages={"required":"Autor Es Requerido"},max_length=35, widget=forms.TextInput)
-    frase = forms.CharField(error_messages={"required":"Frase Es Requerida"}, max_length=180, widget=forms.TextInput(attrs={"style":"height:48px; width: 220px;padding:0;text-align: top; vertical-align:top;"}))
+    frase = forms.CharField(error_messages={"required":"Frase Es Requerida"}, max_length=255, widget=forms.TextInput(attrs={"style":"height:48px; width: 220px;padding:0;text-align: top; vertical-align:top;"}))
 
 
 class MovieForm(forms.Form):

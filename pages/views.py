@@ -39,16 +39,25 @@ def noticias(request):
     top_news = Article.objects.top(type="Noticias")[:5]
     categories = Category.objects.all().exclude(name="None").order_by("name")
     recent_news = []
-    recent_news.append(Article.objects.filter(category__name="Deportes").order_by('?')[0])
-    recent_news.append(Article.objects.filter(category__name="Economia").order_by('?')[0])
-    recent_news.append(Article.objects.filter(category__name="Entretenimiento").order_by('?')[0])
-    recent_news.append(Article.objects.filter(category__name="Internacionales").order_by('?')[0])
-    recent_news.append(Article.objects.filter(category__name="Local").order_by('?')[0])
-    recent_news.append(Article.objects.filter(category__name="Politica").order_by('?')[0])
-    recent_news.append(Article.objects.filter(category__name="Tecnologia").order_by('?')[0])
-    recent_news.append(Article.objects.filter(category__name="Vida").order_by('?')[0])
+    try:
+        recent_news.append(Article.objects.filter(category__name="Deportes").order_by('?')[0])
+    except:
+        print "Error!"
+    try:
+        recent_news.append(Article.objects.filter(category__name="Economia").order_by('?')[0])
+    except:
+        print "Error!"
+    try:
+        recent_news.append(Article.objects.filter(category__name="Entretenimiento").order_by('?')[0])
+        recent_news.append(Article.objects.filter(category__name="Internacionales").order_by('?')[0])
+        recent_news.append(Article.objects.filter(category__name="Local").order_by('?')[0])
+        recent_news.append(Article.objects.filter(category__name="Politica").order_by('?')[0])
+        recent_news.append(Article.objects.filter(category__name="Tecnologia").order_by('?')[0])
+        recent_news.append(Article.objects.filter(category__name="Vida").order_by('?')[0])
+    except:
+        print"Error!"
 
-    data = {
+    data={
         'top_news': top_news,
         'recent_news': recent_news,
         'categories': categories,

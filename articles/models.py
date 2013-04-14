@@ -1,7 +1,7 @@
 from django.db import models
 from profiles.models import NotasoUser
 from django.contrib.comments.models import Comment
-from datetime import datetime
+from django.utils import timezone
 
 
 class ArticleManager(models.Manager):
@@ -27,14 +27,29 @@ class ArticleManager(models.Manager):
 
 
 class Category(models.Model):
-    name = models.CharField(max_length=60)
+    categories = (
+        ("None", "None"),
+        ("Deportes", "Deporte"),
+        ("Economia", "Economia"),
+        ("Entretenimiento", "Entretenimiento"),
+        ("Internacionales", "Internacional"),
+        ("Local", "Local"),
+        ("Politica", "Politica"),
+        ("Tecnologia", "Tecnologia"),
+        ("Vida", "Vida"),
+    )
+    name = models.CharField(max_length=60, choices=categories)
 
     def __unicode__(self):
         return self.name
 
 
 class Type(models.Model):
-    name = models.CharField(max_length=60)
+    types=(("Noticias", "Noticias"),
+        ("Quotes", "Quotes"),
+        ("Movies", "Movies"),
+    )
+    name = models.CharField(max_length=60, choices=types)
 
     def __unicode__(self):
         return self.name
@@ -52,7 +67,7 @@ class Article(models.Model):
     title = models.CharField(max_length=80)
     content = models.TextField(max_length=2500)
     photo = models.ImageField(upload_to=get_url, blank=True)
-    submit_date = models.DateTimeField(default=datetime.now())
+    submit_date = models.DateTimeField(('date/time submitted'), default=timezone.now())
     user_count = models.IntegerField(default=0)
     user_rating = models.IntegerField(default=0)
     objects = ArticleManager()
@@ -76,3 +91,18 @@ class ArticleComment(Comment):
 
     def __unicode__(self):
         return self.name
+
+
+class ArticleRating(models.Manager):
+
+    def __edges(self, edge, limit):
+        return "algo"
+
+class ArticleRating(models.Model):
+    rate = models.IntegerField(max_length=1, blank=True)
+    user_id = models.ForeignKey(NotasoUser)
+    Article_id = models.ForeignKey(Article)
+    objects = ArticleRating()
+
+    def __unicode__(self):
+        return self.rate

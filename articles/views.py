@@ -7,6 +7,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.contrib.sites.models import Site
 from django.http import HttpResponse
 from profiles.models import NotasoUser
+from django.utils import timezone
 import json
 
 """
@@ -65,8 +66,9 @@ def create(request):
                     photo = news_form.cleaned_data['foto']
                     type = Type.objects.get(name="Noticias")
                     category = Category.objects.get(name=category)
+                    print timezone.now()
                     Article(user_id=request.user, type=type, category=category,
-                            title=title, content=content, photo=photo).save()
+                            title=title, content=content, photo=photo, submit_date=timezone.now()).save()
             elif request.GET["type"] == "quotes":
                 quotes_form = QuoteForm(request.POST)
                 if quotes_form.is_valid():
@@ -85,7 +87,7 @@ def create(request):
                     category = Category.objects.get(name="None")
                     Article(user_id=request.user, category=category, type=type,
                             title=autor, content=frase).save()  
-        return HttpResponseRedirect("/")  
+                return HttpResponseRedirect("/")  
     data = {
         "news_form": news_form,
         "quotes_form": quotes_form,
@@ -117,17 +119,16 @@ def search(request):
                     'usuario': usuario,
                     'articles': usuario.article_set.all().order_by("?")[:5]
                 }
-                print "data",data
                 return render(request,"articles/search.html", data)
             except:
                 data = {
-                    'users': NotasoUser.objects.all().order_by("?")[:10]
+                    'users': NotasoUser.objects.all().order_by("?")[:5]
                 }
                 return render(request,"articles/searchFail.html", data)
         else:
             if q is not None and q:
                 data = {
-                "articles": Article.objects.filter(type__name="Noticias", title__startswith=q).order_by('-submit_date')[:5]
+                "articles": Article.objects.filter(title__startswith=q).order_by('-submit_date')
                 }
                 if data["articles"]:
                     return render(request,"articles/search.html", data)
@@ -158,3 +159,7 @@ def autocomplete(request):
     
 def javascript_filter(request):
     return render_to_response("articles/filterContent.html",{"content":request.GET.get('content')})
+
+
+def rating(request):
+    return HttpResponse("Rated")
