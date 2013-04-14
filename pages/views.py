@@ -54,7 +54,7 @@ def noticias(request):
         'categories': categories,
 
     }
-    return render(request, 'noticias/noticias.html', data)
+    return render(request, 'pages/noticias.html', data)
 
 """
 If the user is not log in and doesn't exist in the database 

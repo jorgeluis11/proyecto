@@ -1,68 +1,63 @@
-<br>
+
 <div class="row">
 	<div class="container">
 		
-	<div class="span12">
-		
-	
+	<div class="span12" style="margin:0px; width: 1210px;">
+		{% if usuario %}
+	<div style="background-color:#2A2A2A">
+		<center >
+			<div>
 
-{% for noticia in noticias %}
-			
-				<a href="article/{{noticia.id}}" class="item recent-wrapper-new" style=" background-color:#21BB21; margin: 0px 1px 1px 0px; padding: 8px 7px 5px 7px; text-decoration: none;">
-				<center>
-					<p style="text-shadow: 2px 2px 2px black; height: 48px; padding-top:0px; color:white;
-					{% if noticia.title|length < 25 %}
-						font-size: 22px; vertical-align:
-					{% elif article.title|length < 60 %}
-					font-size: 18px; 
-					{% else %}
-					font-size: 15px;
-					 <strong>{{article.title|title}}</strong>				
-					</p>
-					{% endif %}
-					">
-					<strong>{{noticia.title|slice:"60"|title}}</strong>	
-														</p>
-			
-
-
-				</center>
-					<div class="recent-wrapper-noticia-link" href="article/{{noticia.pk}}" style="color:white;">
-
-					<center>	
-
-
-				<!-- This code determine the font-size of the title depending on the lenght of the title -->
-					{% if noticia.photo %}
-						<img class="span2" style= "margin:0 0 6px 0; width: 220px; height: 164px; border:black solid 1px;" src="{{MEDIA_URL}}{{noticia.photo}}" alt="">
-						{% else %}
-
-				<img class="span2" style= "margin:0 0 6px 0; width: 220px; height: 164px; border:black solid 1px;" src="{{STATIC_URL}}img/no_image.gif" alt="">
-					{% endif %}
-				</center>
+				<img src="https://graph.facebook.com/{{usuario.facebook_id}}/picture" class = "img-circle" style = "width:60px; height:60px;">  
+			 		<br>
+			<h1 style=" margin:0px 0px;">
+				{{usuario.facebook_name}}
+					
+			</h1>
 			</div>
+		</center>
+	</div>
+{% endif %}
+	<div id="recent-wrapper-new">
+		
+        <div id="search-article-wrapper" class="scroll-pane" style="background:rgba(41,41,41,1);">
 
-					
-					<div class="recent-wrapper-article-real-link" href="noticia/{{noticia.pk}}" style="color:white; display: none; font-size: 18px; height: 168px;">
+		<div class="pull-right"><h1 style="margin-left:10px; margin-bottom:0px; font-size:27px; color:#E2E2E2">{{articles|length}}resultados</h1></div>
 
-					<p class="paragraph">{{noticia.content|truncatechars:"170"}}</p>
-					</div>
+		<br>
+        {% for article in articles %}
 
-					<legend style = "margin:4px 0px 2px 0px;"> </legend>
+        <a id="wrapper-top-article" href="/article/{{article.id}}" >
 
-					<p style = "font-size:14px; color:white; text-shadow: 2px 2px 2px black; margin-bottom: -1px;"><img src="https://graph.facebook.com/{{noticia.user_id.facebook_id}}/picture" class = "img-circle" style = "width:25px; height:25px;">  
-						
-					
-						<span class="created-by">
-						-  {{noticia.user_id.facebook_name}}
-						</span>
-					</p>	
-				
-				</a>
 
-				{% endfor %}
+        <span style="font-size:20px; text-shadow: 2px 2px 2px black; margin: 0px 0px 0px 4px; padding:0px;">
+          {{article.title|truncatechars:39|title}}  
+          </span>
+          <br>
+          <img src="{{MEDIA_URL}}{{article.photo}}" style="float:left; height: 70px; width:100px; margin: 0px 
+          4px" alt="">
+          
+          <p class="paragraph" style="color:white; margin: 0px; height: 80px; font-size: 15px;">
+              {{article.content|truncatechars:130}}
+          </p>
+
+        </a>
+        <center>
+          {% if not forloop.last %}
+          <hr style="margin: 0px 0px 4px 0px; width: 1200px; border-color: #B5B5B5;">
+        {%endif%}
+
+        </center>
+        
+      {% endfor %}
+      
+        </div>
 
 
 			</div>
 		</div>
 	</div>
+		</div>
+
+
+	<script type="text/javascript" src="{{STATIC_URL}}js/newsHover.js"></script>

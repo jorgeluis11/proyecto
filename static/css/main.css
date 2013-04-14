@@ -61,6 +61,8 @@ body
 
 .recent-wrapper-new
 {
+		background-image: url(../img/square_bg.png);
+
 	height: 256px;
 	width: 227px;
 	float:left;
@@ -101,6 +103,21 @@ text-decoration: none;
 
 img{border:1px black solid;}
 
+#photo
+{
+
+float: left;
+}
+
+#news-photo{
+	margin:0 0 6px 0; 
+	width: 232px; 
+	height: 160px;
+	max-height: 300px; 
+	border:black solid 1px;
+	margin: 0px 5px;
+}
+
 ul.nav li a
 {
 	color:white;
@@ -140,4 +157,35 @@ ul.nav li.active a:hover
 	height: 50px;
 	border: black 1px solid;
 	margin-bottom: 0px;
+}
+
+
+ .ui-autocomplete-input
+ {
+     width:30px;
+ }
+
+ #searchFail{
+	background-color:#2A2A2A;
+	border-radius: 10px;
+	margin-bottom: 100px;
+}
+
+.search-fail-wrapper
+{
+	height: 155px;
+	margin-bottom: 50px;
+}
+
+#ui-id-1
+{
+	width:20px;
+}
+
+
+
+
+.errorlist
+{
+	list-style-type: none;
 }

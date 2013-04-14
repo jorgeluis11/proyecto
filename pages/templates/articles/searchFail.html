@@ -1,31 +1,97 @@
 <style>
 
-#searchFail{
-	background-color:#2A2A2A;
-	border-radius: 10px;
-}
+
 </style>
 
-<br />	
-	<div class='span9 offset2' id="searchFail">
-		<br><br>
-		<h1 class="myriad-pro" style="font-size: 70px;">
+	<div class='span9 offset2' id="searchFail" style="margin-top: 2px; margin-bottom: 10px;">
+		<br>
+		<h1 class="myriad-pro" style="font-size: 67px; padding-top: 8px;">
 			<center>
-				No se encontro su busqueda.
+				No se  
+				{% if users %}
+					encontro el usuario
+					{% else %}
+					encontraron los articulos
+				{% endif %}
 
-			</center>
 		</h1>
 
-				<br><br>
+        </center>
+        <center>
+            <img  style="border:none;" src="{{STATIC_URL}}/img/sadface.png" alt="logo" width="300px">			
+</center>
+				<br>
 
-			<div style="">
-				Intente:
+			<div style="margin-left:'50%' ">
+
+			<h1 class="myriad-pro" style="margin-left:10px;font-size: 75px; margin-bottom: 0px;">
+				<center>
+					Sugerencias
+				</center>	
+			</h1>
+			<div style="margin-left: 5px; height: 181px;">
+				
+		
+				{% for noticia in articles %}
+			
+				<a href="/article/{{noticia.id}}" class="item recent-wrapper-new search-fail-wrapper" style=" background-color:#21BB21; margin: 8px 1px 1px 0px; padding: 8px 7px 5px 7px; text-decoration: none; width: 157px; heigth:130px;">
+				<center>
+					<p style="text-shadow: 2px 2px 2px black; height: 48px; padding-top:0px; color:white;
+					{% if noticia.title|length < 25 %}
+						font-size: 20px; vertical-align:
+					{% elif article.title|length < 60 %}
+					font-size: 18px; 
+					{% else %}
+					font-size: 14px;
+					 <strong>{{article.title|title}}</strong>				
+					</p>
+					{% endif %}
+					">
+					<strong>{{noticia.title|slice:"60"|title}}</strong>	
+														</p>
+			
+
+
+				</center>
+					<div class="recent-wrapper-article-link" href="/article/{{noticia.pk}}" style="color:white;">
+
+					<center>	
+
+
+				<!-- This code determine the font-size of the title depending on the lenght of the title -->
+					{% if noticia.photo %}
+						<img class="span2" style= "margin:0 0 6px 0; width: 160px; height: 94px; border:black solid 1px;" src="{{MEDIA_URL}}{{noticia.photo}}" alt="">
+						{% else %}
+
+				<img class="span2" style= "margin:0 0 6px 0; width: 160px; height: 94px; border:black solid 1px;" src="{{STATIC_URL}}img/no_image.gif" alt="">
+					{% endif %}
+				</center>
+			</div>
+
 					
-				{% for tip in tips %}
-					<br>
-					{{tip.title|truncatechars:45}}
+					<div class="recent-wrapper-article-real-link" href="/noticia/{{noticia.pk}}" style="color:white; display: none; font-size: 14px; height: 68px;">
+
+					<p class="paragraph">{{noticia.content|truncatechars:"120"}}</p>
+
+
+					</div>	
+				
+
+				</a>
 
 				{% endfor %}
+				{% for user in users %}
+					<div class="span1" style="width:90px;">
+					<center>
+						<img src="https://graph.facebook.com/{{user.facebook_id}}/picture" class="img-circle" style="width:60px; height:60px; margin-left: 10px;">
+						<br>
+						<h5>{{user.facebook_name}}
+						</h5>
+					</center>
+					</div>
+				{% endfor %}
+				</div>
 			</div>
-				<br><br>
 	</div>
+
+	<script type="text/javascript" src="{{STATIC_URL}}js/newsHover.js"></script>

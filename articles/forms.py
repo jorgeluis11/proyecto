@@ -14,19 +14,20 @@ class NewsForm(forms.Form):
     )
 
     categoria = forms.ChoiceField(choices=categories)
-    titulo = forms.CharField(widget=forms.TextInput(attrs={"id":"titleNews","rel":"popover","data-content":"contenido"}))
-    contenido = forms.CharField(widget=forms.Textarea(attrs={"id":"contentNews"}))
-    foto = forms.ImageField(required=False)
-
+    titulo = forms.CharField(max_length=108,error_messages={"required":"Titulo Es Requerido"},
+                            widget=forms.TextInput(attrs={"id":"titleNews",
+                            "data-content":"contenido"}))
+    contenido = forms.CharField(max_length=2500,error_messages={"required":"Contenido Es Requerido"},widget=forms.Textarea(attrs={"id":"contentNews"}))
+    foto = forms.ImageField(required=False, widget= forms.ClearableFileInput())
 
 class QuoteForm(forms.Form):
-    autor = forms.CharField(widget=forms.TextInput)
-    frase = forms.CharField(widget=forms.Textarea)
+    autor = forms.CharField(error_messages={"required":"Autor Es Requerido"},max_length=35, widget=forms.TextInput)
+    frase = forms.CharField(error_messages={"required":"Frase Es Requerida"}, max_length=180, widget=forms.TextInput(attrs={"style":"height:48px; width: 220px;padding:0;text-align: top; vertical-align:top;"}))
 
 
 class MovieForm(forms.Form):
     titulo = forms.CharField(widget=forms.TextInput)
-    contenido = forms.CharField(widget=forms.Textarea)
+    review = forms.CharField(widget=forms.Textarea, label="Contenido")
 
 
 class ComentaryForm(forms.Form):

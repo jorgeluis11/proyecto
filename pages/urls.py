@@ -1,4 +1,4 @@
-from django.conf.urls import patterns, url
+stafrom django.conf.urls import patterns, url
 from articles.views import NewsDetailView, create
 
 urlpatterns = patterns('pages.views',

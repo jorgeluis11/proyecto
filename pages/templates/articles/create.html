@@ -1,9 +1,14 @@
 {% extends "base.html" %}
 
 {% block javascript %}
-<script src="/twitter-bootstrap/twitter-bootstrap-v2/js/bootstrap-popover.js"></script>
-<script src="/twitter-bootstrap/twitter-bootstrap-v2/js/bootstrap-tooltip.js"></script>
+<script src="{{STATIC_URL}}js/bootstrap-fileupload.js"> 
+	
+</script>
 {% endblock javascript %}
+
+{% block stylesheet %}
+	<link rel="stylesheet" href="{{STATIC_URL}}css/bootstrap-fileupload.css">
+{% endblock stylesheet %}
 
 
     {% block title %}
@@ -17,9 +22,9 @@
 <div class="container">
 	
 	<div class="row">
-		<div class="span12" style="background-color: #222;">
+		<div class="span12" style="background-color: #222; min-height:500px;">
 			<div class="span3">
-			<div style="margin-left: 30px; margin-top:10px;"> Type:
+			<div style="margin-left: 30px; margin-top:10px; margin-bottom:4px;"> Tipo de Articulo:
 				<div class="btn-group" data-toggle="buttons-radio">
 				  <button id="news" type="button" class="btn btn-info active">Noticia</button>
 				  <button id="quotes" type="button" class="btn btn-info">Frase</button>
@@ -27,18 +32,59 @@
 				</div> 
 			</div>
 			
-			<div id="news-form" class="span2">
-				<form method="post" action="/create/">
+			<div id="news-form"  class="span2">
+				<form enctype="multipart/form-data" method="post" action="/create/?type=news" >
 					{% csrf_token %}
-					{{news_form.as_table}}
+
+
+					{{news_form.categoria.label}}
+					{{news_form.categoria}}
+
+
+					{{news_form.titulo.label}}
+					{{news_form.titulo}}
+
+
+					{{news_form.contenido.label}}
+					{{news_form.contenido}}
+
+
+					{{news_form.foto.label}}
+
+
+
+
+
+<div class="fileupload fileupload-new" data-provides="fileupload">
+  <div class="fileupload-new thumbnail" style="width: 200px; height: 150px;">
+
+  	<img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&text=no+image" /></div>
+  <div id='upload'  class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 150px; line-height: 20px;">
+  	
+
+  </div>
+  <div>
+    <span class="btn btn-file"><span class="fileupload-new">Seleccione una imagen</span><span class="fileupload-exists">Cambiar</span>
+	{{news_form.foto}}
+</span>
+    <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Borrar</a>
+  </div>
+</div>
+
 					<input class="btn btn-success" type="submit">
 				</form>
 			</div>
 
 			<div id="quotes-form" class="span2" style="display:none;">
-				<form method="post" action="/create/">
+				<form method="post" action="/create/?type=quotes">
 					{% csrf_token %}
-					{{quotes_form.as_table}}
+					{{quotes_form.autor.label}}
+					{{quotes_form.autor}}
+
+
+					{{quotes_form.frase.label}}
+					{{quotes_form.frase}}
+
 					<input class="btn btn-success" type="submit">
 				</form>
 			</div>
@@ -59,10 +105,21 @@
 			<center style="background-color: #3F3F3F; color:white;">
 				<span style="font-size: 40px; text-shadow: 0px 2px 3px gray;"><strong id="categoryLabel">Categoria</strong></span>
 			</center>
-			<p  style="font-size: 30px; padding-left: 10px; text-shadow: 0px 2px 3px #555"><strong id="titleLabel">Titulo</strong></p>
+			<p  style="font-size: 30px; padding-left: 10px; text-shadow: 0px 2px 3px #555">
+				<strong id="titleLabel">	
+				{% if news_form.titulo.errors %}
+					<div class="alert alert-error" id="titleError" style="font-size: 30px; padding:0; padding-top:5px; margin:0px;">
+						{{news_form.titulo.errors.as_ul}}
+					</div>
+				{% else %}
+					Titulo
+				{% endif %}
+			
+				</strong>
+			</p>
 
 
-		  <img src="https://graph.facebook.com/{{user.facebook_id}}/picture" class = "img-circle" style = "width:25px; height:25px;">  
+		  <img src="https://graph.facebook.com/{{user.facebook_id}}/picture" class = "img-circle" style = "width:25px; height:25px; margin-left: 6px;">  
 			
 			<span class="created-by">
 				-  {{user.facebook_name}}
@@ -72,30 +129,92 @@
 				{% if article.photo %}
 						<img class="span2" style= "margin:0 0 6px 0; width: 220px; max-height: 300px; border:black solid 1px;margin: 0px 5px;" src="{{MEDIA_URL}}{{article.photo}}" alt="">
 					{% endif %}
-
+<div id="content-wrapper"></div>
+			<div id="photo">
+				<div id="image"> </div>
+			</div>
 			<p style="padding-right: 20px; padding-left: 5px;" id="contentLabel">
+				{% if news_form.contenido.errors %}
+					
+				<div class="alert alert-error"  id="contentError">
+					<h1>
+						<center>
+							{{news_form.contenido.errors}}
+						</center>
+					</h1>
+				</div>
+			{% endif %}
 			</p>
 
 		</div>
-	</div>
+
+<div id ="quotes-id-wrapper" class="span8" style="display:none;">
+
+					<div class="alert alert-error" id="titleError" style="font-size: 36px; padding:0; padding-top:2px; margin:6px; height:100px; 				
+					{% if not quotes_form.errors %}
+						visibility:hidden;
+						{% else %}
+						visibility: block;
+					{% endif %}">
+					<center>
+						<div style="margin-bottom:2px">{{quotes_form.autor.errors.as_text}}</div>
+
+						{{quotes_form.frase.errors.as_text}}
+					</center>
+					</div>
+				<div  style="background-color:#FF6346; margin:0; padding-top:10px;   border-radius: 10px;
+				">
+				  <!-- Carousel items -->
+					<center>
+						<blockquote style="border:0; padding: 0px;">
+						  <p id="quote-label" class="paragraph" style="font-size:30px;">“Be yourself; everyone else is already taken.” 
+						  </p>
+						  <small style="color:white;"><span id="author-label">Oscar Wilde</span>	 
+						  	Citado por 
+
+							<img class="img-circle" width="34" height="30" src="https://graph.facebook.com/1431060873/picture">
+								
+								<span class="badge badge-inverse">
+									Jorge Luis
+								</span>
+						</small>
+						</blockquote>
+					</center>
+			</div>
+
+		</div>
 </div>
+
+</div>
+
+
 </div>
 
 <script>
-	
+
 	$("#news").click(function(){
 		$("#news-form").show();
 		$("#news-id-wrapper").show();
 		$("#quotes-form").hide();
 		$("#movies-form").hide();
 
+		$("#quotes").removeClass("active");
+		$("#movies").removeClass("active");
+		$("#news").addClass("active");
+				$("#quotes-id-wrapper").hide();
+
+
 	});
 
 	$("#quotes").click(function(){
 		$("#news-form").hide();
 		$("#quotes-form").show();
+		$("#quotes-id-wrapper").show();
 		$("#movies-form").hide();
 		$("#news-id-wrapper").hide();
+		$("#quotes").addClass("active");
+		$("#movies").removeClass("active");
+		$("#news").removeClass("active");
 
 	});
 
@@ -104,13 +223,23 @@
 		$("#quotes-form").hide();
 		$("#movies-form").show();
 		$("#news-id-wrapper").hide();
+		$("#quotes-id-wrapper").hide();
+		$("#quotes").removeClass("active");
+		$("#movies").addClass("active");
+		$("#news").removeClass("active");
 
 
 	});
+
+
+
 	</script>
 
 	<script>
-	
+
+
+
+
 	$("#categoryLabel").text($('select[name=categoria] option:selected').text());
 			
 $("#id_categoria").change(function (){
@@ -119,18 +248,67 @@ $("#id_categoria").change(function (){
 
 	$("#titleNews").bind("keyup",function (){
 		var title = $(this).val();
-		var str = '{{'  + title + '|title}}';
-		$("#titleLabel").text(str);
+		$('#titleError').remove();    
+		$("#titleLabel").html(title);
 		
+});
+
+	$('#contentNews').keyup(function (){
+	var content = $(this).val();
+	$.get('/jsfilter', {content:content} , function(data) {
+		$('#contentError').remove();    
+
+		$('#contentLabel').html(data);    
 	});
-
-	$("#contentNews").bind("keyup",function (){
-		
-	});
-
-	// $('#titleNews').popover();
-
+});
 	
+$(document).ready(function() {
+
+	function content_photo()
+	{
+		setTimeout(function() {
+      	$('#photo').children().remove();
+      	
+
+		var img = $(".fileupload-preview img").attr("src");
+
+		if(!img)
+		{
+			$("#contentLabel").text("");
+        	$("#contentNews").trigger('keyup');
+        	$("#photo").width("0");
+        }
+        else
+        {
+        	$("#photo").append($("#upload").html());
+        	$("#photo img").attr("id","news-photo","float","left");
+        	$("#photo").width("242px");
+
+        }
+  	}, 20); 
+	}
+
+  $("#id_foto").change(content_photo);
+
+  $(".fileupload-exists").click(content_photo);
+
+  	/****************
+	**Quote events!**
+	*****************/
+
+	$("#id_autor").bind("keyup",function (){
+			var title = $(this).val();
+			// $('#author-label').remove();    
+			$("#author-label").html(title);
+		});
+
+	$("#id_frase").bind("keyup",function (){
+			var title = $(this).val();
+			// $('#author-label').remove();    
+			$("#quote-label").html("\""+title+"\"");
+		});
+	});
+
 
 
 </script>

@@ -22,8 +22,16 @@
   <script src="https://raw.github.com/twitter/bootstrap/master/js/bootstrap-collapse.js"></script>
   <script src="https://raw.github.com/twitter/bootstrap/master/js/bootstrap-carousel.js"></script>
 
+<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/themes/base/jquery-ui.css" type="text/css" media="all" />
+<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/themes/base/jquery-ui.css" type="text/css" media="all" /> 
+<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js"></script>
+      
       {% block javascript %}
              {% endblock javascript %}
+
+      {% block stylesheet %}
+        
+      {% endblock stylesheet %}
      
 
   <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -35,7 +43,7 @@
 
 
 
-<link href="static/css/font-awesome.css" rel="stylesheet" />
+<link href="{{STATIC_URL}}/css/font-awesome.css" rel="stylesheet" />
 <!--[if IE 7]>
     <link rel="stylesheet" href="static/css/font-awesome-ie7.min.css">
 <![endif]-->
@@ -81,18 +89,44 @@
   
   $("#search").keyup(function()
   {
+    
     var q = $("#search").val();
-    $("#wrapper").load("search?q=" + q+"&url={{request.get_full_path}}");
+    $.get('/autocomplete?q=' + encodeURI(q), function(data) {
+      $("#search").autocomplete({
+        maxLength:10,
+        source: data
+      });    
+    });
   });
 
 $("#search").keypress(function(e) {
   if(e.keyCode == 13)
      {
-         e.preventDefault();
-         sendSelected(this.value);
-         $(this).autocomplete('close');
+          var q = $("#search").val();
+          if (! q)
+            q = "Noticia vacia que no esta en el servidor!";
+          
+            $("#wrapper").load("/search?q=" +  encodeURI(q));
      }
 });
+
+$("#search-submit").click(function(e) {
+          var q = $("#search").val();
+          $("#wrapper").load("/search?q=" +  encodeURI(q));
+});
+
+$("#search").focus(function(e) 
+{
+  $(this).animate({
+    width:"180"
+  },200)
+}).blur(function(){
+  $(this).animate({
+    width:"80"
+  },200)
+});
+
+
 </script>
   </body>
   </html>

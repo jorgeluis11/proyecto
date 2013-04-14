@@ -1,0 +1,7 @@
+{% for article in articles %}
+	<img src="{{MEDIA_URL}}{{article.photo}}" alt="">
+	<span>{{article.title}}</span>
+	<br>
+{% endfor %}
+
+{{articles}}

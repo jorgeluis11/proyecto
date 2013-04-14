@@ -105,12 +105,11 @@
 
 
         <div class="row" style="background-color: rgba(0, 130, 200, 0.6);">
-              <div class="container">
 
 <!-- **************************-->
 <!--        Header Logo! -->
 <!-- **************************-->
-          <div id="header-logo" class="span4" > <br><a href="/">
+          <div id="header-logo" class="span4 offset1" > <br><a href="/">
             <img  style="border:none;" src="{{STATIC_URL}}img/logo.png" alt="logo">
             </a>
 </div>
@@ -119,7 +118,7 @@
 <!--    Header Navigation Bar -->
 <!-- **************************-->
 
-            <div class="span5" style="margin:0px;">
+            <div class="span5" style="margin: 0px 0px 5px 0px;">
               <center>
                 <br><br><br><br>
 
@@ -138,8 +137,8 @@
 <!--        Log in forms       -->
 <!-- **************************-->
 
-          <div class="pull-right" style="padding: 10px 40px 0px 0px;">
-          <div class="span2">
+          <div style="padding: 10px 40px 0px 0px;">
+          <div class="span3" style="width:275px;">
 
 <!-- **************************-->
 <!--    User form information   -->
@@ -177,16 +176,17 @@
             {% endif %}
             </div>
             <br>
-            <form class="form-search pull-right" style="padding-top: 8px;">
+            <div class="form-search pull-right" style="padding-top: 8px;">
               <div class="input-append">
-                <input type="text" class="span1 search-query" id="search">
-                <button  type="submit" class="btn btn-inverse"><i class="icon-search icon-white"></i></button>
-              </div>
-              </form>
+                <input type="text" class="span1 search-query" id="search" placeholder="Articulos o @usuarios">
+                <button id="search-submit" type="submit" class="btn btn-inverse"><i class="icon-search icon-white"></i></button>
 
+              </div>
+            </div>
             </div>  
-            </div> 
+
           </div>
+        
         </div>
       
 

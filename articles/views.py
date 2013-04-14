@@ -6,6 +6,8 @@ from articles.forms import NewsForm, QuoteForm, MovieForm, ComentaryForm
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.sites.models import Site
 from django.http import HttpResponse
+from profiles.models import NotasoUser
+import json
 
 """
 Class based view to show the article and 
@@ -49,24 +51,41 @@ and send all the forms to the template.
 """
 
 def create(request):
-    if request.POST:
-        form = NewsForm(request.POST)
-        print "error", form['categoria'].errors
-        if form.is_valid:
-            title = form.cleaned_data['titulo']
-            content = form.cleaned_data['contenido']
-            category = form.cleaned_data['categoria']
-            # photo = request.FILES['foto']
-            type = Type.objects.get(name="Noticias")
-            category = Category.objects.get(name=category)
-
-            Article(user_id=request.user, type=type, category=category,
-                    title=title, content=content).save()
-
     news_form = NewsForm()
     quotes_form = QuoteForm()
     movies_form = MovieForm()
-
+    if request.GET:
+        if request.POST:
+            if request.GET["type"] == "news":
+                news_form = NewsForm(request.POST, request.FILES)
+                if news_form.is_valid():
+                    title = news_form.cleaned_data['titulo']
+                    content = news_form.cleaned_data['contenido']
+                    category = news_form.cleaned_data['categoria']
+                    photo = news_form.cleaned_data['foto']
+                    type = Type.objects.get(name="Noticias")
+                    category = Category.objects.get(name=category)
+                    Article(user_id=request.user, type=type, category=category,
+                            title=title, content=content, photo=photo).save()
+            elif request.GET["type"] == "quotes":
+                quotes_form = QuoteForm(request.POST)
+                if quotes_form.is_valid():
+                    autor = quotes_form.cleaned_data['autor']
+                    frase = quotes_form.cleaned_data['frase']
+                    type = Type.objects.get(name="Quotes")
+                    category = Category.objects.get(name="None")
+                    Article(user_id=request.user, category=category, type=type,
+                            title=autor, content=frase).save()  
+            elif request.GET["type"] == "movies":
+                movies_form = MovieForm(request.POST)
+                if quotes_form.is_valid():
+                    autor = movies_form.cleaned_data['autor']
+                    frase = movies_form.cleaned_data['review']
+                    type = Type.objects.get(name="Movies")
+                    category = Category.objects.get(name="None")
+                    Article(user_id=request.user, category=category, type=type,
+                            title=autor, content=frase).save()  
+        return HttpResponseRedirect("/")  
     data = {
         "news_form": news_form,
         "quotes_form": quotes_form,
@@ -90,14 +109,52 @@ def search(request):
     data = {}
     if request.is_ajax():
         q = request.GET.get('q')
-        if q is not None and q:
-            data = {
-            "noticias": Article.objects.filter(type__name="Noticias", title__startswith=q).order_by('-submit_date')[:3]
-            }
-            return render(request,"articles/search.html", data)
+        if q[0] == "@":
+            q = q[1:len(q)]
+            try:
+                usuario = NotasoUser.objects.get(facebook_name__contains=q)
+                data = {
+                    'usuario': usuario,
+                    'articles': usuario.article_set.all().order_by("?")[:5]
+                }
+                print "data",data
+                return render(request,"articles/search.html", data)
+            except:
+                data = {
+                    'users': NotasoUser.objects.all().order_by("?")[:10]
+                }
+                return render(request,"articles/searchFail.html", data)
         else:
+            if q is not None and q:
+                data = {
+                "articles": Article.objects.filter(type__name="Noticias", title__startswith=q).order_by('-submit_date')[:5]
+                }
+                if data["articles"]:
+                    return render(request,"articles/search.html", data)
+                data = {
+                "articles": Article.objects.all().order_by('?')[:5]
+                }
+    return render(request,"articles/searchFail.html", data)
 
-            data = {
-            "tips": Article.objects.all().order_by('?')[:4]
-            }
-            return render_to_response("articles/searchFail.html", data)
+def autocomplete(request):
+    if request.is_ajax():
+        result = []
+        q = request.GET.get('q')
+        if q is not None:
+            if q[0] == "@":
+                print "AAAAaaaaa"
+                q = q[1:len(q)]
+                users = NotasoUser.objects.filter(facebook_name__startswith=q).order_by("?")[:8]
+                for user in users:
+                    result.append("@"+ user.facebook_name)
+                print result
+                return HttpResponse(json.dumps(result), mimetype="application/json")
+            if q:
+                articles = Article.objects.filter(type__name="Noticias", title__startswith=q).order_by('-submit_date')[:8]
+                for article in articles:
+                    result.append(article.title[:25])
+            return HttpResponse(json.dumps(result), mimetype="application/json")
+    return HttpResponseRedirect('/home')
+    
+def javascript_filter(request):
+    return render_to_response("articles/filterContent.html",{"content":request.GET.get('content')})
