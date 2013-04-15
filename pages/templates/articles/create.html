@@ -78,19 +78,21 @@
 			<div id="quotes-form" class="span2" style="display:none;">
 				<form method="post" action="/create/?type=quotes">
 					{% csrf_token %}
-					{{quotes_form.autor.label}}
-					{{quotes_form.autor}}
+					
 
 
 					{{quotes_form.frase.label}}
 					{{quotes_form.frase}}
+
+					{{quotes_form.autor.label}}
+					{{quotes_form.autor}}
 
 					<input class="btn btn-success" type="submit">
 				</form>
 			</div>
 
 			<div id="movies-form" class="span2" style="display:none;">
-				<form method="post" action="/create/">
+				<form method="post" enctype="multipart/form-data"  action="/create/?type=movies">
 					{% csrf_token %}
 
 					{{movies_form.titulo.label}}
@@ -107,16 +109,14 @@
 					  	<img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&text=no+image" /></div>
 					  <div id='upload-movies'  class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 150px; line-height: 20px;">
 					  	
-
 					  </div>
 					  <div>
 					    <span class="btn btn-file"><span class="fileupload-new">Seleccione una imagen</span><span class="fileupload-exists">Cambiar</span>
-						{{news_form.foto}}
+						{{movies_form.foto}}
 					</span>
 					    <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Borrar</a>
 					  </div>
 					</div>
-
 
 					<input class="btn btn-success" type="submit">
 				</form>
@@ -190,7 +190,7 @@
 
 <div id ="quotes-id-wrapper" class="span8" style="display:none;">
 
-					<div class="alert alert-error" id="titleError" style="font-size: 36px; padding:0; padding-top:2px; margin:6px; height:100px; 				
+					<div class="alert alert-error" id="titleError" style="font-size: 36px; padding:0; padding-top:2px; margin:6px; height:90px; 				
 					{% if not quotes_form.errors %}
 						visibility:hidden;
 						{% else %}
@@ -227,13 +227,13 @@
 
 
 
-<div class="span8" id="movies-id-wrapper" style=" background-color: white; color:black; border:1px solid black;margin-left:80px; background-color: #white;">
+<div class="span8" id="movies-id-wrapper" style=" background-color: white; color:black; border:1px solid black;margin-left:80px; background-color: #white; display: none;">
 				
 
 			<center style="background-color: #613DBB; color:white;">
-				<span style="font-size: 40px; text-shadow: 0px 2px 3px gray;"><strong id="categoryLabel">
+				<span style="font-size: 40px; text-shadow: 0px 2px 3px gray;"><strong id="movie-title-label">
 					{% if movies_form.titulo.errors %}
-					<div class="alert alert-error" id="titleError" style="font-size: 30px; padding:0; padding-top:5px; margin:0px;">
+					<div class="alert alert-error" id="movies-title-error" style="font-size: 30px; padding:0; padding-top:5px; margin:0px;">
 						{{movies_form.titulo.errors.as_ul}}
 					</div>
 				{% else %}
@@ -242,7 +242,7 @@
 				</strong></span>
 			</center>
 			<span  style="font-size: 30px; padding-left: 10px; text-shadow: 0px 2px 3px #555">
-				<strong id="titleLabel">	
+				<strong id="movies-title-label">	
 				
 			
 				</strong>
@@ -273,16 +273,16 @@
 						<img class="span2" style= "margin:0 0 6px 0; width: 220px; max-height: 300px; border:black solid 1px;margin: 0px 5px;" src="{{MEDIA_URL}}{{article.photo}}" alt="">
 					{% endif %}
 <div id="content-wrapper"></div>
-			<div id="photo">
+			<div id="photo-movie">
 				<div id="image"> </div>
 			</div>
-			<p style="padding-right: 20px; padding-left: 5px;" id="contentLabel">
-				{% if news_form.contenido.errors %}
+			<p style="padding-right: 20px; padding-left: 5px;" id="movies-content-label">
+				{% if movies_form.review.errors %}
 					
-				<div class="alert alert-error"  id="contentError">
+				<div class="alert alert-error"  id="movies-content-error">
 					<h1>
 						<center>
-							{{news_form.contenido.errors}}
+							{{movies_form.review.errors}}
 						</center>
 					</h1>
 				</div>
@@ -309,7 +309,8 @@
 		$("#quotes").removeClass("active");
 		$("#movies").removeClass("active");
 		$("#news").addClass("active");
-				$("#quotes-id-wrapper").hide();
+		$("#quotes-id-wrapper").hide();
+		$("#movies-id-wrapper").hide();
 
 
 	});
@@ -323,6 +324,7 @@
 		$("#quotes").addClass("active");
 		$("#movies").removeClass("active");
 		$("#news").removeClass("active");
+		$("#movies-id-wrapper").hide();
 
 	});
 
@@ -335,6 +337,7 @@
 		$("#quotes").removeClass("active");
 		$("#movies").addClass("active");
 		$("#news").removeClass("active");
+		$("#movies-id-wrapper").show();
 
 
 	});
@@ -359,7 +362,7 @@ $("#id_categoria").change(function (){
 		$('#titleError').remove();    
 		$("#titleLabel").html(title);
 		
-});
+		});
 
 	$('#contentNews').keyup(function (){
 	var content = $(this).val();
@@ -368,10 +371,10 @@ $("#id_categoria").change(function (){
 
 		$('#contentLabel').html(data);    
 	});
+
 });
 	
 $(document).ready(function() {
-
 	function content_photo()
 	{
 		setTimeout(function() {
@@ -417,121 +420,55 @@ $(document).ready(function() {
 		});
 	});
 
+//Movies
 
-
-	$("#titleNews").bind("keyup",function (){
-		var title = $(this).val();
-		$('#titleError').remove();    
-		$("#titleLabel").html(title);
-		
-});
-
-	$('#contentNews').keyup(function (){
-	var content = $(this).val();
-	$.get('/jsfilter', {content:content} , function(data) {
-		$('#contentError').remove();    
-
-		$('#contentLabel').html(data);    
-	});
-});
-	
-$(document).ready(function() {
-
-	function content_photo()
+function movie_photo()
 	{
+
 		setTimeout(function() {
-      	$('#photo').children().remove();
+
+      	$('#photo-movie').children().remove();
       	
-
-		var img = $(".fileupload-preview img").attr("src");
-
+      	
+		var img = $("#upload-movies img").attr("src");
 		if(!img)
 		{
-			$("#contentLabel").text("");
-        	$("#contentNews").trigger('keyup');
-        	$("#photo").width("0");
+			$("#movies-content-label").text("");
+        	$("#id_review").trigger('keyup');
+        	$("#photo-movie").width("0");
         }
         else
         {
-        	$("#photo").append($("#upload").html());
-        	$("#photo img").attr("id","news-photo","float","left");
-        	$("#photo").width("242px");
 
+        	$("#photo-movie").append($("#upload-movies").html());
+        	$("#photo-movie img").attr("id","movies-photo","float","left");
+        	$("#photo-movie").width("152px");
+        	$("#photo-movie img").attr("style", "max-height: 211px");
         }
   	}, 20); 
 	}
 
-  $("#id_foto").change(content_photo);
-
-  $(".fileupload-exists").click(content_photo);
-
-  	/****************
-	**Quote events!**
-	*****************/
-
-	$("#id_autor").bind("keyup",function (){
-			var title = $(this).val();
-			// $('#author-label').remove();    
-			$("#author-label").html(title);
-		});
-
-	$("#id_frase").bind("keyup",function (){
-			var title = $(this).val();
-			// $('#author-label').remove();    
-			$("#quote-label").html("“"+title+"”");
-		});
-	});
-
-
-
-
-//Movies event!
-
-	$("#titleNews").bind("keyup",function (){
+	$("#id_titulo").bind("keyup",function (){
 		var title = $(this).val();
-		$('#titleError').remove();    
-		$("#titleLabel").html(title);
+		$('#movie-title-error').remove();    
+		$("#movie-title-label").html(title);
 		
-});
-
-	$('#contentNews').keyup(function (){
-	var content = $(this).val();
-	$.get('/jsfilter', {content:content} , function(data) {
-		$('#contentError').remove();    
-
-		$('#contentLabel').html(data);    
 	});
-});
-	
-$(document).ready(function() {
 
-	function content_photo()
+	$("#id-photo-movie").change(movie_photo);
+
+	$('#id_review').keyup(function ()
 	{
-		setTimeout(function() {
-      	$('#photo').children().remove();
-      	
-
-		var img = $(".fileupload-preview img").attr("src");
-
-		if(!img)
+		var content = $(this).val();
+		$.get('/jsfilter', {content:content} , function(data) 
 		{
-			$("#contentLabel").text("");
-        	$("#contentNews").trigger('keyup');
-        	$("#photo").width("0");
-        }
-        else
-        {
-        	$("#photo").append($("#upload").html());
-        	$("#photo img").attr("id","news-photo","float","left");
-        	$("#photo").width("242px");
+			$('#movies-content-error').remove();    
 
-        }
-  	}, 20); 
-	}
+			$('#movies-content-label').html(data);    
+		});
 
-  $("#id_foto").change(content_photo);
+	});
 
-  $(".fileupload-exists").click(content_photo);
 
 </script>
 

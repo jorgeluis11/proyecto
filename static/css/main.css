@@ -114,6 +114,13 @@ img{border:1px black solid;}
 float: left;
 }
 
+#photo-movie
+{
+
+float: left;
+
+}
+
 #news-photo{
 	margin:0 0 6px 0; 
 	width: 232px; 

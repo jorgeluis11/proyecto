@@ -32,13 +32,22 @@ de
         <a id="wrapper-top-article" href="/article/{{article.id}}" >
 		{% if article.type.name == "Quotes"%}
 			<img  src="https://graph.facebook.com/{{article.user_id.facebook_id}}/picture?type=large" style = "float:left;width:160px; height:120px; margin: 0px 4px">  
-			{% else %}
-		{% if article.photo %}
-            <img src="{{MEDIA_URL}}{{article.photo}}" style="float:left; height: 120px; width:160px; margin: 0px 4px" alt="">
-            {% else %}
+			{% elif article.type.name == "Noticias" or article.type.name == "Movies" %}
+				{% if article.photo %}
+	            	<img src="{{MEDIA_URL}}{{article.photo}}" 
+	            	style="float:left; 
+					{% if article.type.name == 'Movies' %}
+	            	height: 211px; width:160px; 
 
-            <img src="{{STATIC_URL}}img/no_image.gif" style="float:left; height: 120px; width:160px; margin: 0px 4px" alt="">
-        {% endif %}
+					{% else %}
+	            	height: 120px; width:160px; 
+					{% endif %}
+	            	margin: 0px 4px" alt="">
+		        {% else %}
+
+		            <img src="{{STATIC_URL}}img/no_image.gif" style="float:left; height: 120px; width:160px; margin: 0px 4px" alt="">
+		        {% endif %}
+		
 		{% endif %}
 
         <span id="search-article-title"style="font-size:20px; text-shadow: 2px 2px 2px black; margin: 0px 0px 0px 0px; padding:0px;">
@@ -51,7 +60,7 @@ de
 	          	{% elif article.type.name == 'Quotes' %}
 					#FF6346;
 					{% elif article.type.name == 'Movies' %}
-					#FF6346;
+					#613DBB;
           	{% endif %}">{{article.type}}</span> - {{article.submit_date|naturaltime }}</span>
           
           

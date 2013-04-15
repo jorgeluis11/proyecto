@@ -70,9 +70,9 @@ def create(request):
                     photo = news_form.cleaned_data['foto']
                     type = Type.objects.get(name="Noticias")
                     category = Category.objects.get(name=category)
-                    print timezone.now()
                     Article(user_id=request.user, type=type, category=category,
                             title=title, content=content, photo=photo, submit_date=timezone.now()).save()
+                    return HttpResponseRedirect("/")  
             elif request.GET["type"] == "quotes":
                 quotes_form = QuoteForm(request.POST)
                 if quotes_form.is_valid():
@@ -82,16 +82,21 @@ def create(request):
                     category = Category.objects.get(name="None")
                     Article(user_id=request.user, category=category, type=type,
                             title=autor, content=frase).save()  
+                    return HttpResponseRedirect("/")  
             elif request.GET["type"] == "movies":
-                movies_form = MovieForm(request.POST)
-                if quotes_form.is_valid():
-                    autor = movies_form.cleaned_data['autor']
+                movies_form = MovieForm(request.POST, request.FILES)
+                print request.POST
+                print request.FILES
+                if movies_form.is_valid():
+                    autor = movies_form.cleaned_data['titulo']
                     frase = movies_form.cleaned_data['review']
+                    photo = movies_form.cleaned_data['foto']
+                    print photo
                     type = Type.objects.get(name="Movies")
                     category = Category.objects.get(name="None")
                     Article(user_id=request.user, category=category, type=type,
-                            title=autor, content=frase).save()  
-                return HttpResponseRedirect("/")  
+                            title=autor, photo=photo, content=frase).save()  
+                    return HttpResponseRedirect("/")  
     data = {
         "news_form": news_form,
         "quotes_form": quotes_form,

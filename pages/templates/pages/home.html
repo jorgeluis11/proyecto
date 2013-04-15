@@ -166,9 +166,9 @@
 				{% endfor %}
 
 				{% for article in recent_movies %}
-				<a href="article/{{article.id}}" class="item recent-wrapper-new" style="height: 168px; background:#613DBB; margin:0px 1px; width:120px;">
+				<a href="article/{{article.id}}" class="item recent-wrapper-new" style="height: 168px; background:#613DBB; margin:0px 1px; width:119px;">
 
-					<div class="span2" style="height: 168px; background:#613DBB; margin:0px 1px; width:120px;">
+					<div class="span2" style="height: 168px; background:#613DBB; margin:0px 1px; width:119px;">
 						<center>
 						<p style="text-shadow: 2px 2px 2px black; height: 20px; padding-top:0px; color:white; padding-bottom:0px;
 						{% if article.title|length < 25 %}
@@ -188,15 +188,15 @@
 						<div class="recent-wrapper-article-link" href="article/{{article.pk}}" style="color:white;">
 							{% if article.photo %}
 
-							<img style= "width: 110px; height: 134px; border:black solid 1px;" src="{{MEDIA_URL}}{{article.photo}}" alt="" />
+								<img style= "width: 105px; height: 134px; border:black solid 1px;" src="{{MEDIA_URL}}{{article.photo}}" alt="" />
 
 							{% else %}
 
-							<img class="span2" style= " width: 100px; height: 94px; border:black solid 1px;" src="{{STATIC_URL}}img/no_image.gif" alt="" />
-					{% endif %}
+								<img style="width: 105px; height: 134px; border:black solid 1px;" src="{{STATIC_URL}}img/no_image.gif" alt="" />
+							{% endif %}
 						</div>
 
-					<div class="recent-wrapper-article-real-link" href="article/{{article.pk}}" style="color:white; display: none; font-size: 13px; height: 168px;">
+					<div class="recent-wrapper-article-real-link" href="article/{{article.pk}}" style="color:white; display: none; font-size: 13px; height: 110px;">
 
 					<p class="paragraph">{{article.content|truncatechars:"160"}}</p>
 					</div>

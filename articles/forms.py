@@ -26,9 +26,9 @@ class QuoteForm(forms.Form):
 
 
 class MovieForm(forms.Form):
-    titulo = forms.CharField(widget=forms.TextInput)
-    review = forms.CharField(widget=forms.Textarea, label="Contenido")
-    foto = forms.ImageField(required=False, widget= forms.ClearableFileInput())
+    titulo = forms.CharField(error_messages={"required":"Titulo Es Requerido"}, widget=forms.TextInput, max_length= 72)
+    review = forms.CharField(error_messages={"required":"Contenido Es Requerido"}, widget=forms.Textarea, label="Contenido")
+    foto = forms.ImageField(required=False, widget=forms.ClearableFileInput(attrs={"id": "id-photo-movie"}))
 
 class ComentaryForm(forms.Form):
     comment = forms.CharField(widget=forms.Textarea(attrs={'height': 2,}),
