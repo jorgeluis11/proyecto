@@ -28,7 +28,7 @@ class QuoteForm(forms.Form):
 class MovieForm(forms.Form):
     titulo = forms.CharField(widget=forms.TextInput)
     review = forms.CharField(widget=forms.Textarea, label="Contenido")
-
+    foto = forms.ImageField(required=False, widget= forms.ClearableFileInput())
 
 class ComentaryForm(forms.Form):
     comment = forms.CharField(widget=forms.Textarea(attrs={'height': 2,}),

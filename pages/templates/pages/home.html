@@ -109,7 +109,7 @@
 					<p style="text-shadow: 2px 2px 2px black; height: 48px; padding-top:0px; color:white;
 					{% if article.title|length < 25 %}
 						font-size: 22px; vertical-align:
-					{% elif article.title|length < 60 %}
+					{% elif article.title|length < 57 %}
 					font-size: 18px; 
 					{% else %}
 					font-size: 15px;
@@ -117,8 +117,8 @@
 					</p>
 					{% endif %}
 					">
-										<strong>{{article.title|slice:"60"|title}}</strong>	
-														</p>
+					<strong>{{article.title|slice:"60"|title}}</strong>	
+								</p>
 			
 
 				</center>
@@ -147,16 +147,63 @@
 
 					<legend style = "margin:4px 0px 2px 0px;"> </legend>
 
-					<p style = "font-size:14px; color:white; text-shadow: 2px 2px 2px black; margin-bottom: -1px;"><img src="https://graph.facebook.com/{{article.user_id.facebook_id}}/picture" class = "img-circle" style = "width:25px; height:25px;">  
+					<span style = "font-size:14px; color:white; text-shadow: 2px 2px 2px black; margin-bottom: -1px;">
+						<img src="https://graph.facebook.com/{{article.user_id.facebook_id}}/picture" class = "img-circle" style = "width:25px; height:25px;">  
 						
 					
 						<span class="created-by">
 						-  {{article.user_id.facebook_name}}
 						</span>
-					</p>	
+
+							<div id="star" class="star pull-right" style="margin-top:5px; " data-score="{{article.rating}}">
+							
+							</div>	
+						
+					</span>	
 				
 				</a>
 
+				{% endfor %}
+
+				{% for article in recent_movies %}
+				<a href="article/{{article.id}}" class="item recent-wrapper-new" style="height: 168px; background:#613DBB; margin:0px 1px; width:120px;">
+
+					<div class="span2" style="height: 168px; background:#613DBB; margin:0px 1px; width:120px;">
+						<center>
+						<p style="text-shadow: 2px 2px 2px black; height: 20px; padding-top:0px; color:white; padding-bottom:0px;
+						{% if article.title|length < 25 %}
+							font-size: 22px; vertical-align:
+						{% elif article.title|length < 60 %}
+						font-size: 17px; 
+						{% else %}
+						font-size: 15px;
+						 <strong>{{article.title|title}}</strong>				
+						</p>
+						{% endif %}
+						">
+						<strong>{{article.title|slice:"60"|title}}</strong>	
+
+						</p>
+
+						<div class="recent-wrapper-article-link" href="article/{{article.pk}}" style="color:white;">
+							{% if article.photo %}
+
+							<img style= "width: 110px; height: 134px; border:black solid 1px;" src="{{MEDIA_URL}}{{article.photo}}" alt="" />
+
+							{% else %}
+
+							<img class="span2" style= " width: 100px; height: 94px; border:black solid 1px;" src="{{STATIC_URL}}img/no_image.gif" alt="" />
+					{% endif %}
+						</div>
+
+					<div class="recent-wrapper-article-real-link" href="article/{{article.pk}}" style="color:white; display: none; font-size: 13px; height: 168px;">
+
+					<p class="paragraph">{{article.content|truncatechars:"160"}}</p>
+					</div>
+					
+					</center>
+					</div>
+				</a>
 				{% endfor %}
 
 			<script type="text/javascript">
@@ -172,10 +219,24 @@
 	</div>			
 </div>
 
-
+<script src="{{STATIC_URL}}js/jquery.raty.js"></script>
 <script type="text/javascript" src="{{STATIC_URL}}js/newsHover.js"></script>
 
 
+<script>
+	
+var star = $('.star').raty({
+    size      :15,
+    starOff   : 'star-off.png',
+    starOn    : 'star-on.png',
+    path      : '{{ STATIC_URL }}img',
+    readOnly    : true,
+    score: function() 
+    {
+    	return $(this).attr('data-score');
+  	}
+});
+</script>
 {% endblock content %}
 
 

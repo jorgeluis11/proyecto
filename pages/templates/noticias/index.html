@@ -13,46 +13,99 @@
 	<div class="row" >
 <div class="container">
 		<div id="news-id-wrapper" class="span8 offset3" style="margin: 0px; padding: 0px; background-color: white; color:black; border:1px solid black;">
-				
-		<div class="span8" style="margin:0px; background-color: #21BB21; ">
+		
+				<!-- if!!! -->
 
-		<ul class="nav nav-tabs" style="color:black; margin: 0px; padding-left: 5px;">
+		<div class="span8" style="margin:0px; 
 
-		{% for category in categories %}
+		{% if article.type.name == "Noticias" %}
+			background-color: #21BB21; ">
+	
 
-			<li class="{% ifequal category article.category %}active{% endifequal %}">
-				<a href="/category/{{category.pk}}/" style="font-size: 15px; text-shadow: 0px 2px 2px #777; ">
-					<strong>{{category}}</strong>	
-</a>
-			</li>
+			<ul class="nav nav-tabs" style="color:black; margin: 0px; padding-left: 5px;">
 
-		{% endfor %}
+			{% for category in categories %}
+
+				<li class="{% ifequal category article.category %}active{% endifequal %}">
+					<a href="/category/{{category.pk}}/" style="font-size: 15px; text-shadow: 0px 2px 2px #777; ">
+						<strong>{{category}}</strong>	
+					</a>
+				</li>
+
+			{% endfor %}
+	{% endif %}
 
 		</ul>
 
 	</div>
 
-  				<div>
-			<center style="background-color: #3F3F3F; color:white;">
-				<span style="font-size: 40px; text-shadow: 0px 2px 3px gray;"><strong>{{article.category}}</strong></span>
+  				<div style="background-color: #3F3F3F;">
+				
+			<center style="background-color: 
+			{% if article.type.name == "Noticias" %}
+				#3F3F3F
+				{%else%}
+				#613DBB
+			{% endif %}
+			 ; color:white;">
+				<span style="font-size: 50px; text-shadow: 2px 2px 2px black; padding-bottom: 2px;"><strong>
+				{% if article.type.name == "Noticias" %}
+						{{article.category}}
+						{% else %}
+						{{article.title}}						
+				{% endif %}
+				</strong></span>
 			</center>
-		</div>
-			<p id="paragraph" style="font-size: 30px; padding-left: 10px; text-shadow: 0px 2px 3px #555"><strong>{{article.title|title}}</strong></p>
 
-
-		  <img src="https://graph.facebook.com/{{article.user_id.facebook_id}}/picture" class = "img-circle" style = "width:25px; height:25px;">  
 			
+
+</div>
+<span id="paragraph" style="font-size: 30px; padding-left: 10px; width:200px; text-shadow: 0px 2px 3px #555">
+				{% if article.type.name == "Noticias" %}
+			
+		
+				<strong>{{article.title|title}}</strong>
+				{% endif %}
+
+				<div  class="pull-right" style="font-size:14px;
+				{% if article.type.name == "Noticias" %}
+					margin-top:15px;
+				{% endif %}
+				">
+<center>
+					{% if rating %}
+						Ya le diste puntuacion
+					{% else %}
+						Puntua el articulo
+					{% endif %}
+					
+					<div id="star" data-score="{{article.rating}}">
+						
+					</div>
+					{{article.user_counting}}
+					</center>
+				</div>
+			</span>
+			<br>
+			
+
+		  <img src="https://graph.facebook.com/{{article.user_id.facebook_id}}/picture" class = "img-circle" style = "width:35px; height:35px; margin-left:8px; margin-bottom:1px; margin-top:2px;">  
+			{% if article.type.name == "Movies" %}
+				
+			{% endif %}
+
 			<span class="created-by">
+
 				-  {{article.user_id.facebook_name}}
 			</span>
-
-<div  class="pull-right">
-			<div id="star" data-score="0"></div><div></div>
-</div>
-			
+<br>
+			<span style="padding-left:10px; ">
+				<strong>Subido el - {{article.submit_date|date:"d-m-Y" }}</strong>
+			</span>
 <hr style="margin-top: 2px; border-color: black;">
 				{% if article.photo %}
-						<img class="span2" id = "news-photo" src="{{MEDIA_URL}}{{article.photo}}" alt="">
+						<img class="span2" id="{% if article.type.name == 'Noticias' %}news-photo{%else %}movies-photo{% endif %}" 
+						src="{{MEDIA_URL}}{{article.photo}}" alt="">
 					{% endif %}
 
 			<p style="padding-right: 20px; padding-left: 5px;">{{article.content|linebreaksbr}}
@@ -109,9 +162,13 @@ var star = $('#star').raty({
     starOn    : 'star-on-big.png',
     path      : '{{ STATIC_URL }}img',
     noRatedMsg  : 'Not rated yet!',
-    readOnly    : false,
+    readOnly    : 
+    {% if rating %}
+	true
+	{% else %}
+	false{% endif %},
     hints       : ['Malo', 'Pobre', 'Regular', 'Bueno', 'Excelente'],
-    click: rated,
+    click: rated,  
     score: function() 
     {
     	return $(this).attr('data-score');
@@ -125,9 +182,13 @@ var star = $('#star').raty({
 	{
 		$(this).find('img').unbind();
 	    // alert('ID: ' + $(this).attr('id') + "\nscore: " + score + "\nevent: " + evt);
-	    $.post('/rating/', {score:score,csrfmiddlewaretoken: '{{ csrf_token }}'}, function(data) 
+	    $.post('/rating/', 
+	    	{rating:score,
+	    	article:{{article.pk}},
+	    	user:{{user.pk}},
+	    	csrfmiddlewaretoken: '{{ csrf_token }}'}, function(data) 
 	    {
-			alert(data);
+	    	location.reload();
 		});
 	    
 	}

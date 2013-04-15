@@ -1,6 +1,6 @@
 # Create your views here.
 from django.views.generic import DetailView
-from .models import Article, Category, Type, ArticleComment
+from .models import Article, Category, Type, ArticleComment, ArticleRating
 from django.shortcuts import render, HttpResponseRedirect, render_to_response
 from articles.forms import NewsForm, QuoteForm, MovieForm, ComentaryForm
 from django.contrib.contenttypes.models import ContentType
@@ -23,11 +23,15 @@ class ArticleDetailView(DetailView):
         context = super(ArticleDetailView, self).get_context_data(**kwargs)
         context['categories'] = Category.objects.all().exclude(name="None").order_by("name")
         context['comentaryform'] = ComentaryForm()
-
+        try:
+            context['rating'] = ArticleRating.objects.get(Article_id=self.object.pk,
+                                                      user_id=self.request.user.pk)
+        except Exception, e:
+            print "No le ha dado puntuacion"
+        
         ct = ContentType.objects.get_for_model(ArticleComment)
         context['comments'] = ArticleComment.objects.filter(content_type=ct,
             object_pk=self.object.pk)
-
         return context
 
 """
@@ -162,4 +166,10 @@ def javascript_filter(request):
 
 
 def rating(request):
+    if request.is_ajax():
+        if request.POST:
+            user = NotasoUser.objects.get(pk=request.POST['user'])
+            article = Article.objects.get(pk=request.POST['article'])
+            rating = request.POST['rating']
+            ArticleRating(user_id=user, Article_id=article, rate=rating).save()
     return HttpResponse("Rated")

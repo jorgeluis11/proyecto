@@ -1,6 +1,7 @@
 from django.contrib import admin
 
-from .models import Article, Type, Category, ArticleComment
+from .models import Article, Type, Category, ArticleComment, ArticleRating
+
 
 
 class ArticleAdmin(admin.ModelAdmin):
@@ -20,7 +21,13 @@ class DeleteNotAllowedModelAdmin(admin.ModelAdmin):
     def has_delete_permission(self, request, obj=None):
         return True
 
+class ArticleRatingAdmin(admin.ModelAdmin):
+    list_display = ('user_id', 'rate', 'Article_id')
+
+
 admin.site.register(Type)
 admin.site.register(Category)
 admin.site.register(Article, ArticleAdmin)
 admin.site.register(ArticleComment, ArticleCommentAdmin)
+admin.site.register(ArticleRating, ArticleRatingAdmin)
+

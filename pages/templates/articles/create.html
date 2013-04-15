@@ -55,21 +55,21 @@
 
 
 
-<div class="fileupload fileupload-new" data-provides="fileupload">
-  <div class="fileupload-new thumbnail" style="width: 200px; height: 150px;">
+					<div class="fileupload fileupload-new" data-provides="fileupload">
+					  <div class="fileupload-new thumbnail" style="width: 200px; height: 150px;">
 
-  	<img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&text=no+image" /></div>
-  <div id='upload'  class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 150px; line-height: 20px;">
-  	
+					  	<img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&text=no+image" /></div>
+					  <div id='upload'  class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 150px; line-height: 20px;">
+					  	
 
-  </div>
-  <div>
-    <span class="btn btn-file"><span class="fileupload-new">Seleccione una imagen</span><span class="fileupload-exists">Cambiar</span>
-	{{news_form.foto}}
-</span>
-    <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Borrar</a>
-  </div>
-</div>
+					  </div>
+					  <div>
+					    <span class="btn btn-file"><span class="fileupload-new">Seleccione una imagen</span><span class="fileupload-exists">Cambiar</span>
+						{{news_form.foto}}
+					</span>
+					    <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Borrar</a>
+					  </div>
+					</div>
 
 					<input class="btn btn-success" type="submit">
 				</form>
@@ -92,7 +92,32 @@
 			<div id="movies-form" class="span2" style="display:none;">
 				<form method="post" action="/create/">
 					{% csrf_token %}
-					{{movies_form.as_table}}
+
+					{{movies_form.titulo.label}}
+					{{movies_form.titulo}}
+
+
+					{{movies_form.review.label}}
+					{{movies_form.review}}
+
+
+					<div class="fileupload fileupload-new" data-provides="fileupload">
+					  <div class="fileupload-new thumbnail" style="width: 200px; height: 150px;">
+
+					  	<img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&text=no+image" /></div>
+					  <div id='upload-movies'  class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 150px; line-height: 20px;">
+					  	
+
+					  </div>
+					  <div>
+					    <span class="btn btn-file"><span class="fileupload-new">Seleccione una imagen</span><span class="fileupload-exists">Cambiar</span>
+						{{news_form.foto}}
+					</span>
+					    <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Borrar</a>
+					  </div>
+					</div>
+
+
 					<input class="btn btn-success" type="submit">
 				</form>
 			</div>
@@ -105,7 +130,7 @@
 			<center style="background-color: #3F3F3F; color:white;">
 				<span style="font-size: 40px; text-shadow: 0px 2px 3px gray;"><strong id="categoryLabel">Categoria</strong></span>
 			</center>
-			<p  style="font-size: 30px; padding-left: 10px; text-shadow: 0px 2px 3px #555">
+			<span  style="font-size: 30px; padding-left: 10px; text-shadow: 0px 2px 3px #555">
 				<strong id="titleLabel">	
 				{% if news_form.titulo.errors %}
 					<div class="alert alert-error" id="titleError" style="font-size: 30px; padding:0; padding-top:5px; margin:0px;">
@@ -116,13 +141,28 @@
 				{% endif %}
 			
 				</strong>
-			</p>
+			</span>
 
+					<div  class="pull-right" style="font-size:14px; margin-top: 0px;">
+					<center>
+						Puntuacion
+					
+					<div id="star" class="star" data-score="0">
+						
+					</div>
+					</center>
+				</div>
+			<br>
 
 		  <img src="https://graph.facebook.com/{{user.facebook_id}}/picture" class = "img-circle" style = "width:25px; height:25px; margin-left: 6px;">  
 			
 			<span class="created-by">
 				-  {{user.facebook_name}}
+			</span>
+
+			<br>
+			<span style="padding-left:10px; ">
+				<strong>Subido el - Dia-Mes-Año</strong>
 			</span>
 			
 <hr style="margin-top: 2px; border-color: black;">
@@ -183,12 +223,80 @@
 			</div>
 
 		</div>
-</div>
-
-</div>
 
 
+
+
+<div class="span8" id="movies-id-wrapper" style=" background-color: white; color:black; border:1px solid black;margin-left:80px; background-color: #white;">
+				
+
+			<center style="background-color: #613DBB; color:white;">
+				<span style="font-size: 40px; text-shadow: 0px 2px 3px gray;"><strong id="categoryLabel">
+					{% if movies_form.titulo.errors %}
+					<div class="alert alert-error" id="titleError" style="font-size: 30px; padding:0; padding-top:5px; margin:0px;">
+						{{movies_form.titulo.errors.as_ul}}
+					</div>
+				{% else %}
+					Titulo
+				{% endif %}
+				</strong></span>
+			</center>
+			<span  style="font-size: 30px; padding-left: 10px; text-shadow: 0px 2px 3px #555">
+				<strong id="titleLabel">	
+				
+			
+				</strong>
+			</span>
+
+					<div  class="pull-right" style="font-size:14px; margin-top: 0px;">
+					<center>
+						Puntuacion
+					<div id="star" class="star" data-score="0">
+					</div>
+					</center>
+				</div>
+			<br>
+
+		  <img src="https://graph.facebook.com/{{user.facebook_id}}/picture" class = "img-circle" style = "width:25px; height:25px; margin-left: 6px;">  
+			
+			<span class="created-by">
+				-  {{user.facebook_name}}
+			</span>
+
+			<br>
+			<span style="padding-left:10px; ">
+				<strong>Subido el - Dia-Mes-Año</strong>
+			</span>
+			
+<hr style="margin-top: 2px; border-color: black;">
+				{% if article.photo %}
+						<img class="span2" style= "margin:0 0 6px 0; width: 220px; max-height: 300px; border:black solid 1px;margin: 0px 5px;" src="{{MEDIA_URL}}{{article.photo}}" alt="">
+					{% endif %}
+<div id="content-wrapper"></div>
+			<div id="photo">
+				<div id="image"> </div>
+			</div>
+			<p style="padding-right: 20px; padding-left: 5px;" id="contentLabel">
+				{% if news_form.contenido.errors %}
+					
+				<div class="alert alert-error"  id="contentError">
+					<h1>
+						<center>
+							{{news_form.contenido.errors}}
+						</center>
+					</h1>
+				</div>
+			{% endif %}
+			</p>
+
+		</div>
 </div>
+
+
+
+
+</div><!-- Row -->
+</div><!-- Container -->
 
 <script>
 
@@ -311,6 +419,139 @@ $(document).ready(function() {
 
 
 
+	$("#titleNews").bind("keyup",function (){
+		var title = $(this).val();
+		$('#titleError').remove();    
+		$("#titleLabel").html(title);
+		
+});
+
+	$('#contentNews').keyup(function (){
+	var content = $(this).val();
+	$.get('/jsfilter', {content:content} , function(data) {
+		$('#contentError').remove();    
+
+		$('#contentLabel').html(data);    
+	});
+});
+	
+$(document).ready(function() {
+
+	function content_photo()
+	{
+		setTimeout(function() {
+      	$('#photo').children().remove();
+      	
+
+		var img = $(".fileupload-preview img").attr("src");
+
+		if(!img)
+		{
+			$("#contentLabel").text("");
+        	$("#contentNews").trigger('keyup');
+        	$("#photo").width("0");
+        }
+        else
+        {
+        	$("#photo").append($("#upload").html());
+        	$("#photo img").attr("id","news-photo","float","left");
+        	$("#photo").width("242px");
+
+        }
+  	}, 20); 
+	}
+
+  $("#id_foto").change(content_photo);
+
+  $(".fileupload-exists").click(content_photo);
+
+  	/****************
+	**Quote events!**
+	*****************/
+
+	$("#id_autor").bind("keyup",function (){
+			var title = $(this).val();
+			// $('#author-label').remove();    
+			$("#author-label").html(title);
+		});
+
+	$("#id_frase").bind("keyup",function (){
+			var title = $(this).val();
+			// $('#author-label').remove();    
+			$("#quote-label").html("“"+title+"”");
+		});
+	});
+
+
+
+
+//Movies event!
+
+	$("#titleNews").bind("keyup",function (){
+		var title = $(this).val();
+		$('#titleError').remove();    
+		$("#titleLabel").html(title);
+		
+});
+
+	$('#contentNews').keyup(function (){
+	var content = $(this).val();
+	$.get('/jsfilter', {content:content} , function(data) {
+		$('#contentError').remove();    
+
+		$('#contentLabel').html(data);    
+	});
+});
+	
+$(document).ready(function() {
+
+	function content_photo()
+	{
+		setTimeout(function() {
+      	$('#photo').children().remove();
+      	
+
+		var img = $(".fileupload-preview img").attr("src");
+
+		if(!img)
+		{
+			$("#contentLabel").text("");
+        	$("#contentNews").trigger('keyup');
+        	$("#photo").width("0");
+        }
+        else
+        {
+        	$("#photo").append($("#upload").html());
+        	$("#photo img").attr("id","news-photo","float","left");
+        	$("#photo").width("242px");
+
+        }
+  	}, 20); 
+	}
+
+  $("#id_foto").change(content_photo);
+
+  $(".fileupload-exists").click(content_photo);
+
+</script>
+
+
+
+<script src="{{STATIC_URL}}js/jquery.raty.js"></script>
+<script>
+
+var star = $('.star').raty({
+    size      :24,
+    starOff   : 'star-off-big.png',
+    starOn    : 'star-on-big.png',
+    path      : '{{ STATIC_URL }}img',
+    readOnly: true,
+    score: function() 
+    {
+    	return $(this).attr('data-score');
+  	}
+
+});
 </script>
 
 {% endblock content %}

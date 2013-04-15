@@ -72,6 +72,25 @@ class Article(models.Model):
     user_rating = models.IntegerField(default=0)
     objects = ArticleManager()
 
+    def rating(self):
+        _rate = self.articlerating_set.all()
+        if len(_rate) == 0:
+            return 0
+        else: 
+            rate = 0
+            for x in _rate:
+                rate += x.rate
+            return round(float(rate)/len(_rate))
+
+    def user_counting(self):
+        _rate = self.articlerating_set.all()
+        if len(_rate) == 0:
+            return "Puntuacion: 0" 
+        rate = 0
+        for x in _rate:
+            rate += x.rate
+        return str(round(float(rate)/len(_rate),1)) + " de " + str(len(_rate)) + " usuarios"
+    
     def percent(self):
         return (float(self.user_rating) / self.user_count) * 20
 
@@ -99,10 +118,10 @@ class ArticleRating(models.Manager):
         return "algo"
 
 class ArticleRating(models.Model):
-    rate = models.IntegerField(max_length=1, blank=True)
+    rate = models.IntegerField()
     user_id = models.ForeignKey(NotasoUser)
     Article_id = models.ForeignKey(Article)
     objects = ArticleRating()
 
     def __unicode__(self):
-        return self.rate
+        return str(self.rate)

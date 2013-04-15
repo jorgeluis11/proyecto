@@ -123,6 +123,15 @@ float: left;
 	margin: 0px 5px;
 }
 
+#movies-photo{
+	margin:0 0 6px 0; 
+	width: 142px; 
+	height: 211px;
+	max-height: 300px; 
+	border:black solid 1px;
+	margin: 0px 5px;
+}
+
 ul.nav li a
 {
 	color:white;
@@ -151,6 +160,12 @@ ul.nav li.active a:hover
 
 
 #news-id-wrapper
+{
+	min-height: 548px;
+}
+
+
+#movies-id-wrapper
 {
 	min-height: 548px;
 }
@@ -198,9 +213,10 @@ ul.nav li.active a:hover
 	list-style-type: none;
 }
 
-
-
-
+.star img
+{
+	border: none;
+}
 
 #star img
 {

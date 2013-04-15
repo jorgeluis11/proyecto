@@ -23,11 +23,14 @@ def home(request):
     popular_articles = Article.objects.top(limit=15)
     recent_quotes = Article.objects.filter(type__name="Quotes").order_by('-submit_date')[:3]
     recent_news = Article.objects.filter(type__name="Noticias").order_by('-submit_date')[:4]
+    recent_movies = Article.objects.filter(type__name="Movies").order_by('-submit_date')[:6]
 
+    
     data = {
         'popular_articles': popular_articles,
         'recent_quotes': recent_quotes,
         'recent_news': recent_news,
+        'recent_movies': recent_movies
     }
     return render(request, 'pages/home.html', data)
 
