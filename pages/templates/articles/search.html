@@ -64,14 +64,19 @@ de
           	{% endif %}">{{article.type}}</span> - {{article.submit_date|naturaltime }}</span>
           
           
-          <p class="paragraph" style="color:white; margin: 0px; height: 80px; font-size: 15px;">
+          <p class="paragraph" style="color:white; margin: 0px; height: 80px; font-size: 16px;">
               {% if article.type.name == "Quotes" %}
               		<span class="ultra" style="font-size:36px; margin-left:5px;">“{{article.content|truncatechars:90}}”</span>
-              	{% else %}
-              		{{article.content|truncatechars:300}}
+              	{% elif article.type.name == "Noticias" %}
+              		{{article.content|truncatechars:270}}
+              		{% else %}
+              			{{article.content|truncatechars:900}}
               {% endif %}
 
           </p>
+
+
+
 
         </a>
     </div>

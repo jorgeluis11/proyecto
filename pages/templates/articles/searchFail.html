@@ -32,53 +32,151 @@
 			<div style="margin-left: 5px; height: 181px;">
 				
 		
-				{% for noticia in articles %}
-			
-				<a href="/article/{{noticia.id}}" class="item recent-wrapper-new search-fail-wrapper" style=" background-color:#21BB21; margin: 8px 1px 1px 0px; padding: 8px 7px 5px 7px; text-decoration: none; width: 157px; heigth:130px;">
+			{% for article in articles %}
+
+
+				{% if article.type.name == "Noticias" %}
+					
+				<a href="/article/{{article.id}}" class="item recent-wrapper-new search-fail-wrapper" style=" background-color:#21BB21; margin: 8px 1px 1px 0px; padding: 8px 7px 5px 7px; text-decoration: none; width: 157px; heigth:130px;">
 				<center>
 					<p style="text-shadow: 2px 2px 2px black; height: 48px; padding-top:0px; color:white;
-					{% if noticia.title|length < 25 %}
+					{% if article.title|length < 25 %}
 						font-size: 20px; vertical-align:
-					{% elif article.title|length < 60 %}
-					font-size: 18px; 
+					{% elif article.title|length < 58 %}
+					font-size: 14px; 
 					{% else %}
-					font-size: 14px;
+					font-size: 12px;
 					 <strong>{{article.title|title}}</strong>				
 					</p>
 					{% endif %}
 					">
-					<strong>{{noticia.title|slice:"60"|title}}</strong>	
+					<strong>{{article.title|slice:"60"|title}}</strong>	
 														</p>
 			
 
 
 				</center>
-					<div class="recent-wrapper-article-link" href="/article/{{noticia.pk}}" style="color:white;">
+
+					<div class="recent-wrapper-article-link" href="/article/{{article.pk}}" style="color:white;">
 
 					<center>	
 
 
 				<!-- This code determine the font-size of the title depending on the lenght of the title -->
-					{% if noticia.photo %}
-						<img class="span2" style= "margin:0 0 6px 0; width: 160px; height: 94px; border:black solid 1px;" src="{{MEDIA_URL}}{{noticia.photo}}" alt="">
+					{% if article.photo %}
+						<img class="span2" style= "margin:0 0 6px 0; width: 160px; height: 94px; border:black solid 1px;" src="{{MEDIA_URL}}{{article.photo}}" alt="">
 						{% else %}
 
-				<img class="span2" style= "margin:0 0 6px 0; width: 160px; height: 94px; border:black solid 1px;" src="{{STATIC_URL}}img/no_image.gif" alt="">
+						<img class="span2" style= "margin:0 0 6px 0; width: 160px; height: 94px; border:black solid 1px;" src="{{STATIC_URL}}img/no_image.gif" alt="">
 					{% endif %}
-				</center>
-			</div>
+					</center>
+				</div>
 
 					
-					<div class="recent-wrapper-article-real-link" href="/noticia/{{noticia.pk}}" style="color:white; display: none; font-size: 14px; height: 68px;">
+					<div class="recent-wrapper-article-real-link" href="/noticia/{{article.pk}}" style="color:white; display: none; font-size: 14px; height: 68px;">
 
-					<p class="paragraph">{{noticia.content|truncatechars:"120"}}</p>
+					<p class="paragraph">{{article.content|truncatechars:"120"}}</p>
 
 
 					</div>	
 				
 
 				</a>
+				{% endif %}
+
+
+
+				
+				{% if article.type.name == "Quotes" %}
+					
+				<a href="/article/{{article.id}}" class="item recent-wrapper-new search-fail-wrapper" style=" background-color:#FF6346; margin: 8px 1px 1px 0px; padding: 8px 7px 5px 7px; text-decoration: none; width: 157px; heigth:130px;">
+				<center>
+					<p style="text-shadow: 2px 2px 2px black; height: 20px; padding-top:0px; color:white;
+					{% if article.title|length < 25 %}
+						font-size: 20px; vertical-align:
+					{% elif article.title|length < 58 %}
+					font-size: 14px; 
+					{% else %}
+					font-size: 12px;
+					 <strong>{{article.title|title}}</strong>				
+					</p>
+					{% endif %}
+					">
+					<strong>{{article.title|slice:"60"|title}}</strong>	
+
+					<div class="recent-wrapper-article-link" 
+					href="article/{{article.pk}}" style="color:white;">
+						<p class="paragraph" style="font-size:17px; color:white;">
+						“{{article.content|truncatechars:'100'}}” 
+						  </p>	
+						  </div>				
+					</p>
+
+					<div class="recent-wrapper-article-real-link" href="/noticia/{{article.pk}}" style="color:white; display: none; font-size: 14px; height: 68px;">
+
+						<center>
+							<span style="font-size:20px;">	<strong>Citado por</strong> </span><br>
+						<img src="https://graph.facebook.com/{{user.facebook_id}}/picture?type=large" class="img-circle" style="width:70px; height:70px; margin-left: 10px;">
+						<br>
+						<h3 style="margin-top:0px">{{user.facebook_name|slice:":13"}} 
+						</h3>
+					</center>
+
+
+					</div>	
+				</center>
+				
+				</a>
+				{% endif %}
+
+
+
+
+          
+					{% if article.type.name == "Movies" %}
+
+					<a href="article/{{article.id}}" class="item recent-wrapper-new" style="height: 168px; background:#613DBB; margin:8px 1px 1px 0px; width:110px;">
+
+					
+						<center>
+						<p style="text-shadow: 2px 2px 2px black; height: 20px; padding-top:0px; color:white; padding-bottom:0px;
+						{% if article.title|length < 25 %}
+							font-size: 22px; vertical-align:
+						{% elif article.title|length < 60 %}
+						font-size: 17px; 
+						{% else %}
+						font-size: 15px;
+						 <strong>{{article.title|title}}</strong>				
+						</p>
+						{% endif %}
+						">
+						<strong>{{article.title|slice:"60"|title}}</strong>	
+
+						</p>
+
+						<div class="recent-wrapper-article-link" href="article/{{article.pk}}" style="color:white;">
+							{% if article.photo %}
+
+								<img style= "width: 105px; height: 134px; border:black solid 1px;" src="{{MEDIA_URL}}{{article.photo}}" alt="" />
+
+							{% else %}
+
+								<img style="width: 105px; height: 134px; border:black solid 1px;" src="{{STATIC_URL}}img/no_image.gif" alt="" />
+
+							{% endif %}
+							</center>
+
+					
+						<div class="recent-wrapper-article-real-link" href="/noticia/{{article.pk}}" style="color:white; display: none; font-size: 14px; height: 68px;">
+
+						<p class="paragraph">
+							<center>{{article.content|truncatechars:"120"}}</center></p>
+						</div>	
+						{% endif %}
+
+
 				{% endfor %}
+
 				{% for user in users %}
 					<div class="span2" style="width:150px; margin-left:12px; margin-top: 5px;">
 					<center>
@@ -90,7 +188,8 @@
 					</div>
 
 				{% endfor %}
-				
+				</a>
+			</div>
 					</div>
 			</div>
 	</div>

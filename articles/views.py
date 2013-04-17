@@ -126,7 +126,7 @@ def search(request):
                 usuario = NotasoUser.objects.get(facebook_name__contains=q)
                 data = {
                     'usuario': usuario,
-                    'articles': usuario.article_set.all().order_by("?")[:5]
+                    'articles': usuario.article_set.all().order_by("?")[:6]
                 }
                 return render(request,"articles/search.html", data)
             except:
