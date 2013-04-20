@@ -35,7 +35,7 @@ DATABASES = {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
         "NAME": "tesina",
         "USER": "postgres",
-        "PASSWORD": "123abc",
+        "PASSWORD": "1234",
         "HOST": "",
         "PORT": "",
     }
@@ -64,10 +64,6 @@ DEBUG_TOOLBAR_CONFIG = {
 # )
 ########## END TOOLBAR CONFIGURATION
 
-import dj_database_url
+# import dj_database_url
 
-DATABASES = {'default': dj_database_url.config(default='postgres://localhost')}
-
-
-
-# DATABASES = {'default': dj_database_url.config(default=os.environ.get('DATABASE_URL'))}
+# DATABASES = {'default': dj_database_url.config(default='postgres://localhost')}

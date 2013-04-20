@@ -1,2 +1,2 @@
-web: gunicorn tesina.wsgi
+web: gunicorn sockets.wsgi
 

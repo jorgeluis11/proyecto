@@ -1,305 +1,294 @@
 {% extends "base.html" %}
 
 {% block javascript %}
-<script src="{{STATIC_URL}}js/bootstrap-fileupload.js"> 
-	
-</script>
+	<script src="{{STATIC_URL}}js/bootstrap-fileupload.js"> 	
+	</script>
 {% endblock javascript %}
 
 {% block stylesheet %}
 	<link rel="stylesheet" href="{{STATIC_URL}}css/bootstrap-fileupload.css">
 {% endblock stylesheet %}
 
-
-    {% block title %}
-        Home
-    {% endblock title %}
+{% block title %}
+	Home
+{% endblock title %}
 
 {% block content %}
 
-
 <br>
 <div class="container">
-	
 	<div class="row">
 		<div class="span12" style="background-color: #222; min-height:500px;">
 			<div class="span3">
-			<div style="margin-left: 30px; margin-top:10px; margin-bottom:4px;"> Tipo de Articulo:
-				<div class="btn-group" data-toggle="buttons-radio">
-				  <button id="news" type="button" class="btn btn-info active">Noticia</button>
-				  <button id="quotes" type="button" class="btn btn-info">Frase</button>
-				  <button id="movies" type="button" class="btn btn-info">Pelicula</button>
-				</div> 
-			</div>
-			
-			<div id="news-form"  class="span2">
-				<form enctype="multipart/form-data" method="post" action="/create/?type=news" >
-					{% csrf_token %}
-
-
-					{{news_form.categoria.label}}
-					{{news_form.categoria}}
-
-
-					{{news_form.titulo.label}}
-					{{news_form.titulo}}
-
-
-					{{news_form.contenido.label}}
-					{{news_form.contenido}}
-
-
-					{{news_form.foto.label}}
-
-
-
-
-
-					<div class="fileupload fileupload-new" data-provides="fileupload">
-					  <div class="fileupload-new thumbnail" style="width: 200px; height: 150px;">
-
-					  	<img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&text=no+image" /></div>
-					  <div id='upload'  class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 150px; line-height: 20px;">
-					  	
-
-					  </div>
-					  <div>
-					    <span class="btn btn-file"><span class="fileupload-new">Seleccione una imagen</span><span class="fileupload-exists">Cambiar</span>
-						{{news_form.foto}}
-					</span>
-					    <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Borrar</a>
-					  </div>
-					</div>
-
-					<input class="btn btn-success" type="submit">
-				</form>
-			</div>
-
-			<div id="quotes-form" class="span2" style="display:none;">
-				<form method="post" action="/create/?type=quotes">
-					{% csrf_token %}
-					
-
-
-					{{quotes_form.frase.label}}
-					{{quotes_form.frase}}
-
-					{{quotes_form.autor.label}}
-					{{quotes_form.autor}}
-
-					<input class="btn btn-success" type="submit">
-				</form>
-			</div>
-
-			<div id="movies-form" class="span2" style="display:none;">
-				<form method="post" enctype="multipart/form-data"  action="/create/?type=movies">
-					{% csrf_token %}
-
-					{{movies_form.titulo.label}}
-					{{movies_form.titulo}}
-
-
-					{{movies_form.review.label}}
-					{{movies_form.review}}
-
-
-					<div class="fileupload fileupload-new" data-provides="fileupload">
-					  <div class="fileupload-new thumbnail" style="width: 200px; height: 150px;">
-
-					  	<img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&text=no+image" /></div>
-					  <div id='upload-movies'  class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 150px; line-height: 20px;">
-					  	
-					  </div>
-					  <div>
-					    <span class="btn btn-file"><span class="fileupload-new">Seleccione una imagen</span><span class="fileupload-exists">Cambiar</span>
-						{{movies_form.foto}}
-					</span>
-					    <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Borrar</a>
-					  </div>
-					</div>
-
-					<input class="btn btn-success" type="submit">
-				</form>
-			</div>
-		</div>
-
-
-		<div class="span8" id="news-id-wrapper" style=" background-color: white; color:black; border:1px solid black;margin-left:80px; background-color: #white;">
-				
-
-			<center style="background-color: #3F3F3F; color:white;">
-				<span style="font-size: 40px; text-shadow: 0px 2px 3px gray;"><strong id="categoryLabel">Categoria</strong></span>
-			</center>
-			<span  style="font-size: 30px; padding-left: 10px; text-shadow: 0px 2px 3px #555">
-				<strong id="titleLabel">	
-				{% if news_form.titulo.errors %}
-					<div class="alert alert-error" id="titleError" style="font-size: 30px; padding:0; padding-top:5px; margin:0px;">
-						{{news_form.titulo.errors.as_ul}}
-					</div>
-				{% else %}
-					Titulo
-				{% endif %}
-			
-				</strong>
-			</span>
-
-					<div  class="pull-right" style="font-size:14px; margin-top: 0px;">
-					<center>
-						Puntuacion
-					
-					<div id="star" class="star" data-score="0">
-						
-					</div>
-					</center>
+				<div style="margin-left: 30px; margin-top:10px; margin-bottom:4px;"> Tipo de Articulo:
+					<div class="btn-group" data-toggle="buttons-radio">
+						<button id="news" type="button" class="btn btn-info active">Noticia</button>
+						<button id="quotes" type="button" class="btn btn-info">Frase</button>
+						<button id="movies" type="button" class="btn btn-info">Pelicula</button>
+					</div> 
 				</div>
-			<br>
+				<div id="news-form"  class="span2">
+					<!-- News Form -->
+					<form enctype="multipart/form-data" method="post" action="/create/?type=news" >
+						{% csrf_token %}
+						{{news_form.categoria.label}}
+						{{news_form.categoria}}
+						
+						{{news_form.titulo.label}}
+						{{news_form.titulo}}
+						
+						{{news_form.contenido.label}}
+						{{news_form.contenido}}
+						
+						{{news_form.foto.label}}
 
-		  <img src="https://graph.facebook.com/{{user.facebook_id}}/picture" class = "img-circle" style = "width:25px; height:25px; margin-left: 6px;">  
-			
-			<span class="created-by">
-				-  {{user.facebook_name}}
-			</span>
+						<div class="fileupload fileupload-new" data-provides="fileupload">
+							<div class="fileupload-new thumbnail" style="width: 200px; height: 150px;">
+								<img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&text=no+image" />
+							</div>
+							<div id='upload'  class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 150px; line-height: 20px;">
+							</div>	
+							<div>
+								<span class="btn btn-file">
+									<span class="fileupload-new">
+										Seleccione una imagen
+									</span>
+									<span class="fileupload-exists">
+										Cambiar
+									</span>
+									{{news_form.foto}}
+								</span>
+								<a href="#" class="btn fileupload-exists" data-dismiss="fileupload">
+									Borrar
+								</a>
+							</div>
+						</div>
+						<input class="btn btn-success" type="submit">
+					</form>
+				</div>
+				<!-- End News Form -->
 
-			<br>
-			<span style="padding-left:10px; ">
-				<strong>Subido el - Dia-Mes-Año</strong>
-			</span>
-			
-<hr style="margin-top: 2px; border-color: black;">
-				{% if article.photo %}
+				<!-- Quote Form -->
+				<div id="quotes-form" class="span2" style="display:none;">
+					<form method="post" action="/create/?type=quotes">
+						{% csrf_token %}
+						{{quotes_form.frase.label}}
+						{{quotes_form.frase}}
+
+						{{quotes_form.autor.label}}
+						{{quotes_form.autor}}
+
+						<input class="btn btn-success" type="submit">
+					</form>
+				</div>
+				<!-- End Quote Form -->
+
+				<!-- Movie Form -->
+				<div id="movies-form" class="span2" style="display:none;">
+					<form method="post" enctype="multipart/form-data"  action="/create/?type=movies">
+						{% csrf_token %}
+
+						{{movies_form.titulo.label}}
+						{{movies_form.titulo}}
+
+
+						{{movies_form.review.label}}
+						{{movies_form.review}}
+
+
+						<div class="fileupload fileupload-new" data-provides="fileupload">
+							<div class="fileupload-new thumbnail" style="width: 200px; height: 150px;">
+								<img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&text=no+image" /></div>
+								<div id='upload-movies'  class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 150px; line-height: 20px;">
+								</div>
+								<div>
+									<span class="btn btn-file">
+										<span class="fileupload-new">
+											Seleccione una imagen
+										</span>
+										<span class="fileupload-exists">
+											Cambiar
+										</span>
+										{{movies_form.foto}}
+									</span>
+									<a href="#" class="btn fileupload-exists" data-dismiss="fileupload">
+										Borrar
+									</a>
+								</div>
+							</div>
+							<input class="btn btn-success" type="submit">
+						</form>
+					</div>
+				</div>
+
+				<!-- Create Quote-->
+				<div class="span8" id="news-id-wrapper" style=" background-color: white; color:black; border:1px solid black;margin-left:80px; background-color: #white;">
+					<center style="background-color: #3F3F3F; color:white; height: 45px;">
+						<div style="font-size: 40px; text-shadow: 0px 2px 3px gray; padding-top:10px;">
+							<strong id="categoryLabel">
+								Categoria
+							</strong>
+						</div>
+					</center>
+					<div  style="font-size: 30px; padding-left: 10px; text-shadow: 0px 2px 3px #555; margin-top:10px;">
+						<strong id="titleLabel" style="margin-top:20px;">
+							{% if news_form.titulo.errors %}
+								<div class="alert alert-error" id="titleError" style="font-size: 30px; padding-top:5px; margin:0px;">
+									{{news_form.titulo.errors.as_ul}}
+								</div>
+							{% else %}
+								Titulo
+							{% endif %}
+						</strong>
+					</div>
+					<div  class="pull-right" style="font-size:14px; margin-top: 0px;">
+						<center>
+							Puntuacion
+							<div id="star" class="star" data-score="0">
+							</div>
+						</center>
+					</div>
+					<br>
+					<img src="https://graph.facebook.com/{{user.facebook_id}}/picture" class = "img-circle" style = "width:25px; height:25px; margin-left: 6px;">  
+
+					<span class="created-by">
+						-  {{user.facebook_name}}
+					</span>
+					<br>
+					<span style="padding-left:10px; ">
+						<strong>
+							Subido el - Dia-Mes-Año
+						</strong>
+					</span>
+					<hr style="margin-top: 2px; border-color: black;">
+					{% if article.photo %}
 						<img class="span2" style= "margin:0 0 6px 0; width: 220px; max-height: 300px; border:black solid 1px;margin: 0px 5px;" src="{{MEDIA_URL}}{{article.photo}}" alt="">
 					{% endif %}
-<div id="content-wrapper"></div>
-			<div id="photo">
-				<div id="image"> </div>
-			</div>
-			<p style="padding-right: 20px; padding-left: 5px;" id="contentLabel">
-				{% if news_form.contenido.errors %}
-					
-				<div class="alert alert-error"  id="contentError">
-					<h1>
-						<center>
-							{{news_form.contenido.errors}}
-						</center>
-					</h1>
+					<div id="content-wrapper">
+					</div>
+					<div id="photo">
+						<div id="image"> 
+						</div>
+					</div>
+					<p style="padding-right: 20px; padding-left: 5px;" id="contentLabel">
+						{% if news_form.contenido.errors %}
+							<div class="alert alert-error"  id="contentError">
+								<h1>
+									<center>
+										{{news_form.contenido.errors}}
+									</center>
+								</h1>
+							</div>
+						{% endif %}
+					</p>
 				</div>
-			{% endif %}
-			</p>
+				<!-- End Create News-->
 
-		</div>
-
-<div id ="quotes-id-wrapper" class="span8" style="display:none;">
-
+				<div id ="quotes-id-wrapper" class="span8" style="display:none;">
 					<div class="alert alert-error" id="titleError" style="font-size: 36px; padding:0; padding-top:2px; margin:6px; height:90px; 				
 					{% if not quotes_form.errors %}
 						visibility:hidden;
-						{% else %}
+					{% else %}
 						visibility: block;
 					{% endif %}">
 					<center>
-						<div style="margin-bottom:2px">{{quotes_form.autor.errors.as_text}}</div>
-
+						<div style="margin-bottom:2px">
+							{{quotes_form.autor.errors.as_text}}
+						</div>
 						{{quotes_form.frase.errors.as_text}}
 					</center>
-					</div>
-				<div  style="background-color:#FF6346; margin:0; padding-top:10px;   border-radius: 10px;
-				">
-				  <!-- Carousel items -->
+				</div>
+				<div  style="background-color:#FF6346; margin:0; padding-top:10px;   border-radius: 10px;">
+					<!-- Carousel items -->
 					<center>
 						<blockquote style="border:0; padding: 0px;">
-						  <p id="quote-label" class="paragraph" style="font-size:30px;">“Frase” 
-						  </p>
-						  <small style="color:white;"><span id="author-label">Autor</span>	 
-						  	Citado por 
-
-							<img class="img-circle" width="34" height="30" src="https://graph.facebook.com/{{user.facebook_id}}/picture">
-								
+							<p id="quote-label" class="paragraph" style="font-size:30px;">
+								“Frase” 
+							</p>
+							<small style="color:white;">
+								<span id="author-label">
+									Autor
+								</span>	 
+									Citado por 
+								<img class="img-circle" width="34" height="30" src="https://graph.facebook.com/{{user.facebook_id}}/picture">
 								<span class="badge badge-inverse">
 									Jorge Luis
 								</span>
-						</small>
+							</small>
 						</blockquote>
 					</center>
+				</div>
 			</div>
+			<!-- End Create Quote-->
 
-		</div>
-
-
-
-
-<div class="span8" id="movies-id-wrapper" style=" background-color: white; color:black; border:1px solid black;margin-left:80px; background-color: #white; display: none;">
-				
-
-			<center style="background-color: #613DBB; color:white;">
-				<span style="font-size: 40px; text-shadow: 0px 2px 3px gray;"><strong id="movie-title-label">
-					{% if movies_form.titulo.errors %}
-					<div class="alert alert-error" id="movies-title-error" style="font-size: 30px; padding:0; padding-top:5px; margin:0px;">
-						{{movies_form.titulo.errors.as_ul}}
+			<!-- Create Movies-->
+			<div class="span8" id="movies-id-wrapper" style=" background-color: white; color:black; border:1px solid black;margin-left:80px; background-color: #white; display: none;">
+				<center style="background-color: #613DBB; color:white;">
+					<div style="font-size: 40px; text-shadow: 0px 2px 3px gray; height:50px;">
+						<div style="padding-top: 20px;">
+						<strong id="movie-title-label" style="padding-top:20px;">
+							
+								{% if movies_form.titulo.errors %}
+									<div class="alert alert-error" id="movies-title-error" style="font-size: 30px; padding:0; padding-top:20px; margin:0px;">
+										{{movies_form.titulo.errors.as_ul}}
+									</div>
+								{% else %}
+										Titulo
+								{% endif %}
+						</strong>
+						</div>
 					</div>
-				{% else %}
-					Titulo
-				{% endif %}
-				</strong></span>
-			</center>
-			<span  style="font-size: 30px; padding-left: 10px; text-shadow: 0px 2px 3px #555">
-				<strong id="movies-title-label">	
-				
-			
-				</strong>
-			</span>
+				</center>
+				<span  style="font-size: 30px; padding-left: 10px; text-shadow: 0px 2px 3px #555">
+					<strong id="movies-title-label">	
+					</strong>
+				</span>
 
-					<div  class="pull-right" style="font-size:14px; margin-top: 0px;">
+				<div  class="pull-right" style="font-size:14px; margin-top: 0px;">
 					<center>
 						Puntuacion
-					<div id="star" class="star" data-score="0">
-					</div>
+						<div id="star" class="star" data-score="0">
+						</div>
 					</center>
 				</div>
-			<br>
+				<br>
+				<img src="https://graph.facebook.com/{{user.facebook_id}}/picture" class = "img-circle" style = "width:25px; height:25px; margin-left: 6px;">  
 
-		  <img src="https://graph.facebook.com/{{user.facebook_id}}/picture" class = "img-circle" style = "width:25px; height:25px; margin-left: 6px;">  
-			
-			<span class="created-by">
-				-  {{user.facebook_name}}
-			</span>
+				<span class="created-by">
+					-  {{user.facebook_name}}
+				</span>
+				<br>
+				<span style="padding-left:10px; ">
+					<strong>
+						Subido el - Dia-Mes-Año
+					</strong>
+				</span>
 
-			<br>
-			<span style="padding-left:10px; ">
-				<strong>Subido el - Dia-Mes-Año</strong>
-			</span>
-			
-<hr style="margin-top: 2px; border-color: black;">
+				<hr style="margin-top: 2px; border-color: black;">
 				{% if article.photo %}
-						<img class="span2" style= "margin:0 0 6px 0; width: 220px; max-height: 300px; border:black solid 1px;margin: 0px 5px;" src="{{MEDIA_URL}}{{article.photo}}" alt="">
-					{% endif %}
-<div id="content-wrapper"></div>
-			<div id="photo-movie">
-				<div id="image"> </div>
-			</div>
-			<p style="padding-right: 20px; padding-left: 5px;" id="movies-content-label">
-				{% if movies_form.review.errors %}
-					
-				<div class="alert alert-error"  id="movies-content-error">
-					<h1>
-						<center>
-							{{movies_form.review.errors}}
-						</center>
-					</h1>
+					<img class="span2" style= "margin:0 0 6px 0; width: 220px; max-height: 300px; border:black solid 1px;margin: 0px 5px;" src="{{MEDIA_URL}}{{article.photo}}" alt="">
+				{% endif %}
+				<div id="content-wrapper"></div>
+				<div id="photo-movie">
+					<div id="image"> </div>
 				</div>
-			{% endif %}
-			</p>
-
+				<p style="padding-right: 20px; padding-left: 5px;" id="movies-content-label">
+					{% if movies_form.review.errors %}
+						<div class="alert alert-error"  id="movies-content-error">
+							<h1>
+								<center>
+									{{movies_form.review.errors}}
+								</center>
+							</h1>
+						</div>
+					{% endif %}
+				</p>
+			</div>
 		</div>
-</div>
-
-
-
-
-</div><!-- Row -->
+	</div><!-- Row -->
 </div><!-- Container -->
 
 <script>
-
 	$("#news").click(function(){
 		$("#news-form").show();
 		$("#news-id-wrapper").show();
@@ -311,8 +300,6 @@
 		$("#news").addClass("active");
 		$("#quotes-id-wrapper").hide();
 		$("#movies-id-wrapper").hide();
-
-
 	});
 
 	$("#quotes").click(function(){
@@ -338,121 +325,112 @@
 		$("#movies").addClass("active");
 		$("#news").removeClass("active");
 		$("#movies-id-wrapper").show();
-
-
 	});
+</script>
 
-
-
-	</script>
-
-	<script>
-
-
-
+<script>
 
 	$("#categoryLabel").text($('select[name=categoria] option:selected').text());
-			
-$("#id_categoria").change(function (){
-	$("#categoryLabel").text($('select[name=categoria] option:selected').text());
+
+	$("#id_categoria").change(function ()
+	{
+		$("#categoryLabel").text($('select[name=categoria] option:selected').text());
 	});
 
-	$("#titleNews").bind("keyup",function (){
+	$("#titleNews").bind("keyup",function ()
+	{
 		var title = $(this).val();
 		$('#titleError').remove();    
 		$("#titleLabel").html(title);
-		
-		});
-
-	$('#contentNews').keyup(function (){
-	var content = $(this).val();
-	$.get('/jsfilter', {content:content} , function(data) {
-		$('#contentError').remove();    
-
-		$('#contentLabel').html(data);    
 	});
 
-});
-	
-$(document).ready(function() {
-	function content_photo()
+	$('#contentNews').keyup(function ()
 	{
-		setTimeout(function() {
-      	$('#photo').children().remove();
-      	
-
-		var img = $(".fileupload-preview img").attr("src");
-
-		if(!img)
+		var content = $(this).val();
+		$.get('/jsfilter', {content:content} , function(data) 
 		{
-			$("#contentLabel").text("");
-        	$("#contentNews").trigger('keyup');
-        	$("#photo").width("0");
-        }
-        else
-        {
-        	$("#photo").append($("#upload").html());
-        	$("#photo img").attr("id","news-photo","float","left");
-        	$("#photo").width("242px");
+			$('#contentError').remove();    
 
-        }
-  	}, 20); 
-	}
+			$('#contentLabel').html(data);    
+		});
 
-  $("#id_foto").change(content_photo);
+	});
 
-  $(".fileupload-exists").click(content_photo);
+	
+		function content_photo()
+		{
+			setTimeout(function() 
+			{
+				$('#photo').children().remove();
+				var img = $(".fileupload-preview img").attr("src");
 
-  	/****************
-	**Quote events!**
-	*****************/
+				if(!img)
+				{
+					$("#contentLabel").text("");
+					$("#contentNews").trigger('keyup');
+					$("#photo").width("0");
+				}
+				else
+				{
+					$("#photo").append($("#upload").html());
+					$("#photo img").attr("id","news-photo","float","left");
+					$("#photo").width("242px");
 
-	$("#id_autor").bind("keyup",function (){
+				}
+			}, 20); 
+		}
+
+		$("#id_foto").change(content_photo);
+		$(".fileupload-exists").click(content_photo);
+
+	  	/****************
+		**Quote events!**
+		*****************/
+
+		$("#id_autor").bind("keyup",function ()
+		{
 			var title = $(this).val();
 			// $('#author-label').remove();    
 			$("#author-label").html(title);
 		});
 
-	$("#id_frase").bind("keyup",function (){
+		$("#id_frase").bind("keyup",function ()
+		{
 			var title = $(this).val();
-			// $('#author-label').remove();    
-			$("#quote-label").html("“"+title+"”");
+				// $('#author-label').remove();    
+				$("#quote-label").html("“"+title+"”");
 		});
-	});
+	
 
 //Movies
 
-function movie_photo()
+	function movie_photo()
 	{
-
 		setTimeout(function() {
+			$('#photo-movie').children().remove();
 
-      	$('#photo-movie').children().remove();
-      	
-      	
-		var img = $("#upload-movies img").attr("src");
-		if(!img)
-		{
-			$("#movies-content-label").text("");
-        	$("#id_review").trigger('keyup');
-        	$("#photo-movie").width("0");
-        }
-        else
-        {
-
-        	$("#photo-movie").append($("#upload-movies").html());
-        	$("#photo-movie img").attr("id","movies-photo","float","left");
-        	$("#photo-movie").width("152px");
-        	$("#photo-movie img").attr("style", "max-height: 211px");
-        }
-  	}, 20); 
+			var img = $("#upload-movies img").attr("src");
+			if(!img)
+			{
+				$("#movies-content-label").text("");
+				$("#id_review").trigger('keyup');
+				$("#photo-movie").width("0");
+			}
+			else
+			{
+				$("#photo-movie").append($("#upload-movies").html());
+				$("#photo-movie img").attr("id","movies-photo","float","left");
+				$("#photo-movie").width("152px");
+				$("#photo-movie img").attr("style", "max-height: 211px");
+			}
+		}, 20); 
 	}
 
-	$("#id_titulo").bind("keyup",function (){
+	$("#id_titulo").bind("keyup",function ()
+	{
 		var title = $(this).val();
 		$('#movie-title-error').remove();    
 		$("#movie-title-label").html(title);
-		
 	});
 
 	$("#id-photo-movie").change(movie_photo);
@@ -468,27 +446,24 @@ function movie_photo()
 		});
 
 	});
-
-
 </script>
 
-
-
 <script src="{{STATIC_URL}}js/jquery.raty.js"></script>
+
 <script>
+	var star = $('.star').raty(
+	{
+		size      :24,
+		starOff   : 'star-off-big.png',
+		starOn    : 'star-on-big.png',
+		path      : '{{ STATIC_URL }}img',
+		readOnly: true,
+		score: function() 
+		{
+			return $(this).attr('data-score');
+		}
 
-var star = $('.star').raty({
-    size      :24,
-    starOff   : 'star-off-big.png',
-    starOn    : 'star-on-big.png',
-    path      : '{{ STATIC_URL }}img',
-    readOnly: true,
-    score: function() 
-    {
-    	return $(this).attr('data-score');
-  	}
-
-});
+	});
 </script>
 
 {% endblock content %}

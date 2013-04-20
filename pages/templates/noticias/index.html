@@ -1,198 +1,187 @@
 {% extends "base.html" %}
-    {% block title %}
-		{{article.title|title}}
-    {% endblock title %}
+{% block title %}{{article.title|title}}{% endblock title %}   
 
-    
 {% block content %}
-
 {% load humanize %}
-
 <br>
-
-	<div class="row" >
-<div class="container">
+<div class="row" >
+	<div class="container">
+		<!-- Show Category -->
 		<div id="news-id-wrapper" class="span8 offset3" style="margin: 0px; padding: 0px; background-color: white; color:black; border:1px solid black;">
-		
-				<!-- if!!! -->
+			<div class="span8" style="margin:0px; 
+				{% if article.type.name == "Noticias" %}
+				background-color: #21BB21; ">
+				<ul class="nav nav-tabs" style="color:black; margin: 0px; padding-left: 5px;">
+					{% for category in categories %}
+						<li class="
+						{% ifequal category article.category %}
+							active
+						{% endifequal %}">
+							<a href="/category/{{category.pk}}/" style="font-size: 15px; text-shadow: 0px 2px 2px #777; ">
+								<strong>
+									{{category}}
+								</strong>	
+							</a>
+						</li>
+					{% endfor %}
+				{% endif %}
+				</ul>
+			</div>
+			<!-- End show Category -->
 
-		<div class="span8" style="margin:0px; 
-
-		{% if article.type.name == "Noticias" %}
-			background-color: #21BB21; ">
-	
-
-			<ul class="nav nav-tabs" style="color:black; margin: 0px; padding-left: 5px;">
-
-			{% for category in categories %}
-
-				<li class="{% ifequal category article.category %}active{% endifequal %}">
-					<a href="/category/{{category.pk}}/" style="font-size: 15px; text-shadow: 0px 2px 2px #777; ">
-						<strong>{{category}}</strong>	
-					</a>
-				</li>
-
-			{% endfor %}
-	{% endif %}
-
-		</ul>
-
-	</div>
-
-  				<div style="background-color: #3F3F3F;">
-				
-			<center style="background-color: 
+			<!-- News information -->
+			<div style="background-color: #3F3F3F;">
+				<center style="background-color: 
+					{% if article.type.name == "Noticias" %}
+						#3F3F3F
+					{%else%}
+						#613DBB
+					{% endif %}
+						; color:white;">
+					<div style="font-size: 50px; text-shadow: 2px 2px 2px black; padding-top:20px; padding-bottom: 20px;">
+						<strong>
+							{% if article.type.name == "Noticias" %}
+								<div style="padding-top: 35px; padding-bottom: 2px;">
+									{{article.category}}
+								</div>
+							{% else %}
+									{{article.title}}	
+							{% endif %}
+						</strong>
+					</div>
+				</center>
+			</div>
+		<span id="paragraph" style="font-size: 30px; padding-left: 10px; padding-top: 50px; width:200px; text-shadow: 0px 2px 3px #555">
 			{% if article.type.name == "Noticias" %}
-				#3F3F3F
-				{%else%}
-				#613DBB
+				<strong>
+					<div style="margin-top:6px;"></div>
+					{{article.title|title}}
+				</strong>
 			{% endif %}
-			 ; color:white;">
-				<span style="font-size: 50px; text-shadow: 2px 2px 2px black; padding-bottom: 2px;"><strong>
-				{% if article.type.name == "Noticias" %}
-						{{article.category}}
-						{% else %}
-						{{article.title}}						
-				{% endif %}
-				</strong></span>
-			</center>
-
-			
-
-</div>
-<span id="paragraph" style="font-size: 30px; padding-left: 10px; width:200px; text-shadow: 0px 2px 3px #555">
-				{% if article.type.name == "Noticias" %}
-			
-		
-				<strong>{{article.title|title}}</strong>
-				{% endif %}
-
-				<div  class="pull-right" style="font-size:14px;
+			<div  class="pull-right" style="font-size:14px;
 				{% if article.type.name == "Noticias" %}
 					margin-top:15px;
 				{% endif %}
 				">
-<center>
+				<center>
 					{% if rating %}
 						Ya le diste puntuacion
 					{% else %}
 						Puntua el articulo
 					{% endif %}
-					
 					<div id="star" data-score="{{article.rating}}">
-						
 					</div>
 					{{article.user_counting}}
-					</center>
-				</div>
-			</span>
-			<br>
-			
-
-		  <img src="https://graph.facebook.com/{{article.user_id.facebook_id}}/picture" class = "img-circle" style = "width:35px; height:35px; margin-left:8px; margin-bottom:1px; margin-top:2px;">  
-			{% if article.type.name == "Movies" %}
-				
-			{% endif %}
-
-			<span class="created-by">
-
-				-  {{article.user_id.facebook_name}}
-			</span>
-<br>
-			<span style="padding-left:10px; ">
-				<strong>Subido el - {{article.submit_date|date:"d-m-Y" }}</strong>
-			</span>
-<hr style="margin-top: 2px; border-color: black;">
-				{% if article.photo %}
-						<img class="span2" id="{% if article.type.name == 'Noticias' %}news-photo{%else %}movies-photo{% endif %}" 
-						src="{{MEDIA_URL}}{{article.photo}}" alt="">
-					{% endif %}
-
-			<p style="padding-right: 20px; padding-left: 5px;">{{article.content|linebreaksbr}}
-			</p>
-
-		</div>
-		<div class="span4" style="color:black; background-color: white; border:black solid 1px; width: 370px; margin-left:0px;">
-			<div style="height: 390px;">
-			<center style="font-size: 32px;">	 
-				<span style=" margin:0px;">
-				Comentarios</span> 
-			</center>
-						<hr style="margin: 0px 0px 2px 0px; border: 1px solid;">
-
-					{% for comment in comments %}
-						<div style="margin: 5px 20px;">
-							<div style="float:left; ">
-							<img src="https://graph.facebook.com/{{comment.user.facebook_id}}/picture" class = "img-rounded" style = "width:36px; height:36px; " /> 
-							</div> 
-							<div style="margin-top:20px; margin-left: 44px;">
-								<a href="#" class="myriad-pro" style="color:#4AACFF; font-size: 15px;">{{comment.user.facebook_name|title}} 
-								</a>
-								- <small>{{comment.submit_date|naturaltime }}</small>
-							</div>
-							<p class="paragraph" style="margin-left: 44px;">{{comment.comment}}</p>
-							<hr>
-						</div>
-					{% endfor %}
+				</center>
 			</div>
+		</span>
+		<br>
+		<img src="https://graph.facebook.com/{{article.user_id.facebook_id}}/picture" class = "img-circle" style = "width:35px; height:35px; margin-left:8px; margin-bottom:5px; margin-top:5px;">{% if article.type.name == "Movies" %}
+		{% endif %}
+		<span class="created-by">
+			-  {{article.user_id.facebook_name}}
+		</span>
+		<br>
+		<span style="padding-left:10px; ">
+			<strong>Subido el - 
+				{{article.submit_date|date:"d-m-Y" }}
+			</strong>
+		</span>
+		<hr style="margin-top: 2px; border-color: black;">
+		{% if article.photo %}
+			<img class="span2" id="{% if article.type.name == 'Noticias' %}news-photo{%else %}movies-photo{% endif %}" 
+			src="{{MEDIA_URL}}{{article.photo}}" alt="">
+		{% endif %}
+		<p style="padding-right: 20px; padding-left: 5px;">
+			{{article.content|linebreaksbr}}
+		</p>
+	</div>
+
+	<div class="span4" style="color:black; background-color: white; border:black solid 1px; width: 370px; margin-left:0px;">
+		<div style="height: 390px;">
+			<center style="font-size: 32px;">	 
+				<div style=" margin:6px 0px;;">
+					Comentarios
+				</div> 
+			</center>
+			<hr style="margin: 0px 0px 2px 0px; border: 1px solid;">
 			
-
-						<hr style="margin: 0px 0px 2px 0px; border: 1px solid;">
-
-<div>
-				<form action="/addcomment/{{article.pk}}" method="post">
-					<center>{{comentaryform.as_p}}
+			{% for comment in comments %}
+				<div style="margin: 5px 20px;">
+					<div style="float:left; ">
+						<img src="https://graph.facebook.com/{{comment.user.facebook_id}}/picture" class = "img-rounded" style = "width:36px; height:36px; " /> 
+					</div> 
+					<div style="margin-top:20px; margin-left: 44px;">
+						<a href="#" class="myriad-pro" style="color:#4AACFF; font-size: 15px;">
+							{{comment.user.facebook_name|title}} 
+						</a>
+						- 
+						<small>
+							{{comment.submit_date|naturaltime }}
+						</small>
+					</div>
+					<p class="paragraph" style="margin-left: 44px;">
+						{{comment.comment}}
+					</p>
+					<hr>
+				</div>
+			{% endfor %}
+		</div>
+		<hr style="margin: 0px 0px 2px 0px; border: 1px solid;">
+		<div>
+			<form action="/addcomment/{{article.pk}}" method="post">
+				<center>{{comentaryform.as_p}}
 					{% csrf_token %}
 
 					<input type="submit" class="btn btn-success" style="margin-left: 254px; margin-bottom: 0px; width:100px; height: 40px;" value="Enviar" />
-					</center>
-				</form>
-			</div>
-			
-	</div>			
+				</center>
+			</form>
+		</div>
+	</div>		
+	<!-- End News information -->
 </div>
 </div>
 
 <script src="{{STATIC_URL}}js/jquery.raty.js"></script>
 <script>
+	var star = $('#star').raty({
+		size      :24,
+		starOff   : 'star-off-big.png',
+		starOn    : 'star-on-big.png',
+		path      : '{{ STATIC_URL }}img',
+		noRatedMsg  : 'Not rated yet!',
+		readOnly    : 
+		{% if rating %}
+			true
+		{% else %}
+			false
+		{% endif %},
+		hints       : ['Malo', 'Pobre', 'Regular', 'Bueno', 'Excelente'],
+		click: rated,  
+		score: function() 
+		{
+			return $(this).attr('data-score');
+		}
 
-var star = $('#star').raty({
-    size      :24,
-    starOff   : 'star-off-big.png',
-    starOn    : 'star-on-big.png',
-    path      : '{{ STATIC_URL }}img',
-    noRatedMsg  : 'Not rated yet!',
-    readOnly    : 
-    {% if rating %}
-	true
-	{% else %}
-	false{% endif %},
-    hints       : ['Malo', 'Pobre', 'Regular', 'Bueno', 'Excelente'],
-    click: rated,  
-    score: function() 
-    {
-    	return $(this).attr('data-score');
-  	}
-
-});
-
-
+	});
 
 	function rated(score, evt)
 	{
 		$(this).find('img').unbind();
-	    // alert('ID: ' + $(this).attr('id') + "\nscore: " + score + "\nevent: " + evt);
 	    $.post('/rating/', 
-	    	{rating:score,
-	    	article:{{article.pk}},
-	    	user:{{user.pk}},
-	    	csrfmiddlewaretoken: '{{ csrf_token }}'}, function(data) 
-	    {
-	    	location.reload();
-		});
-	    
+    	{
+    		rating 				 :  score,
+    		article 			 :  {{article.pk}},
+    		user    			 :  {{user.pk}},
+    		csrfmiddlewaretoken  :  '{{ csrf_token }}'
+    	}, 
+    	function(data) 
+    	{
+    		location.reload();
+    	});
+
 	}
- </script>
+	</script>
 {% endblock content %}
 
 
