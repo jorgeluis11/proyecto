@@ -131,13 +131,23 @@ function login()
     <br>
     <br>
     <br>
-
     <div class="nav-wrap">
       <ul class="group" id="example-one">
-        <li class="current_page_item"><a href="/">Home</a></li>
-        <li><a href="/noticias/" id="header-middle-news">Noticias</a></li>
-        <li><a href="#">Frases</a></li>
-        <li><a href="#">Peliculas</a></li>
+        <li class="{% if request.path == '/' or request.path|slice:"1:8" == 'article'%}current_page_item{% endif %} "><a href="/">Home</a></li>
+        <li class="{% if request.path|slice:"1:9" == 'category' or request.path|slice:"1:9" == 'noticias' %}current_page_item{% endif %} "><a href="/noticias/" id="header-middle-news">Noticias</a></li>
+        <li class="{% if request.path|slice:"1:7" == 'quotes'%}current_page_item{% endif %}"><a href="{% url 'quotes' %}" >Frases</a></li>
+        <li class="{% if request.path|slice:'1:7' == 'movies'%}current_page_item{% endif %}"><a href="{% url 'movies' %}" >Peliculas</a></li>
+        <button id="boton" > </button>
+
+        <script>
+          $("#boton").click(function()
+          {
+            jQuery.get("https://www.googleapis.com/books/v1/volumes?q=Harry&key=AIzaSyCogKpC7XPGHVvqApgeDfNyXwmLRJvGmLg", function(data) {
+              console.log(data);
+            });
+              
+          });
+        </script>
       </ul>
     </div>
   </center>

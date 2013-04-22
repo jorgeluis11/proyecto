@@ -9,6 +9,8 @@ from django.http import HttpResponse
 from profiles.models import NotasoUser
 from django.utils import timezone
 import json
+from django.core.paginator import Paginator
+
 
 """
 Class based view to show the article and 
@@ -46,6 +48,8 @@ class CategoryDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super(CategoryDetailView, self).get_context_data(**kwargs)
         context['categories'] = Category.objects.all().exclude(name="None").order_by("name")
+        context['top_news']   = Article.objects.top(limit = 15, type = "Noticias", category=self.object)
+        context['recent_news']   = Article.objects.top(limit = 8, type = "Noticias", category=self.object)
         return context
 
 
@@ -105,6 +109,10 @@ def create(request):
     return render(request, "articles/create.html", data)
 
 
+"""
+Function based view to show the article and 
+This function create an comment and store it in the article id
+"""
 def add_comment(request, pk):
     if request.method == "POST":
         form = ComentaryForm(request.POST)
@@ -116,6 +124,10 @@ def add_comment(request, pk):
                            comment=comment, Article_id=Article.objects.get(id=1)).save()
     return HttpResponseRedirect("/article/"+pk)
 
+"""
+Function based view to search all articles or @users  
+by te given request
+"""
 def search(request):
     data = {}
     if request.is_ajax():
@@ -144,8 +156,12 @@ def search(request):
                 data = {
                 "articles": Article.objects.all().order_by('?')[:5]
                 }
-    return render(request,"articles/searchFail.html", data)
+    return render(request, "articles/searchFail.html", data)
 
+"""
+Function based view to get an autocomplete of all the articles and 
+@users by te given request
+"""
 def autocomplete(request):
     if request.is_ajax():
         result = []
@@ -156,7 +172,7 @@ def autocomplete(request):
                 q = q[1:len(q)]
                 users = NotasoUser.objects.filter(facebook_name__startswith=q).order_by("?")[:8]
                 for user in users:
-                    result.append("@"+ user.facebook_name)
+                    result.append("@" + user.facebook_name)
                 print result
                 return HttpResponse(json.dumps(result), mimetype="application/json")
             if q:
@@ -165,10 +181,17 @@ def autocomplete(request):
                     result.append(article.title[:25])
             return HttpResponse(json.dumps(result), mimetype="application/json")
     return HttpResponseRedirect('/home')
-    
-def javascript_filter(request):
-    return render_to_response("articles/filterContent.html",{"content":request.GET.get('content')})
 
+"""
+This function is to make a filter in Django based on the content of the article
+"""
+def javascript_filter(request):
+    return render_to_response("articles/filterContent.html", {"content": request.GET.get('content')})
+
+
+"""
+Store the rating in the database
+"""
 
 def rating(request):
     if request.is_ajax():
@@ -178,3 +201,16 @@ def rating(request):
             rating = request.POST['rating']
             ArticleRating(user_id=user, Article_id=article, rate=rating).save()
     return HttpResponse("Rated")
+
+def quotes(request):
+    quotes = Article.objects.filter(type__name = "Quotes")
+    pages = Paginator(quotes, 9)
+    page = pages.page(request.GET.get('page') if request.GET else 1)
+    data = {
+        'pages' : pages,
+        'page'  : page
+        }
+    return render(request,"articles/quotes.html", data)
+
+def movies(request):
+    return render(request,"articles/movies.html")

@@ -3,43 +3,34 @@
 Jorge Luis Perez Lopez
 {% endblock title %}
 {% block content %}
-<div class="container">
-  <div class="row" >
 
-  <!-- Categoria -->
-    <div class="span11" style="background-color:blue; width:1142px; height: 30px; padding-top: 20px;">
-      <center>
-        <div class="paragraph" style="font-size:50px;">
-          {{category}}
-        </div>
-      </center>
-    </div>
-  </div>
-</div>
-<!--Fin Categoria -->
-
-
-<div class="container">
+<div class="container" style="padding-top:2px;">
   <div class="row" >
     <!-- Top Noticias -->
     <div class="span4 offset1" style="background-color:#174fa9; margin-left:30px; padding-bottom: 0px;">
       <center style="font-size: 30px;">  
-        <span style="border-bottom: 3px solid; margin:0px; text-shadow: 2px 2px 2px black;">
+        <div style=" margin:0px; text-shadow: 2px 2px 2px black; margin-top:10px;">
           Top Noticias
-        </span> 
+        </div>
       </center>
       <br>
       <hr style="margin: 2px 0px 2px 0px; border: 1px solid;">
-      <div id="top-news-wrapper" class="scroll-pane">
+      <div id="top-news-wrapper" class="scroll-pane" style="height: 503px;">
         {% for article in top_news %}
           <a id="wrapper-top-article" href="/article/{{article.id}}" >
             <span style="font-size:20px; text-shadow: 2px 2px 2px black; margin: 0px 0px 0px 4px; padding:0px;">
               {{article.title|truncatechars:39|title}}  
             </span>
             <br>
-            <img src="{{MEDIA_URL}}{{article.photo}}" style="float:left; height: 70px; width:100px; margin: 0px 
-            4px" alt="">
-          
+            <div id="star" class="star" style="margin-left:5px; " data-score="{{article.rating}}">
+            </div>
+            {% if article.photo %}
+              <img src="{{MEDIA_URL}}{{article.photo}}" style="float:left; height: 70px; width:100px; margin: 0px 
+                4px" alt="">
+            {% else %}
+              <img src="{{STATIC_URL}}img/no_image.gif" style="float:left; height: 70px; width:100px; margin: 0px 
+                4px">
+            {% endif %}
             <p class="paragraph" style="color:white; margin: 0px; height: 80px; font-size: 15px;">
               {{article.content|truncatechars:130}}
             </p>
@@ -70,7 +61,7 @@ Jorge Luis Perez Lopez
         </ul>
       </div>
       {% for article in recent_news %}
-        <a class="item recent-wrapper-new" href="/article/{{article.id}}" style=" background-color:#59BB59; margin: 0px 1px 1px 0px; padding: 8px 7px 5px 7px; text-decoration: none; width: 177px; height: 244px;">
+        <a class="item recent-wrapper-new" href="/article/{{article.id}}" style=" background-color:#59BB59; margin: 0px 1px 1px 0px; padding: 8px 7px 5px 7px; text-decoration: none; width: 177px; height: 247px;">
           <center>
             <small style="background: #174FA9; border-radius: 20px; padding: 3px 1px 1xp 3px; color:white; "> &nbsp;{{article.category}} 
             </small>
@@ -96,15 +87,15 @@ Jorge Luis Perez Lopez
           <div class="recent-wrapper-article-link" href="/article/{{article.pk}}" style="color:white;">
           <!-- This code determine the font-size of the title depending on the lenght of the title -->
             {% if article.photo %}
-              <center>  
-                <img class="span2" style= "margin:0 0 6px 0; width: 200px; height: 146px; border:black solid 1px;" src="{{MEDIA_URL}}{{article.photo}}" alt="">
-                {% else %}
-                  No Hay fotoooo
-                {% endif %}
+                <center>  
+                  <img class="span2" style= "margin:0 0 6px 0; width: 200px; height: 146px; border:black solid 1px;" src="{{MEDIA_URL}}{{article.photo}}" alt="">
+              {% else %}
+                <img class="span2" style= "margin:0 0 6px 0; width: 200px; height: 146px; border:black solid 1px;" src="{{STATIC_URL}}img/no_image.gif" alt="">
+              {% endif %}
               </center>
           </div>
 
-          <div class="recent-wrapper-article-real-link" href="/article/{{article.pk}}" style="color:white; display: none; font-size: 18px; height: 168px;">
+          <div class="recent-wrapper-article-real-link" href="/article/{{article.pk}}" style="color:white; display: none; font-size: 18px; height: 150px;">
             <p class="paragraph">
               {{article.content|truncatechars:"170"}}
             </p>
@@ -122,9 +113,27 @@ Jorge Luis Perez Lopez
   </div>
 </div>
 
+<script src="{{STATIC_URL}}js/jquery.raty.js"></script>
+<script type="text/javascript" src="{{STATIC_URL}}js/newsHover.js"></script>
 <script>
   $('.scroll-pane').jScrollPane({showArrows: true});
+
+  var star = $('.star').raty(
+  {
+    size      : 18,
+    starOff   : 'star-off.png',
+    starOn    : 'star-on.png',
+    path      : '{{ STATIC_URL }}img',
+    readOnly  : true,
+    score: function() 
+    {
+      return $(this).attr('data-score');
+    }
+  });
+
 </script>
+
+
 
 {% endblock content %}
 

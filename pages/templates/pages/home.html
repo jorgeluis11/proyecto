@@ -14,6 +14,7 @@
 		<div id="popular-wrapper" class="scroll-pane">
 			{% for article in popular_articles %}
 			    <a href="/article/{{article.pk}}"style="color:white; text-decoration: none;">
+			     <!-- Profe {{article.percent}}-->	
 					<center style="width:280px;" >
 						{% ifequal article.type.name "Noticias" %}
 							<small style="background: #21BB21; border-radius: 20px; padding-top: 3px;"> 
@@ -150,15 +151,14 @@
 						</div>	
 					</span>	
 				</a>
-
 			{% endfor %}
 			<!-- End Recent News --> 
 
 			<!-- Recent Movies -->
 			{% for article in recent_movies %}
-				<a href="article/{{article.id}}" class="item recent-wrapper-new" style="height: 120px; background:#613DBB; margin:0px 1px; width:119px;">
+				<a href="article/{{article.id}}" class="item recent-wrapper-new" style="height: 120px;  margin:0px 1px; width:119px;">
 
-					<div class="span2" style=" background:#613DBB; margin:0px 1px; width:119px;">
+					<div class="span2" style=" background:#613DBB; margin:0px 1px; width:119px; height: 155px;">
 						<center>
 							<p style="text-shadow: 2px 2px 2px black; height: 20px; padding-top:0px; margin-top: 4px;  color:white; 	padding-bottom:8px;
 							{% if article.title|length < 25 %}

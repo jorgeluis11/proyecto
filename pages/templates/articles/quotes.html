@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% block title %}
+Jorge Luis Perez Lopez
+{% endblock title %}
+{% block content %}
+
+
+
+
+<div class="container">
+	<div class="row">
+		<center>
+			<div class="pagination pagination-large">
+			  	<ul>
+					{% if page.has_previous %}
+						<li>
+						    <a href="/quotes?page={{ page.previous_page_number }}">previous</a>
+						</li>
+					{% endif %}			    
+					{% for pages in pages.page_range %}
+			        	{% if page.number == pages %}
+							<li class="disabled">
+								<a>
+				        			{{pages}}
+				        		</a>
+				      		</li>
+				      	{% else %}
+				      		  <li >
+								<a href="/quotes?page={{pages}}">
+				        			{{pages}}
+				        		</a>
+				      		</li>  
+				    	{% endif %}
+				    {% endfor %}
+				    <li>
+						{% if page.has_next %}
+		            		<a href="/quotes?page={{ page.next_page_number }}">next</a>
+		        		{% endif %}		
+	        		</li>	  
+        		</ul>
+			</div>
+		</center>
+		{% for quote in page.object_list %}
+			<div class="span4" style="margin: 0px 1px; padding: 0px;" >
+				<div  style="background-color:#FF6346; margin:0px; padding-top:1px;   border-radius: 10px;">
+					<!-- Carousel items -->
+					<center>
+						<blockquote style="border:0; padding: 0px;">
+							<p id="quote-label" class="paragraph" style="font-size:18px;">
+								{{quote.content}}
+							</p>
+							<small style="color:white;">
+								<span id="author-label">
+									{{quote.title}}
+								</span>	 
+								Citado por 
+								<img class="img-circle" width="34" height="30" src="https://graph.facebook.com/{{user.facebook_id}}/picture">
+								<span class="badge badge-inverse">
+									Jorge Luis
+								</span>
+							</small>
+						</blockquote>
+					</center>
+				</div>
+			</div>
+		{% endfor %}
+	</div>
+</div>
+
+
+{% endblock content %}

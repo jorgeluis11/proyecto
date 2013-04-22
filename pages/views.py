@@ -20,17 +20,17 @@ Get the top, recent_quotes, recent_news
 And send the data to the template.
 """
 def home(request):
-    popular_articles = Article.objects.top(limit=15)
+    popular_articles = Article.objects.top(limit=5,type="Noticias") + Article.objects.top(limit=5, type="Movies") + list(Article.objects.filter(type__name="Quotes")[:5])
+    popular_articles.sort(key=lambda x: x.submit_date)
     recent_quotes = Article.objects.filter(type__name="Quotes").order_by('-submit_date')[:3]
     recent_news = Article.objects.filter(type__name="Noticias").order_by('-submit_date')[:4]
     recent_movies = Article.objects.filter(type__name="Movies").order_by('-submit_date')[:8]
 
-
     data = {
-        'popular_articles': popular_articles,
-        'recent_quotes': recent_quotes,
-        'recent_news': recent_news,
-        'recent_movies': recent_movies
+        'popular_articles' : popular_articles,
+        'recent_quotes'    : recent_quotes,
+        'recent_news'      : recent_news,
+        'recent_movies'    : recent_movies
     }
     return render(request, 'pages/home.html', data)
 
@@ -39,7 +39,7 @@ Get the top_news, every category, one radom news of each category
 And send all the data to the template.
 """
 def noticias(request):
-    top_news = Article.objects.top(type="Noticias")[:5]
+    top_news = Article.objects.top(limit=15, type="Noticias")
     categories = Category.objects.all().exclude(name="None").order_by("name")
     recent_news = []
     try:

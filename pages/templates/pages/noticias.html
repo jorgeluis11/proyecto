@@ -39,7 +39,6 @@
               {% if not forloop.last %}
                 <hr style="margin: 0px 0px 4px 0px; width:360px; border-color: #B5B5B5;">
               {%endif%}
-
             </center>
           {% endfor %}
         </div>
@@ -63,13 +62,13 @@
 
         <!-- show all Recent News -->
         {% for article in recent_news %}      
-          <a class="item recent-wrapper-new" href="/article/{{article.id}}" style=" background-color:#59BB59; margin: 0px 1px 1px 0px; padding: 8px 7px 5px 7px; text-decoration: none; width: 177px; height: 244px;">
+          <a class="item recent-wrapper-new" href="/article/{{article.id}}" style=" background-color:#59BB59; margin: 0px 1px 1px 0px; padding: 8px 7px 5px 7px; text-decoration: none; width: 177px; height: 247px;">
             <center>
               <small style="background: #174FA9; border-radius: 20px; padding: 3px 1px 1xp 3px; color:white; font-size: 15px; "> &nbsp;{{article.category}} </small><br>
                 <p style="text-shadow: 2px 2px 2px black; height: 36px; padding-top:0px; color:white;
                   {% if article.title|length < 25 %}
                     font-size: 20px;
-                  {% elif article.title|length < 60 %}
+                  {% elif article.title|length < 57 %}
                     font-size: 14px; 
                   {% else %}
                     font-size: 12px;
@@ -92,15 +91,12 @@
               {% endif %}
               </center>
             </div>
-          
-            <div class="recent-wrapper-article-real-link" href="/article/{{article.pk}}" style="color:white; display: none; font-size: 18px; height: 168px;">
+            <div class="recent-wrapper-article-real-link" href="/article/{{article.pk}}" style="color:white; display: none; font-size: 18px; height: 150px;">
               <p class="paragraph">
                 {{article.content|truncatechars:"170"}}
               </p>
             </div>
-            
             <legend style = "margin:4px 0px 2px 0px;"> </legend>
-
             <p style = "font-size:14px; color:white; text-shadow: 2px 2px 2px black; margin-bottom: -1px;">
               <img src="https://graph.facebook.com/{{article.user_id.facebook_id}}/picture" class = "img-circle" style = "width:25px; height:25px;">  
               <span class="created-by">
@@ -113,9 +109,11 @@
     </div>
   </div>
 
-  <script>
-    $('.scroll-pane').jScrollPane({showArrows: true});
-  </script>
+<script type="text/javascript" src="{{STATIC_URL}}js/newsHover.js"></script>
+
+<script>
+  $('.scroll-pane').jScrollPane({showArrows: true});
+</script>
 {% endblock content %}
 
 

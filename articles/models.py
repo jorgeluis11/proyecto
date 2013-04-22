@@ -2,6 +2,8 @@ from django.db import models
 from profiles.models import NotasoUser
 from django.contrib.comments.models import Comment
 from django.utils import timezone
+import operator
+from django.db.models import Max
 
 
 class ArticleManager(models.Manager):
@@ -19,12 +21,13 @@ class ArticleManager(models.Manager):
             order = ""
 
         if type == "all" and category == "all":
-            print "all"
-            return Article.objects.all().order_by(order+"user_count")[:limit]
+            return sorted( Article.objects.all(type__name=type), key=lambda x: x.percent(), reverse=True)[:limit]
+        elif (type == "Noticias" or type == "Quotes" or type == "Movies") and category == "all":
+            print "ALLL!!"
+            return sorted( Article.objects.filter(type__name=type), key=lambda x: x.percent(), reverse=True)[:limit]
         else:
-            print "%suser_count" % order
-            return Article.objects.filter(type__name=type).order_by(order+"user_count")[:limit]
-
+            print "Category!!"
+            return sorted( Article.objects.filter(type__name=type, category__name=category), key=lambda x: x.percent(), reverse=True)[:limit]
 
 class Category(models.Model):
     categories = (
@@ -45,7 +48,7 @@ class Category(models.Model):
 
 
 class Type(models.Model):
-    types=(("Noticias", "Noticias"),
+    types = (("Noticias", "Noticias"),
         ("Quotes", "Quotes"),
         ("Movies", "Movies"),
     )
@@ -53,8 +56,6 @@ class Type(models.Model):
 
     def __unicode__(self):
         return self.name
-
-
 
 def get_url(instance, filename):
     return 'img/%s' % filename
@@ -92,7 +93,14 @@ class Article(models.Model):
         return str(round(float(rate)/len(_rate),1)) + " de " + str(len(_rate)) + " usuarios"
     
     def percent(self):
-        return (float(self.user_rating) / self.user_count) * 20
+        _rate = self.articlerating_set.all()
+        if len(_rate) == 0:
+            return 0
+        else:
+            rate = 0
+            for x in _rate:
+                rate += x.rate
+            return round(float(rate)/len(_rate),5)
 
     def __unicode__(self):
         return self.title
