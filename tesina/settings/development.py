@@ -22,10 +22,10 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#databases
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": "db.sql",
-        "USER": "",
-        "PASSWORD": "",
+        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        "NAME": "tesina",
+        "USER": "jorgeluis",
+        "PASSWORD": "1234",
         "HOST": "",
         "PORT": "",
     }

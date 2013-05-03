@@ -187,8 +187,8 @@ LOCAL_APPS = (
     'profiles',
     'articles',
     'django_extensions',
-    # 'gunicorn',
-    # 'werkzeug_debugger_runserver',
+    'gunicorn',
+    'werkzeug',
     'django.contrib.humanize',
 )
 

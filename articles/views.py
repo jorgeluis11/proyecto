@@ -108,6 +108,18 @@ def create(request):
     }
     return render(request, "articles/create.html", data)
 
+"""
+Remove Article
+"""
+def remove(request):
+    data = {
+        'articles': request.user.article_set.all()
+    }
+
+    if request.GET.get('id'):
+        Article.objects.get(id=request.GET.get('id')).delete()
+        return HttpResponseRedirect("/remove/")
+    return render(request, "articles/remove.html", data)
 
 """
 Function based view to show the article and 
@@ -121,7 +133,7 @@ def add_comment(request, pk):
             ct = ContentType.objects.get_for_model(ArticleComment)
             ArticleComment(content_type=ct, object_pk=pk, 
                            user=request.user, site=Site.objects.get(id=1), 
-                           comment=comment, Article_id=Article.objects.get(id=1)).save()
+                           comment=comment, Article_id=Article.objects.get(id=pk)).save()
     return HttpResponseRedirect("/article/"+pk)
 
 """
@@ -202,15 +214,27 @@ def rating(request):
             ArticleRating(user_id=user, Article_id=article, rate=rating).save()
     return HttpResponse("Rated")
 
+
+"""
+This function get all the quotes and que the request of the pagination
+"""
 def quotes(request):
     quotes = Article.objects.filter(type__name = "Quotes")
-    pages = Paginator(quotes, 9)
-    page = pages.page(request.GET.get('page') if request.GET else 1)
+    pages = Paginator(quotes, request.GET.get('num') if request.GET.get("num") else 1)
+    page = pages.page(request.GET.get('page') if request.GET.get('page') else 1)
     data = {
         'pages' : pages,
         'page'  : page
         }
     return render(request,"articles/quotes.html", data)
 
+
 def movies(request):
-    return render(request,"articles/movies.html")
+    movie = Article.objects.filter(type__name = "Movies")
+    pages = Paginator(movie, request.GET.get('num') if request.GET.get("num") else 10)
+    page = pages.page(request.GET.get('page') if request.GET.get('page') else 1)
+    data = {
+        'pages' : pages,
+        'page'  : page
+    }
+    return render(request,"articles/movies.html", data)

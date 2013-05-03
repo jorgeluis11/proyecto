@@ -48,14 +48,14 @@ body
 #header-logo, #popular-wrapper, #recent-wrapper, .myriad-pro
 {
 	font-family: "myriad pro",tahoma,verdana,arial;
-
+	margin-left: 60px;
 }
 
 
 
 #popular-wrapper
 {
-	height: 483px;
+	height: 516px;
 	overflow-x: hidden;
 }
 

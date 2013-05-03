@@ -7,7 +7,7 @@
         	<div id="search-article-wrapper" class="scroll-pane span11" style="background:rgba(41,41,41,1);">
 				<div id="search-wrapper">
 					<h1 style="margin-left:10px; margin-bottom:0px; margin-top: 10px; font-size:27px; ">
-						{{articles|length}}resultados
+						{{articles|length}} resultado{{articles|pluralize}}
 						{% if usuario %}
 							de
 							<img src="https://graph.facebook.com/{{usuario.facebook_id}}/picture?" class = "img-circle" style = "width:40px; height:40px;">  
@@ -56,7 +56,8 @@
 						    </span>
           				<p class="paragraph" style="color:white; margin: 0px; height: 80px; font-size: 16px;">
               				{% if article.type.name == "Quotes" %}
-              					<span class="ultra" style="font-size:36px; margin-left:5px;">“{{article.content|truncatechars:90}}”
+              					<span class="ultra" style="font-size:30px; margin-left:5px; ">
+              						<br>“{{article.content|truncatechars:90}}”
               					</span>
               				{% elif article.type.name == "Noticias" %}
               					{{article.content|truncatechars:270}}

@@ -1,7 +1,7 @@
 from django.conf.urls import patterns, include, url
 from django.conf import settings
 from pages.views import register_login, logout_user, noticias
-from articles.views import ArticleDetailView, create, CategoryDetailView, add_comment, search, autocomplete, javascript_filter, rating, quotes, movies
+from articles.views import ArticleDetailView, create, remove, CategoryDetailView, add_comment, search, autocomplete, javascript_filter, rating, quotes, movies
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
 admin.autodiscover()
@@ -40,6 +40,7 @@ urlpatterns = patterns('',
     url(r'^addcomment/(?P<pk>\d+)', add_comment),
 
     url(r'^create/', create),
+    url(r'^remove/', remove),
     url(r'^autocomplete/', autocomplete),
     url(r'^search/', search, name="search"),
     url(r'^jsfilter/', javascript_filter),

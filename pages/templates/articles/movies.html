@@ -4,6 +4,97 @@ Jorge Luis Perez Lopez
 {% endblock title %}
 {% block content %}
 
+<div class="container" style="margin-left:100px;">
+	<div class="row">
+		<center>
+			<div class="pagination pagination-large">
+			  	<ul>
+					{% if page.has_previous %}
+						<li>
+						    <a href="/movies?page={{ page.previous_page_number }}">previous</a>
+						</li>
+					{% endif %}			    
+					{% for pages in pages.page_range %}
+			        	{% if page.number == pages %}
+							<li class="disabled">
+								<a>
+				        			{{pages}}
+				        		</a>
+				      		</li>
+				      	{% else %}
+				      		  <li >
+								<a href="/movies?page={{pages}}">
+				        			{{pages}}
+				        		</a>
+				      		</li>  
+				    	{% endif %}
+				    {% endfor %}
+				    <li>
+						{% if page.has_next %}
+		            		<a href="/movies?page={{ page.next_page_number }}">next</a>
+		        		{% endif %}		
+	        		</li>	  
+        		</ul>
+			</div>
+		</center>
+		{% for article in page.object_list %}
+			<a href="article/{{article.id}}" class="item recent-wrapper-new" style="height: 185px;  margin:0px 1px; width:159px;">
 
+					<div class="span2" style=" background:#613DBB; margin:0px 1px; width:159px; height: 230px;">
+						<center>
+							<p style="text-shadow: 2px 2px 2px black; height: 20px; padding-top:0px; margin-top: 4px;  color:white; 	padding-bottom:8px;
+							{% if article.title|length < 25 %}
+								font-size: 20px;
+								{% elif article.title|length < 60 %}
+								font-size: 17px; 
+							{% else %}
+								font-size: 15px;
+								<strong>{{article.title|title}}</strong>				
+								</p>
+							{% endif %}
+							">	
+								<strong >
+									{{article.title|slice:"60"|title}}
+								</strong>	
+							</p>
+
+							<div class="recent-wrapper-article-link" href="article/{{article.pk}}" style="color:white;">
+								{% if article.photo %}
+									<img style= "width: 115px; height: 160px; border:black solid 1px;" src="{{MEDIA_URL}}{{article.photo}}" alt="" />
+								{% else %}
+									<img style="width: 115px; height: 160px; border:black solid 1px;" src="{{STATIC_URL}}img/no_image.gif" alt="" />
+								{% endif %}
+							</div>
+
+							<div class="recent-wrapper-article-real-link" href="article/{{article.pk}}" style="color:white; display: none; font-size: 13px; height: 162px;">
+								<p class="paragraph">{{article.content|truncatechars:"95"}}
+								</p>
+							</div>
+							<div id="star" class="star" style="margin-top:5px; " data-score="{{article.rating}}">
+						</div>	
+						</center>
+					</div>
+				</a>
+		{% endfor %}
+	</div>
+</div>
+
+<script src="{{STATIC_URL}}js/jquery.raty.js"></script>
+<script type="text/javascript" src="{{STATIC_URL}}js/newsHover.js"></script>
+
+<script>
+	var star = $('.star').raty(
+	{
+		size      :16,
+		starOff   : 'star-off.png',
+		starOn    : 'star-on.png',
+		path      : '{{ STATIC_URL }}img',
+		readOnly  : true,
+		score: function() 
+		{
+			return $(this).attr('data-score');
+		}
+	});
+</script>
 
 {% endblock content %}

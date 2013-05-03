@@ -51,7 +51,7 @@ Jorge Luis Perez Lopez
         <ul class="nav nav-pills" style="color:black; margin: 0px; padding-left: 5px; border-bottom: 1px black solid;">
           {% for category2 in categories %}
             <li class="{% ifequal category2 category %}active{% endifequal %}">
-              <a href="/category/{{category.pk}}" style="font-size: 16px; text-shadow: 0px 2px 2px #777; ">
+              <a href="/category/{{category2.pk}}" style="font-size: 16px; text-shadow: 0px 2px 2px #777; ">
                 <strong>
                   {{category2}}  
                 </strong>
@@ -69,7 +69,7 @@ Jorge Luis Perez Lopez
             <p style="text-shadow: 2px 2px 2px black; height: 36px; padding-top:0px; color:white;
               {% if article.title|length < 25 %}
                 font-size: 20px;
-              {% elif article.title|length < 60 %}
+              {% elif article.title|length < 57 %}
                 font-size: 14px; 
               {% else %}
                 font-size: 12px;
@@ -80,7 +80,7 @@ Jorge Luis Perez Lopez
             {% endif %}
             ">
               <strong>
-                {{article.title|slice:"60"|title}}
+                {{article.title|slice:"53"|title}}
               </strong> 
             </p>
           </center>

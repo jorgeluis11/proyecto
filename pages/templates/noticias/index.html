@@ -5,7 +5,7 @@
 {% load humanize %}
 <br>
 <div class="row" >
-	<div class="container">
+	<div class="container" style="margin-left: 70px;">
 		<!-- Show Category -->
 		<div id="news-id-wrapper" class="span8 offset3" style="margin: 0px; padding: 0px; background-color: white; color:black; border:1px solid black;">
 			<div class="span8" style="margin:0px; 
@@ -100,19 +100,19 @@
 	<div class="span4" style="color:black; background-color: white; border:black solid 1px; width: 370px; margin-left:0px;">
 		<div style="height: 390px;">
 			<center style="font-size: 32px;">	 
-				<div style=" margin:6px 0px;;">
+				<div style=" margin:6px 0px;">
 					Comentarios
 				</div> 
 			</center>
 			<hr style="margin: 0px 0px 2px 0px; border: 1px solid;">
 			
 			{% for comment in comments %}
-				<div style="margin: 5px 20px;">
+				<div style="margin: 5px 0px 5px 20px;">
 					<div style="float:left; ">
 						<img src="https://graph.facebook.com/{{comment.user.facebook_id}}/picture" class = "img-rounded" style = "width:36px; height:36px; " /> 
 					</div> 
-					<div style="margin-top:20px; margin-left: 44px;">
-						<a href="#" class="myriad-pro" style="color:#4AACFF; font-size: 15px;">
+					<div style="margin-top:0px; margin-left: 0px;">
+						<a href="http://www.facebook.com/profile.php?id={{comment.user.facebook_id}}" class="myriad-pro" style="color:#4AACFF; font-size: 15px; margin-left: 4px;">
 							{{comment.user.facebook_name|title}} 
 						</a>
 						- 
@@ -123,7 +123,7 @@
 					<p class="paragraph" style="margin-left: 44px;">
 						{{comment.comment}}
 					</p>
-					<hr>
+					<hr style="margin-top: 10px; margin-bottom: 10px;">
 				</div>
 			{% endfor %}
 		</div>

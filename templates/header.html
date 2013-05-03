@@ -108,7 +108,7 @@ function login()
 <!-- BootStrap Navigation Bar information -->
 <!-- **************************-->
 
-
+{{STATIC_URL}}
 <div class="row" style="background-color: rgba(0, 130, 200, 0.6);">
 
   <!-- **************************-->
@@ -130,24 +130,12 @@ function login()
     <br>
     <br>
     <br>
-    <br>
     <div class="nav-wrap">
       <ul class="group" id="example-one">
         <li class="{% if request.path == '/' or request.path|slice:"1:8" == 'article'%}current_page_item{% endif %} "><a href="/">Home</a></li>
         <li class="{% if request.path|slice:"1:9" == 'category' or request.path|slice:"1:9" == 'noticias' %}current_page_item{% endif %} "><a href="/noticias/" id="header-middle-news">Noticias</a></li>
         <li class="{% if request.path|slice:"1:7" == 'quotes'%}current_page_item{% endif %}"><a href="{% url 'quotes' %}" >Frases</a></li>
         <li class="{% if request.path|slice:'1:7' == 'movies'%}current_page_item{% endif %}"><a href="{% url 'movies' %}" >Peliculas</a></li>
-        <button id="boton" > </button>
-
-        <script>
-          $("#boton").click(function()
-          {
-            jQuery.get("https://www.googleapis.com/books/v1/volumes?q=Harry&key=AIzaSyCogKpC7XPGHVvqApgeDfNyXwmLRJvGmLg", function(data) {
-              console.log(data);
-            });
-              
-          });
-        </script>
       </ul>
     </div>
   </center>
@@ -178,8 +166,9 @@ function login()
         </span>
       </a>
         <ul class="dropdown-menu">
-          <li><a href="#"><i class="icon-pencil"></i>User Information</a></li>
-          <li><a href="#"><i class="icon-trash"></i>Articles</a></li>
+          <li><a href="/create/"><i class="icon-pencil"></i>Create Article</a></li>
+          <li><a href="/remove/"><i class="icon-remove-sign"></i>Remove Article</a></li>
+         
           <li><a href="/logout"><i class="icon-ban-circle"></i> Logout</a></li>
         </ul>
 
@@ -190,7 +179,7 @@ function login()
         {% else %}
         <form method="post">
           {% csrf_token %}
-          <a onclick="login()" class="btn btn-inverse">Login with Facebook</a>            
+          <a onclick="login()" class="btn btn-inverse pull-right">Login with Facebook</a>            
         </form>
         {% endif %}
     </div>

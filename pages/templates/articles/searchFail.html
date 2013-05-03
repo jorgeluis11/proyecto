@@ -3,22 +3,23 @@
 
 <div class='span9 offset2' id="searchFail" style="margin-top: 2px; margin-bottom: 10px;">
 	<br>
-	<h1 class="myriad-pro" style="font-size: 67px; padding-top: 8px;">
+	<h1 class="myriad-pro" style="font-size: 65px; padding-top: 8px;">
 		<center>
 			No se  
 			{% if users %}
 				encontro el usuario
 			{% else %}
-				encontraron los articulos
+				<span style="font-size: 60px;">encontraron los articulos</span>
 			{% endif %}
+	    </center>
+
 		</h1>
-    </center>
     <center>
-        <img  style="border:none;" src="{{STATIC_URL}}/img/sadface.png" alt="logo" width="300px">			
+        <img  style="border:none;" src="{{STATIC_URL}}/img/sadface.png" alt="logo" width="270px">			
 	</center>
 	<br>
 	<div style="margin-left:'50%' ">
-		<h1 class="myriad-pro" style="margin-left:10px;font-size: 75px; margin-bottom: 0px;">
+		<h1 class="myriad-pro" style="margin-left:10px;font-size: 70px; margin-bottom: 0px;">
 			<center>
 				Sugerencias
 			</center>	
@@ -91,7 +92,7 @@
 										</strong> 
 									</span>
 									<br>
-									<img src="https://graph.facebook.com/{{user.facebook_id}}/picture?type=large" class="img-circle" style="width:70px; height:70px; margin-left: 10px;">
+									<img src="https://graph.facebook.com/{{user.facebook_id}}/picture?type=large" class="img-circle" style="width:66px; height66px; margin-left: 10px;">
 									<br>
 									<h3 style="margin-top:0px">{{user.facebook_name|slice:":13"}} 
 									</h3>

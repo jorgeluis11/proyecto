@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+{% block title %}{{article.title|title}}{% endblock title %}   
+
+{% load humanize %}
+{% block content %}
+<link href='http://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
+
+<div class="row">
+	<div class="container">
+		<div id="recent-wrapper-new">
+        	<div id="search-article-wrapper" class="scroll-pane span11" style="background:rgba(41,41,41,1);">
+				<div id="search-wrapper">
+					<h1 style="margin-left:10px; margin-bottom:0px; margin-top: 10px; font-size:27px; ">
+						{{articles|length}} Articulo{{articles|pluralize}}
+						{% if usuario %}
+							de
+							<img src="https://graph.facebook.com/{{usuario.facebook_id}}/picture?" class = "img-circle" style = "width:40px; height:40px;">  
+							<span style=" margin:0px 0px;">
+								{{usuario.facebook_name}}
+							</span>
+						{% endif %}
+					</h1>
+				</div>
+				<br>
+        		{% for article in articles %}
+					<div id="search-article-wrapper">
+        				<div id="wrapper-top-article" href="/article/{{article.id}}" >
+							{% if article.type.name == "Quotes"%}
+								<img  src="https://graph.facebook.com/{{article.user_id.facebook_id}}/picture?type=large" style = "float:left;width:160px; height:120px; margin: 0px 4px">  
+							{% elif article.type.name == "Noticias" or article.type.name == "Movies" %}
+								{% if article.photo %}
+		            				<img src="{{MEDIA_URL}}{{article.photo}}" 
+					            	style="float:left; 
+									{% if article.type.name == 'Movies' %}
+					            	height: 211px; width:160px; 
+
+									{% else %}
+					            	height: 120px; width:160px; 
+									{% endif %}
+					            	margin: 0px 4px" alt="">
+			       				{% else %}
+			            			<img src="{{STATIC_URL}}img/no_image.gif" style="float:left; height: 120px; width:160px; margin: 0px 4px" alt="">
+			        			{% endif %}
+							{% endif %}
+       					 	<span id="search-article-title"style="font-size:20px; text-shadow: 2px 2px 2px black; margin: 0px 0px 0px 0px; padding:0px;">
+          						{{article.title|title}}  
+          					</span>
+          					<span style="color:#DADADA; font-size:13px;">
+          						<br>
+	          					<span class="label" style="background:
+						          	{% if article.type.name == 'Noticias' %} 
+						          		#20B720;
+							          	{% elif article.type.name == 'Quotes' %}
+											#FF6346;
+											{% elif article.type.name == 'Movies' %}
+											#613DBB;
+						          	{% endif %}">{{article.type}}
+						        </span> 
+						        - {{article.submit_date|naturaltime }}
+						    </span>
+          				<p class="paragraph" style="color:white; margin: 0px; height: auto;  width:1000px;font-size: 16px; ">
+              				{% if article.type.name == "Quotes" %}
+              					<span class="ultra" style="font-size:30px; margin-left:5px; ">
+              						<br>“{{article.content|truncatechars:70}}”
+              					</span>
+              				{% elif article.type.name == "Noticias" %}
+              					{{article.content|truncatechars:240}}
+              				{% else %}
+              					{{article.content|truncatechars:660}}
+              				{% endif %}
+          				</p>
+					    <div >
+					    	<center>
+						    	<a class="delete btn btn-danger btn-large" style="wdith:300px;" href="/remove?id={{article.pk}}">
+						    		Borrar
+						    	</a>
+					    	</center>
+					    	<div id="myModal" class="myModal modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+							  	<div class="modal-header">
+							    	<button type="button" class="close" >×
+							    	</button>
+							    	<h3 id="myModalLabel">
+							    		Modal header
+							    	</h3>
+							  	</div>
+							  	<div class="modal-body">
+							    	<p>
+							    		One fine body…
+							    	</p>
+							  	</div>
+							  	<div class="modal-footer">
+    								<button class="btn close">
+							    		Close
+							    	</button>
+							    <button class="btn btn-primary">
+							    	Save changes
+							    </button>
+							  </div>
+							</div> 
+		
+					    </div>
+        			</div>
+    			</div>
+        		<center>
+          			{% if not forloop.last %}
+          				<hr style="margin: 6px 0px 5px 0px; width: 1000px; border-color: #B5B5B5;">
+          			{% else %}
+	          		<br>
+	        		{%endif%}
+				</center>
+      		{% endfor %}
+        </div>
+	</div>
+</div>
+</div>
+<script src={{STATIC_URL}}js/confirm.js></script>
+<script type="text/javascript" src="{{STATIC_URL}}js/newsHover.js"></script>
+<script src="https://raw.github.com/twitter/bootstrap/master/js/bootstrap-modal.js"></script>
+<script>
+
+
+
+		$('a.delete').confirmDialog({
+		message: '<strong style="color:black;">Seguro quieres borrarlo?</strong>',
+		cancelButton: 'Cancelar'
+		});
+
+	// $(".modal-backdrop").hide();
+	// $(".fade").hide();
+
+
+	// $(".delete").click(function()
+	// {
+	// 	$(this).children(".myModal").modal("show");
+	// });
+
+	// $(".close").click(function()
+	// {
+	// 	$(this).parent().parent(".myModal").modal("hide");
+	// });
+
+</script>
+{% endblock %}

@@ -22,8 +22,8 @@
         <div id="top-news-wrapper" class="scroll-pane">
           {% for article in top_news %}
             <a id="wrapper-top-article" href="/article/{{article.id}}" >
-              <span style="font-size:20px; text-shadow: 2px 2px 2px black; margin: 0px 0px 0px 4px; padding:0px;">
-                {{article.title|truncatechars:39|title}}  
+              <span style="font-size:19px; text-shadow: 2px 2px 2px black; margin: 0px 0px 0px 4px; padding:0px;">
+                {{article.title|truncatechars:36|title}}  
               </span>
               <br>
               {% if article.photo %}
@@ -77,7 +77,7 @@
                 {% endif %}
                 ">
                 <strong>
-                  {{article.title|slice:"60"|title}}
+                  {{article.title|slice:"53"|title}}
                 </strong> 
               </p>
             </center>

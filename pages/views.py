@@ -21,7 +21,7 @@ And send the data to the template.
 """
 def home(request):
     popular_articles = Article.objects.top(limit=5,type="Noticias") + Article.objects.top(limit=5, type="Movies") + list(Article.objects.filter(type__name="Quotes")[:5])
-    popular_articles.sort(key=lambda x: x.submit_date)
+    popular_articles.sort(key=lambda x: x.percent(), reverse=True)
     recent_quotes = Article.objects.filter(type__name="Quotes").order_by('-submit_date')[:3]
     recent_news = Article.objects.filter(type__name="Noticias").order_by('-submit_date')[:4]
     recent_movies = Article.objects.filter(type__name="Movies").order_by('-submit_date')[:8]
