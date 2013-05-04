@@ -41,16 +41,16 @@ class NotasoUser(AbstractBaseUser, PermissionsMixin):
     """ Inherits from both the AbstractBaseUser and
         PermissionMixin.
     """
-    first_name = models.CharField(max_length=30, blank=True)
-    last_name = models.CharField(max_length=30, blank=True)
+    first_name = models.CharField(max_length=40, blank=True)
+    last_name = models.CharField(max_length=40, blank=True)
     email = models.EmailField(
         verbose_name='email address',
-        max_length=255,
+        max_length=160,
         unique=True,
         db_index=True,
     )
     facebook_id = models.BigIntegerField(blank=True, unique=True, null=True)
-    facebook_name = models.CharField(max_length=255, blank=True, null=True)
+    facebook_name = models.CharField(max_length=80, blank=True, null=True)
     gender = models.CharField(max_length=1, choices=(
         ('m', 'Male'), ('f', 'Female')), blank=True, null=True)
     raw_data = JSONField(blank=True, null=True)
