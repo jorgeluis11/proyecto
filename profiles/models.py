@@ -44,7 +44,7 @@ class NotasoUser(AbstractBaseUser, PermissionsMixin):
     first_name = models.CharField(max_length=40, blank=True)
     last_name = models.CharField(max_length=40, blank=True)
     email = models.EmailField(
-        verbose_name='email address',
+        verbose_name='email',
         max_length=160,
         unique=True,
         db_index=True,
