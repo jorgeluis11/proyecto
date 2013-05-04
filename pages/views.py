@@ -88,8 +88,8 @@ def register(request):
                 print "entro"  
                 user.facebook_name = request.POST['name']
                 user.facebook_id = request.POST['id']
-                user.first_name = request.POST['first_name']
-                user.last_name = request.POST['last_name']
+                # user.first_name = request.POST['first_name']
+                # user.last_name = request.POST['last_name']
                 user.gender = request.POST['gender']
                 user.save()
             user = authenticate(username=user.email)

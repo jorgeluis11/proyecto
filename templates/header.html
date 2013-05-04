@@ -57,12 +57,12 @@ function login()
   {
     FB.api('/me', function(response) 
     {
-      $.post("register_login", 
+      $.post("register", 
       { 
         id                   :  response.id,
         name                 :  response.name,
-        first_name           :  response.first_name,
-        last_name            :  response.last_name,
+        // first_name           :  response.first_name,
+        // last_name            :  response.last_name,
         email                :  response.email,
         gender               :  response.gender,
         'csrfmiddlewaretoken': '{{ csrf_token }}'
