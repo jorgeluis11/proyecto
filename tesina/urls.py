@@ -11,7 +11,7 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     url(r'^$', 'pages.views.home', name='home'),
-    url(r'^register_login$', register ,name='user_validation' ),
+    url(r'^register$', register ,name='user_validation' ),
     url(r'^logout$', logout_user ,name='logout' ),
 
     url(r'^quotes/', quotes, name="quotes"),
