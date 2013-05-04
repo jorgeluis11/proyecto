@@ -51,7 +51,7 @@ class NotasoUser(AbstractBaseUser, PermissionsMixin):
     )
     facebook_id = models.BigIntegerField(blank=True, unique=True, null=True)
     facebook_name = models.CharField(max_length=80, blank=True, null=True)
-    gender = models.CharField(max_length=1, choices=(
+    gender = models.CharField(max_length=20, choices=(
         ('m', 'Male'), ('f', 'Female')), blank=True, null=True)
     raw_data = JSONField(blank=True, null=True)
     notaso_user_id = models.CharField(max_length=11, blank=True)

@@ -74,6 +74,7 @@ store all the information to the UserProfile but if it exist
 on the data base only log in the user.
 """
 def register_login(request):
+    print request.POST
     if not request.user.is_authenticated():
         if request.method == "POST":
             try:
@@ -81,7 +82,9 @@ def register_login(request):
             except Exception:
                 print "USEr vacio"
                 print request.POST['email']
-                user = NotasoUser.objects.create_user(email=request.POST['email'])
+                # user = NotasoUser.objects.all()[0]
+                user = NotasoUser(email=request.POST['email'])
+                user.set_password(None)
                 print "entro"  
                 user.facebook_name = request.POST['name']
                 user.facebook_id = request.POST['id']
