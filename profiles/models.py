@@ -49,12 +49,12 @@ class NotasoUser(AbstractBaseUser, PermissionsMixin):
         unique=True,
         db_index=True,
     )
-    facebook_id = models.IntegerField(blank=True, unique=True, null=True)
-    facebook_name = models.CharField(max_length=80, blank=True, null=True)
-    gender = models.CharField(max_length=20, choices=(
+    facebook_id = models.TextField(max_length=40, blank=True, unique=True, null=True)
+    facebook_name = models.TextField(max_length=80, blank=True, null=True)
+    gender = models.TextField(max_length=20, choices=(
         ('m', 'Male'), ('f', 'Female')), blank=True, null=True)
     raw_data = JSONField(blank=True, null=True)
-    notaso_user_id = models.CharField(max_length=30, blank=True)
+    notaso_user_id = models.TextField(max_length=30, blank=True)
 
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
