@@ -74,7 +74,6 @@ store all the information to the UserProfile but if it exist
 on the data base only log in the user.
 """
 def register_login(request):
-    print request.POST['first_name']
     if not request.user.is_authenticated():
         if request.method == "POST":
             try:
