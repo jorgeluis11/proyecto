@@ -90,7 +90,7 @@ def register(request):
                 user.facebook_id = request.POST['id']
                 # user.first_name = request.POST['first_name']
                 # user.last_name = request.POST['last_name']
-                user.gender = request.POST['gender']
+                # user.gender = request.POST['gender']
                 user.save()
             user = authenticate(username=user.email)
             if user is not None:

@@ -41,8 +41,8 @@ class NotasoUser(AbstractBaseUser, PermissionsMixin):
     """ Inherits from both the AbstractBaseUser and
         PermissionMixin.
     """
-    first_name = models.CharField(max_length=40, blank=True)
-    last_name = models.CharField(max_length=40, blank=True)
+    first_name = models.TextField(max_length=40, blank=True)
+    last_name = models.TextField(max_length=40, blank=True)
     email = models.EmailField(
         verbose_name='email',
         max_length=160,

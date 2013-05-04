@@ -41,7 +41,7 @@ class Category(models.Model):
         ("Tecnologia", "Tecnologia"),
         ("Vida", "Vida"),
     )
-    name = models.CharField(max_length=60, choices=categories)
+    name = models.TextField(max_length=60, choices=categories)
 
     def __unicode__(self):
         return self.name
@@ -52,7 +52,7 @@ class Type(models.Model):
         ("Quotes", "Quotes"),
         ("Movies", "Movies"),
     )
-    name = models.CharField(max_length=60, choices=types)
+    name = models.TextField(max_length=60, choices=types)
 
     def __unicode__(self):
         return self.name
@@ -65,7 +65,7 @@ class Article(models.Model):
     user_id = models.ForeignKey(NotasoUser)
     type = models.ForeignKey(Type)
     category = models.ForeignKey(Category)
-    title = models.CharField(max_length=80)
+    title = models.TextField(max_length=80)
     content = models.TextField(max_length=2500)
     photo = models.ImageField(upload_to=get_url, blank=True)
     submit_date = models.DateTimeField(('date/time submitted'), default=timezone.now())
